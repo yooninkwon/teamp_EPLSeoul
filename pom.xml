@@ -9,10 +9,10 @@
 		<version>2.6.12</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tech.Petfriend</groupId>
-	<artifactId>Petfriend</artifactId>
+	<groupId>com.tech.EPL</groupId>
+	<artifactId>EPL_Seoul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Petfriend</name>
+	<name>EPLSeoul</name>
 	<description>Demo project for Spring Boot</description>
 	<url />
 	<licenses>
@@ -28,7 +28,7 @@
 		<url />
 	</scm>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	
 	<dependencies>
@@ -115,14 +115,6 @@
 			<version>3.2.5</version>
 		</dependency>
 
-		<!-- JSON in java -->
-		<dependency>
-			<!-- https://mvnrepository.com/artifact/org.json/json -->
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20231013</version>
-		</dependency>
-		
 		<!-- mariaDB -->
 		<dependency>
          <groupId>org.mariadb.jdbc</groupId>
