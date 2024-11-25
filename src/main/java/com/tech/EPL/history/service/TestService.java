@@ -1,6 +1,7 @@
 package com.tech.EPL.history.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.tech.EPL.history.mapper.HistoryMapper;
@@ -16,10 +17,14 @@ public class TestService implements ExecutionModel {
 	}
 	
 	@Override
+	@Transactional
 	public void execution(Model model) {
-//		historyMapper.test();
-		System.out.println(historyMapper.test());
-//		model.addAttribute("test", model);
+		try {
+			System.out.println(historyMapper.test());
+		} catch (Exception e) {
+			System.err.println("Database operation failed: " + e.getMessage());
+			throw e;
+		}
 	}
 	
 }
