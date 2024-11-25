@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="epl_baselayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="epl_title" value="EPL" />
+		<put-attribute name="epl_header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="epl_side" value="" />
+		<put-attribute name="epl_body" value="" />
+	</definition>
+	
+	<definition name="epl/bus" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/main.jsp" />
+	</definition>
+
+	<definition name="epl/bus" extends="epl_baselayout">
+		<put-attribute name="epl_side" value="/WEB-INF/views/common/side_bus.jsp" />
+	</definition>
+	
+</tiles-definitions>
