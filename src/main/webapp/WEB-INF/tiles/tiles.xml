@@ -15,7 +15,7 @@
 	</definition>
 
 	<definition name="epl/bus" extends="epl_baselayout">
-		<put-attribute name="epl_side" value="/WEB-INF/views/common/side_bus.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_bus.jsp" />
 	</definition>
 	
 </tiles-definitions>

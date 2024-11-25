@@ -11,10 +11,10 @@
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">
-	        <li><a href="#">Dashboard</a></li>
-	        <li><a href="#">User Management</a></li>
-	        <li><a href="#">Settings</a></li>
-	        <li><a href="#">Reports</a></li>
+	        <li><a href="#">버스내용1</a></li>
+	        <li><a href="#">버스내용2</a></li>
+	        <li><a href="#">버스내용3</a></li>
+	        <li><a href="#">버스내용4</a></li>
 	    </ul>
     </div>
 </body>
