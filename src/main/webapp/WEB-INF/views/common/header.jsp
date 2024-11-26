@@ -45,7 +45,7 @@
 	           <!-- 로고와 제목 -->
 	           <div class="logo">
 	               <a href="/"><img src="/static/images/logo.png" alt="Logo"></a>
-	               <h1>Eat Play Love, 서울</h1>
+	               <div><a href="/"><img class="title_img" src="/static/images/EatPlayLoveSeoul.png" alt="Eat, Play, Love Seoul" /></a></div>
 	           </div>
 	           <!-- 오른쪽 끝 제목 -->
 	           <div class="sub-title">서울의 모든 것</div>
@@ -57,7 +57,7 @@
 	           <a href="/epl/metro">METRO</a>
 	           <a href="/epl/mobility">WALK & MINIMOBILITY</a>
 	           <a href="/epl/date">DATE</a>
-	           <a href="/epl/history">REALTY</a>
+	           <a href="/epl/realty">REALTY</a>
 	       </div>
 	   </div>
 

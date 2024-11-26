@@ -57,7 +57,7 @@
 	
 	<!-- realty-->
 	<definition name="epl/realty" extends="epl_baselayout">
-		<put-attribute name="epl_body" value="/WEB-INF/views/body/realtyy/realty.jsp" />
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
 	</definition>
 	

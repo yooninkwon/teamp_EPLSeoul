@@ -9,7 +9,7 @@ import com.tech.EPL.config.ApiKeyConfig;
 import com.tech.EPL.realty.service.group.RealtyServiceGroup;
 
 @Controller
-@RequestMapping("/realty") // 추후 변경
+@RequestMapping("/epl") // 추후 변경
 public class ELPRealtyController {
 	
 	private final ApiKeyConfig apiKeyConfig;
@@ -20,11 +20,13 @@ public class ELPRealtyController {
 		this.apiKeyConfig = apiKeyConfig;
 	}
 	
-	@GetMapping("/main")
-	public void realtyMain(Model model) {
+	@GetMapping("/realty")
+	public String realtyMain(Model model) {
 		serviceGroup.testMethod(model);
-		String aa = apiKeyConfig.getSeoulMetroKey();
-		System.out.println(aa);
+		apiKeyConfig.getOpenRealtyKey();
+//		String aa = apiKeyConfig.getSeoulMetroKey();
+//		System.out.println(aa);
+		return "epl/realty";
 	}
 }
 
