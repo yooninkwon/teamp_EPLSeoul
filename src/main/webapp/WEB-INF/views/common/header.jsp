@@ -8,10 +8,34 @@
 <meta charset="UTF-8">
 <title>epl Header</title>
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
+
+
+
+<script>
+    // JavaScript로 active 클래스 관리
+    document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        const currentPath = window.location.pathname;
+
+        // URL 경로와 메뉴 링크를 비교하여 active 클래스 설정
+        navLinks.forEach(link => {
+            if (currentPath.startsWith(link.getAttribute('href'))) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    });
+</script>
+
+
+
+
+
 </head>
 <body>
 	<div class="header">
-	       <!-- Logo Section -->
+	     	       <!-- Logo Section -->
 	       <div class="logo-section">
 	           <!-- 로고와 제목 -->
 	           <div class="logo">
@@ -24,11 +48,11 @@
 	       
 	       <!-- Navigation Menu -->
 	       <div class="nav-menu">
-	           <a href="/bus" class="active">BUS</a>
-	           <a href="/metro">METRO</a>
-	           <a href="/walk-minimobility">WALK & MINIMOBILITY</a>
-	           <a href="/play">PLAY</a>
-	           <a href="/history">HISTORY</a>
+	           <a href="/epl/bus" >BUS</a>
+	           <a href="/epl/metro">METRO</a>
+	           <a href="/epl/mobility">WALK & MINIMOBILITY</a>
+	           <a href="/epl/date">DATE</a>
+	           <a href="/epl/history">REALTY</a>
 	       </div>
 	   </div>
 

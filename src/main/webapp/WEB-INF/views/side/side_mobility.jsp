@@ -27,14 +27,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+
 </head>
 <body>
     <div id="sidebar-left">
-	    <ul class="submenu">	        
-	        <li><a href="/epl/bus/">버스내용1</a></li>
-	        <li><a href="/epl/bus2/">버스내용2</a></li>
-	        <li><a href="#3">버스내용3</a></li>
-	        <li><a href="#4">버스내용4</a></li>
+	    <ul class="submenu">
+	        <li><a href="/epl/mobility/">모빌리티내용1</a></li>
+	        <li><a href="#">모빌리티내용2</a></li>
+	        <li><a href="#">모빌리티내용3</a></li>
+	        <li><a href="#">모빌리티내용4</a></li>
 	    </ul>
     </div>
 </body>

@@ -5,24 +5,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="/static/icon/favicon.ico" />
-<script src="https://kit.fontawesome.com/6c32a5aaaa.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="icon" href="/static/icon/icon.ico" />
+<link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
 <title>
 	<tiles:insertAttribute name="epl_title" />
 </title>
 </head>
 <body>
 <div id="container">
-	<div>
-		<tiles:insertAttribute name="epl_header" />
-	</div>
-	<div>
-		<tiles:insertAttribute name="epl_side" />
-	</div>
-	<div id="content">
-		<tiles:insertAttribute name="epl_body" />
-	</div>
+    <div>
+        <tiles:insertAttribute name="epl_header" />
+    </div>
+    <div id="content-wrapper">
+        <div id="epl_side">
+            <tiles:insertAttribute name="epl_side" />
+        </div>
+        <div id="epl_body">
+            <tiles:insertAttribute name="epl_body" />
+        </div>
+    </div>
 </div>
 </body>
 </html>
