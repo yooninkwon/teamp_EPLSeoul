@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tech.EPL.bus.dto.BusDto;
 import com.tech.EPL.bus.service.BusService;
+import com.tech.EPL.config.ApiKeyConfig;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,11 +20,14 @@ public class BusController {
 	
 	private final BusService busService;
 
+	private final ApiKeyConfig apiKeyConfig;
 	
 	@GetMapping("/bus")
     public String busTracking(Model model)  {                    
 
-
+		model.addAttribute("kakaoBus",apiKeyConfig.getKakaoBusKey());
+	
+		
         return "epl/bus";
     }
 	

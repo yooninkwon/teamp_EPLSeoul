@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.properties.PropertyLoader" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
     <title>실시간 버스 위치 추적</title>
-     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%= PropertyLoader.getProperty("open.bus") %>"></script>
+     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus }"></script>
     <style>
         #map {
             width: 50%;

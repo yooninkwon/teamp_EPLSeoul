@@ -21,5 +21,11 @@ public class ApiKeyConfig {
 	public String getOpenRealtyKey() {
 		return openRealty;
 	}
+		
+	@Value("${kakao.bus}")
+	private String kakaoBus;
 	
+	public String getKakaoBusKey() {
+		return kakaoBus;
+	}
 }
