@@ -73,7 +73,7 @@ body {
 /* 본문 영역 */
 #content-wrapper>#epl_body {
 	flex: 1; /* 남은 공간 차지 */
-	padding: 100px; /* 내부 여백 */
+	padding: 50px; /* 내부 여백 */
 }
 
 .nav-menu {

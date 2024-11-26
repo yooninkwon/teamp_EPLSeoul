@@ -9,10 +9,8 @@
 <title>epl Header</title>
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
 
-
-
 <script>
-    // JavaScript로 active 클래스 관리
+    // JavaScript로 active 클래스와 breadcrumb 설정
     document.addEventListener('DOMContentLoaded', function () {
         const navLinks = document.querySelectorAll('.nav-menu a');
         const currentPath = window.location.pathname;
@@ -21,16 +19,23 @@
         navLinks.forEach(link => {
             if (currentPath.startsWith(link.getAttribute('href'))) {
                 link.classList.add('active');
+                updateBreadcrumb(link); // active 메뉴에 맞게 breadcrumb 업데이트
             } else {
                 link.classList.remove('active');
             }
         });
     });
+
+    // breadcrumb를 URL에 맞게 설정하는 함수
+    function updateBreadcrumb(link) {
+        const breadcrumbLeft = document.querySelector('.breadcrumb .left');
+        const breadcrumbRight = document.querySelector('.breadcrumb .right');
+
+        const pageName = link.textContent.toUpperCase(); // 링크 텍스트를 대문자로 변환 (BUS, METRO 등)
+        breadcrumbLeft.textContent = pageName;
+        breadcrumbRight.textContent = `EPL 서울 > home > \${pageName}`;
+    }
 </script>
-
-
-
-
 
 </head>
 <body>
@@ -60,7 +65,7 @@
 			   
 	   <div class="breadcrumb">
 	       <div class="left">BUS</div>
-	       <div class="right">EPL 서울 > home > BUS</div>
+	       <div class="right">EPL 서울 > BUS</div>
 	   </div>
 </body>
 </html>

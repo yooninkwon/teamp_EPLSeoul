@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/epl")
-public class busController {
+public class BusController {
 
 	@GetMapping("/bus")
 	public String busMain() {
