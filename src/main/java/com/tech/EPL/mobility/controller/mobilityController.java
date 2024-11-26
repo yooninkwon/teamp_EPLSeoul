@@ -1,4 +1,4 @@
-package com.tech.EPL.controller.bus;
+package com.tech.EPL.mobility.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/epl")
-public class busController {
+public class mobilityController {
 
-	@GetMapping("/bus")
-	public String eplMain() {
-		return "epl/bus";
+	@GetMapping("/mobility")
+	public String mobilityMain() {
+		return "epl/mobility";
 	}	
 	
+
 }

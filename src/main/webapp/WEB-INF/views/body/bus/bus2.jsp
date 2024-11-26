@@ -13,9 +13,10 @@
 
 <title>bus_body</title>
 </head>
-<h1> mainbody </h1>
 
 <body>
-  
+  <h1> bus2_body </h1>
+
+
 </body>
 </html>
