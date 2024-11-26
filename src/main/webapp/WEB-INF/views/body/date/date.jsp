@@ -6,16 +6,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-
-
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
-
+<link rel="stylesheet" href="/static/css/date/date.css" />
 <title>date_body</title>
 </head>
+<body>
 <h1>date_body </h1>
 
-<body>
-  
+	<div class="con1">
+		fdfdsfdsfdsfsd
+	</div>
+
 </body>
 </html>
