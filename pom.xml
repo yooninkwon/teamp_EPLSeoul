@@ -122,6 +122,23 @@
          <version>3.0.6</version> <!-- Check for the latest version -->
       </dependency>
 		
+		<!-- Jakarta XML -->      
+		<dependency>
+		<!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+		    <groupId>jakarta.xml.bind</groupId>
+		    <artifactId>jakarta.xml.bind-api</artifactId>
+		    <version>4.0.2</version>
+		</dependency>
+		
+		<!-- Glassfish JAXB -->		
+		<dependency>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    <version>4.0.5</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
