@@ -22,7 +22,7 @@ public class ELPRealtyController {
 		this.apiKeyConfig = apiKeyConfig;
 	}
 	
-	@GetMapping("/realty")
+	@GetMapping("/realty1")
 	public String realtyMain(Model model) {
 		serviceGroup.testMethod(model);
 		apiKeyConfig.getOpenRealtyKey();

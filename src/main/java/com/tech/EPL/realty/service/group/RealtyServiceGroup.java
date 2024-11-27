@@ -18,7 +18,6 @@ public class RealtyServiceGroup {
 	private final TestService testService;
 	private final DongCodeService dongCodeService;
 	private final GuCodeService guCodeService;
-	
 	private final FileDBInsertService fileDBInsertService; 
 	
 	public void testMethod(Model model) {

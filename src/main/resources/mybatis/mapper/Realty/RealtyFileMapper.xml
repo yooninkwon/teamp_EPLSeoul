@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.tech.EPL.realty.mapper.RealtyFileDataMapper">
-	<insert id="rentFileInsert" parameterType="com.tech.EPL.realty.dbinsert.RealtyRentData">
+	<insert id="rentFileInsert" parameterType="com.tech.EPL.realty.dto.RealtyRentData">
 		INSERT INTO `EPL_SEOUL`.`REALTY_RENT`
 			(
 			`RCPT_YR`,
@@ -67,7 +67,7 @@
 		SELECT COUNT(*) FROM `EPL_SEOUL`.`REALTY_RENT`
 	</select>
 	<!--  -->
-	<insert id="buyFileInsert" parameterType="com.tech.EPL.realty.dbinsert.RealtyRentData">
+	<insert id="buyFileInsert" parameterType="com.tech.EPL.realty.dto.RealtyRentData">
 		INSERT INTO `EPL_SEOUL`.`REALTY_BUYING`
 			(
 			`RCPT_YR`,
