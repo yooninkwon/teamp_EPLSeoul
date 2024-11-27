@@ -181,3 +181,9 @@ body {
 	font-weight: bold;
 	text-decoration: none;
 }
+
+.logo .title_img {
+	width: 70%;
+    height: auto;
+    margin-left: 5%;
+}
