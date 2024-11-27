@@ -41,6 +41,22 @@
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
 	</definition>
+	<definition name="epl/mobility/1" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility1.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	<definition name="epl/mobility/2" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility2.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	<definition name="epl/mobility/3" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility3.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	<definition name="epl/mobility/4" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility4.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
 	
 	
 	

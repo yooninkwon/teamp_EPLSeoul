@@ -1,12 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Tiles Side</title>
-<link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
+</head>
+<body>
+    <div id="sidebar-left">
+	    <ul class="submenu">
+	        <li><a href="<c:url value='/epl/mobility/1' />">모빌리티내용1</a></li>
+	        <li><a href="<c:url value='/epl/mobility/2' />">모빌리티내용2</a></li>
+	        <li><a href="<c:url value='/epl/mobility/3' />">모빌리티내용3</a></li>
+	        <li><a href="<c:url value='/epl/mobility/4' />">모빌리티내용4</a></li>
+	    </ul>
+    </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -26,17 +35,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-
-
-</head>
-<body>
-    <div id="sidebar-left">
-	    <ul class="submenu">
-	        <li><a href="/epl/mobility/">모빌리티내용1</a></li>
-	        <li><a href="#">모빌리티내용2</a></li>
-	        <li><a href="#">모빌리티내용3</a></li>
-	        <li><a href="#">모빌리티내용4</a></li>
-	    </ul>
-    </div>
 </body>
 </html>

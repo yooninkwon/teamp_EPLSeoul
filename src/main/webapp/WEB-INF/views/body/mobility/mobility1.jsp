@@ -9,6 +9,9 @@
 <title>mobility_body</title>
 </head>
 <body>
-<h1>main</h1>
+<h1>mobility1</h1>
+<c:forEach var="list" items="${bikeStations }">
+	${list }<br>
+</c:forEach>
 </body>
 </html>
