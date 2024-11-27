@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 
 
-
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakao }&&autoload=false"></script>
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
 <link rel="stylesheet" href="/static/css/metro/metro1.css"> <!-- metro1 css파일 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -19,14 +19,19 @@
 
 <body>
 	<div class="box">
-	
-	<div id="search">
-		<h1>지하철역 검색</h1>
-		<div class="searchBox">
-		<input type="text" class="searchInput" placeholder="검색어를 입력하세요" />
-		<button class="searchBtn">검색하기</button>
+		<div id="search">
+			<h1>지하철역 정보</h1>
+			<div class="searchBox">
+				<input type="text" class="searchInput" placeholder="지하철역을 입력하세요" />
+				<button class="searchBtn">검색하기</button>
+			</div>
+			<div class="resultNameBox">
+			</div>
 		</div>
-	</div>
+		<div id="result">
+			<div id="resultStation"></div>
+			<div id="resultMap" style="width:70%;height:550px;"></div>
+		</div>	
 	
 	
 	

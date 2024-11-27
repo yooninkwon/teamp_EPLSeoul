@@ -5,7 +5,6 @@
   gap: 10px; /* 입력창과 버튼 간의 간격 */
   margin-top: 40px;	 
 }
-
 .searchInput {
   width: 50%; /* 입력창의 너비 */
   height: 40px; /* 입력창의 높이 */
@@ -43,4 +42,49 @@
 .searchBtn:hover {
   background-color: #73A3FF; /* 호버 시 배경색 변경 */
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 호버 시 그림자 */
+}
+.resultNameBox{
+	margin-top : 20px;
+}
+
+
+.resultNameBox {
+    word-wrap: break-word;  /* 긴 단어가 있을 경우 줄 바꿈 */
+    display: flex;           /* 여러 span을 가로로 배치 */
+    flex-wrap: wrap;         /* 공간이 부족하면 줄 바꿈 */
+     justify-content: center; /* 가로 방향 중앙 정렬 */
+}
+
+.stationName {
+    margin-right: 10px;  /* span 사이 간격 추가 */
+    margin-top: 5px;
+    white-space: nowrap; /* 글자가 한 줄로 표시되도록 설정 */
+    overflow: hidden;    /* 넘치는 글자는 숨김 처리 */
+    text-overflow: ellipsis; /* 넘치는 글자에는 '...'을 표시 */
+    font-size: 13px;
+    cursor: pointer;       /* 마우스를 올리면 포인터 모양으로 변경 */
+}
+
+/* 마우스를 올렸을 때 스타일 */
+.stationName:hover {
+    color: #73A3FF;                /* 텍스트 색상을 흰색으로 변경 */
+    transform: scale(1.02);      /* 마우스를 올리면 크기 약간 증가 */
+}
+#result{
+	margin-top: 30px;
+	display: flex;                /* Flexbox 레이아웃 사용 */
+    flex-direction: column;      /* 자식 요소를 세로로 정렬 */
+    align-items: center;         /* 가로로 중앙 정렬 */
+    justify-content: center;     /* 세로로 중앙 정렬 (필요에 따라 조정 가능) */
+    
+	
+}
+#resultStation{
+	text-align: center;     /* 텍스트 중앙 정렬 */
+	font-size: 20px;
+	font-weight: bold; 
+
+}
+#resultMap{
+	margin-top: 20px;
 }
