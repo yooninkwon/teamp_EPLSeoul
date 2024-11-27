@@ -1,5 +1,4 @@
-
-package com.tech.EPL.configuration;
+package com.tech.EPL.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,4 +32,3 @@ public class TilesConfig implements WebMvcConfigurer {
        return resolver;
     }
 }
-
