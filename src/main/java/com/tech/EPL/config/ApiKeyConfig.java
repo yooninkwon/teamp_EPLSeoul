@@ -28,4 +28,12 @@ public class ApiKeyConfig {
 	public String getKakaoBusKey() {
 		return kakaoBus;
 	}
+
+	@Value("${open.bus}")
+	private String openBus;
+	
+	public String getOpenBusKey() {
+		return openBus;
+	}
+
 }
