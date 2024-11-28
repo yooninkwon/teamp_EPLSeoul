@@ -11,11 +11,20 @@
 <title>date_body</title>
 </head>
 <body>
-<h1>date_body </h1>
-
-	<div class="con1">
-		fdfdsfdsfdsfsd
+	<div class="expContainer">
+		<input type="button" id="expSubmit" value="다음으로"/>
 	</div>
+	
+	<div class="seoulMap">
+		<h1>데이트할 구를 선택해 주세요!</h1>
+		<object id="seoulSvg" type="image/svg+xml" data="/static/data/date/Seoul_districts.svg"></object>
+		<div class="mapSide">
+			fdfdss
+		</div>
+	</div>
+	
+	
 
+<script src="/static/js/date/date.js" ></script>
 </body>
 </html>

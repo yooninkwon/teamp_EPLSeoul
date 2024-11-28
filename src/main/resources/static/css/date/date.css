@@ -1,6 +1,59 @@
 @charset "UTF-8";
 
-.con1 {
+/* 사용 안하는 사이드바 */
+#epl_side{
+	display: none;
+}
+
+/* 데이트 탭 설명 세션 최초 1회 */
+.expContainer{
+	display: none;
+}
+.expContainer.active {
+	display: block;
 	width: 100%;
+	height: 800px;
 	background-color: gray;
 }
+#expSubmit{
+	width: 20%;
+	height: 50px;
+	margin-top: 700px;
+	margin-right: 150px;
+	float: right;
+}
+
+/* 서울 지도 */
+.seoulMap{
+	display: none;	
+}
+
+.seoulMap.active{
+	display: block;
+	width: 100%;
+	height: 800px;
+}
+
+#seoulSvg{
+	width: 100%;
+	height: 700px;
+	transition: width 0.5s ease; /* 크기 변화를 부드럽게 */
+}
+
+
+.mapSide {
+    width: 40%;
+    height: 700px;
+    float: right;
+    transform: translateX(100%); /* 오른쪽으로 완전히 밀려남 */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* 애니메이션 설정 */
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.mapSide.active {
+    display: block; /* 활성화 시 표시 */
+    opacity: 1; /* 투명도 해제 */
+    transform: translateX(0); /* 원래 위치로 이동 */
+}
+
