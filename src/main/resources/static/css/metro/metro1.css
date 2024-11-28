@@ -81,10 +81,38 @@
 }
 #resultStation{
 	text-align: center;     /* 텍스트 중앙 정렬 */
-	font-size: 20px;
+	font-size: 30px;
 	font-weight: bold; 
 
 }
-#resultMap{
-	margin-top: 20px;
+#resultHistory{
+	margin-top:20px;
+	width: 70%;
 }
+#resultMapName{
+	width: 70%;
+}
+.topic{
+	font-weight: bold;
+	font-size: 20px;
+}
+#resultInfo{
+	width: 70%;
+}
+  #resultInfo table {
+    width: 100%; /* 테이블을 부모 div의 너비에 꽉 차게 */
+    border-collapse: collapse; /* 테두리 중복 제거 */
+    margin-top: 10px; /* p 태그와 테이블 간 간격 */
+  }
+
+  #resultInfo th, #resultInfo td {
+    border: 1px solid #ddd; /* 테두리 추가 */
+    padding: 8px; /* 내용 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+  }
+
+  #resultInfo th {
+    background-color: #f2f2f2; /* 헤더 배경색 */
+    font-weight: bold; /* 헤더 글씨 굵게 */
+  }
+
