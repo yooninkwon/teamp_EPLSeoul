@@ -17,6 +17,9 @@ public class ApiKeyConfig {
 	@Value("${open.realty}")
 	private String openRealtyKey;
 	
-	@Value("${open.mobility}")
-	private String openMobilityKey;
+	@Value("${seoul.mobility}")
+	private String seoulMobilityKey;
+	
+	@Value("${kakao.monility}")
+	private String kakaoMobilityKey;
 }
