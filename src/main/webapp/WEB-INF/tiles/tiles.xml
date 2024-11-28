@@ -64,7 +64,7 @@
 	<!-- date-->
 	<definition name="epl/date" extends="epl_baselayout">
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/date/date.jsp" />
-		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_date.jsp" />
+		<!-- <put-attribute name="epl_side" value="/WEB-INF/views/side/side_date.jsp" /> -->
 	</definition>
 	
 	
