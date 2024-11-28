@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
     <link rel="stylesheet" href="/static/css/bus/busstation.css"> <!-- 외부 CSS 파일 -->
     <!-- Kakao Maps API SDK 로드 -->
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&autoload=false"></script>
+  	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&libraries=services&autoload=false"></script>
 
     <!-- 외부 JavaScript 파일 로드 -->
     <script src="/static/js/bus/busstation.js"></script>
@@ -34,7 +34,7 @@
     <div id="map" ></div> <!-- 지도 영역 -->
 
    <div id="searchBar" style="position: relative;">
-    <input type="text" id="searchInput" placeholder="정류소 이름을 입력하세요">
+    <input type="text" id="searchInput" placeholder="서울시 장소를 입력하세요">
     <button id="searchButton">검색</button>
     <ul id="suggestions">
     </ul>
