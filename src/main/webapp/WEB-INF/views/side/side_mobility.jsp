@@ -10,10 +10,10 @@
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">
-	        <li><a href="<c:url value='/epl/mobility/1' />">모빌리티내용1</a></li>
-	        <li><a href="<c:url value='/epl/mobility/2' />">모빌리티내용2</a></li>
-	        <li><a href="<c:url value='/epl/mobility/3' />">모빌리티내용3</a></li>
-	        <li><a href="<c:url value='/epl/mobility/4' />">모빌리티내용4</a></li>
+	        <li><div id="fetchBikeData">따릉이</div></li>
+	        <li><div id="fetchScooterData">전동킥보드</div></li>
+	        <li><hr></li>
+	        <li>안전주의!</li>
 	    </ul>
     </div>
 
@@ -35,5 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+<script src="/static/js/mobility.js"></script>
 </body>
 </html>
