@@ -16,7 +16,20 @@
 
 <body>
   <h1> realty_body </h1>
+	<form action="/epl/rent-file" method="post">
+		<p>전, 월세</p>
+		<input type="hidden" name="type" value="전월세" />
+		<input name="fileName" type="text" size="50" />
+		<input type="submit" />
+	</form>
 
-
+	<form action="/epl/buy-file" method="post">
+		<p>매매</p>
+		<input type="hidden" name="type" value="매매" />
+		<input name="fileName" type="text" size="50" />
+		<input type="submit" />
+	</form>
+	
+	
 </body>
 </html>
