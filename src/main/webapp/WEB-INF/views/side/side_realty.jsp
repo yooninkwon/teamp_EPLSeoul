@@ -33,10 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">
-	        <li><a href="/epl/realty/">부동산내용1</a></li>
-	        <li><a href="#">부동산내용2</a></li>
-	        <li><a href="#">부동산내용3</a></li>
-	        <li><a href="#">부동산내용4</a></li>
+	        <li><a href="/epl/realty1">부동산내용1</a></li>
+	        <li><a href="/epl/realty2">부동산내용2</a></li>
+	        <li><a href="/epl/realty3">부동산내용3</a></li>
+	        <li><a href="/epl/realty4">부동산내용4</a></li>
+	        <li><a href="/epl/realty5">부동산내용5</a></li>
+	        <li><a href="/epl/realty6">부동산내용6</a></li>
 	    </ul>
     </div>
 </body>

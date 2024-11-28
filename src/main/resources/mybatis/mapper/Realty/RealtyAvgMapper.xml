@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.tech.EPL.realty.mapper.RealtyAvgMapper">
+	
+	<insert id="insertAvgForBuyingByGuName" parameterType="String">
+		INSERT INTO EPL_SEOUL.REALTY_BUYING_AVG
+			(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, THING_AMT, COUNT_ALL)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    AVG(THING_AMT), 
+		    COUNT(*)
+		FROM 
+		    EPL_SEOUL.REALTY_BUYING
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForRentByGuName" parameterType="String">
+		INSERT INTO EPL_SEOUL.REALTY_RENT_AVG
+			(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, GRFE, RTFE, RENT_SE, COUNT_ALL)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    AVG(GRFE), 
+		    AVG(RTFE), 
+		    RENT_SE, 
+		    COUNT(*)
+		FROM 
+		    EPL_SEOUL.REALTY_RENT
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		    AND RENT_SE = '월세'
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForJeonseByGuName" parameterType="String">
+		INSERT INTO EPL_SEOUL.REALTY_JEONSE_AVG
+			(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, GRFE, RENT_SE, COUNT_ALL)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    AVG(GRFE), 
+		    RENT_SE, 
+		    COUNT(*)
+		FROM 
+		    EPL_SEOUL.REALTY_RENT
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		    AND RENT_SE = '전세'
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>	
+	<insert id="insertAvgForBuyingMaxByGuName">
+		INSERT INTO EPL_SEOUL.REALTY_BUYING_MINMAX
+		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, THING_AMT, M_TYPE)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    MAX(THING_AMT),
+		    'MAX'
+		FROM 
+		    EPL_SEOUL.REALTY_BUYING
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForBuyingMinByGuName">
+		INSERT INTO EPL_SEOUL.REALTY_BUYING_MINMAX
+		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, THING_AMT, M_TYPE)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    MIN(THING_AMT),
+		    'MIN' 
+		FROM 
+		    EPL_SEOUL.REALTY_BUYING
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForRentMaxByGuName">
+		INSERT INTO EPL_SEOUL.REALTY_RENT_MINMAX
+		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, RENT_SE, GRFE, RTFE, M_TYPE)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    RENT_SE,
+   		    MAX(GRFE), 
+		    MAX(RTFE), 
+		    'MAX' 
+		FROM 
+		    EPL_SEOUL.REALTY_RENT
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		    AND RENT_SE = '월세'
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForRentMinByGuName">
+		INSERT INTO EPL_SEOUL.REALTY_RENT_MINMAX
+		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, RENT_SE, GRFE, RTFE, M_TYPE)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    RENT_SE, 
+   		    MIN(GRFE), 
+		    MIN(RTFE), 
+		    'MIN' 
+		FROM 
+		    EPL_SEOUL.REALTY_RENT
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		    AND RENT_SE = '월세'
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForJeonseMaxByGuName">
+		INSERT INTO EPL_SEOUL.REALTY_JEONSE_MINMAX
+		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, RENT_SE, GRFE, M_TYPE)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    RENT_SE, 
+   		    MAX(GRFE), 
+		    'MAX' 
+		FROM 
+		    EPL_SEOUL.REALTY_RENT
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		    AND RENT_SE = '전세'
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	<insert id="insertAvgForJeonseMinByGuName">
+		INSERT INTO EPL_SEOUL.REALTY_JEONSE_MINMAX
+		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, RENT_SE, GRFE, M_TYPE)
+		SELECT 
+		    CGG_NM, 
+		    STDG_NM, 
+		    RCPT_YR, 
+		    BLDG_USG, 
+		    RENT_SE, 
+   		    MIN(GRFE), 
+		    'MIN' 
+		FROM 
+		    EPL_SEOUL.REALTY_RENT
+		WHERE 
+		    CGG_NM = #{guName}
+		    AND BLDG_USG = #{buildingUse}
+		    AND RENT_SE = '전세'
+		GROUP BY 
+		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
+	</insert>
+	
+</mapper>

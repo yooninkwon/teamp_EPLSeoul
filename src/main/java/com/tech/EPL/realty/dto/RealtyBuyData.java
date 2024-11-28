@@ -22,7 +22,7 @@ public class RealtyBuyData {
 	private String sno; // 부번
 	private String bldg_nm; // 건물명
 	private String ctrt_day; // 계약일
-	private String thing_amt; // 물건금액(만원)
+	private int thing_amt; // 물건금액(만원)
 	private String arch_area; // 건물면적(㎡)
 	private String land_area; // 토지면적(㎡)
 	private String flr; // 층
