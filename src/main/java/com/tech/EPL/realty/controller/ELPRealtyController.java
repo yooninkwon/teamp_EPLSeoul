@@ -34,17 +34,17 @@ public class ELPRealtyController {
 
 	@PostMapping("/realty2")
 	public String realty2Post(Model model) {
-		System.out.println("데이터베이스 평균값 Insert 작동");
-		serviceGroup.insertAVG(model);
+//		System.out.println("데이터베이스 평균값 Insert 작동");
+//		serviceGroup.insertAVG(model);
 		
 		return "epl/realty2";
 	}
 	
 	@GetMapping("/realty3")
 	public String realty3(Model model) {
-		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\부동산 실거래가 정보 모음\\월세_실거래가_년도별_엑셀\\파이썬작업끝난곳\\월세_실거래가_종합_문자_py.csv";
-		String type = "전월세";
-		serviceGroup.rentFileDBInsert(fileName, type);
+//		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\부동산 실거래가 정보 모음\\월세_실거래가_년도별_엑셀\\파이썬작업끝난곳\\월세_실거래가_종합_문자_py.csv";
+//		String type = "전월세";
+//		serviceGroup.rentFileDBInsert(fileName, type);
 		return "epl/realty3";
 	}
 	
@@ -67,7 +67,7 @@ public class ELPRealtyController {
 	@PostMapping("/rent-file")
 	public String rentFileData(@RequestParam String fileName,
 			@RequestParam String type) {
-		serviceGroup.rentFileDBInsert(fileName, type);
+//		serviceGroup.rentFileDBInsert(fileName, type);
 		
 		return "epl/realty";
 	}
@@ -76,7 +76,7 @@ public class ELPRealtyController {
 	@PostMapping("/buy-file")
 	public String buyFileData(@RequestParam String fileName,
 			@RequestParam String type) {
-		serviceGroup.buyFileDBInsert(fileName, type);
+//		serviceGroup.buyFileDBInsert(fileName, type);
 		
 		return "epl/realty";
 	}
