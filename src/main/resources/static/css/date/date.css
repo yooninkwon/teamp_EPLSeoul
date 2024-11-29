@@ -43,12 +43,13 @@
 
 .mapSide {
     width: 40%;
-    height: 700px;
+    height: 650px;
     float: right;
     transform: translateX(100%); /* 오른쪽으로 완전히 밀려남 */
     transition: opacity 0.5s ease, transform 0.5s ease; /* 애니메이션 설정 */
     border: 1px solid black;
     border-radius: 15px;
+    text-align: center;
 }
 
 .mapSide.active {
@@ -57,3 +58,75 @@
     transform: translateX(0); /* 원래 위치로 이동 */
 }
 
+#districtImg {
+	margin: 0 auto;
+	width: 100%;
+	height: 300px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: cover;
+	background-size: 100%;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+#districtSlogan {
+	font-size: 20px;
+	font-style: italic;
+	color: gray;
+	margin-top: 5px;
+	margin-bottom: 0px;
+}
+
+#districtName {
+	font-style: bold;
+	font-size: 35px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.memoDiv{
+	float: right;
+	width: 45%;
+	height: 250px;
+	margin-right: 20px;
+}
+
+#districtMemo{
+	margin-top: 55px;
+	float: left;
+	font-size: 20px;
+	font: bold;
+	min-height: 120px;
+}
+
+#distSubmit{
+	width: 80%;
+	height: 40px;
+}
+
+.landmarkDiv{
+	float: left;
+	width: 45%;
+	height: 250px;
+	margin-left: 20px;
+	text-align: left;
+}
+
+#landmark{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font: bold;
+	font-size: 25px;
+	margin-left: 10px;
+}
+
+#landmarkImg{
+	width: 100%;
+	height: 185px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: cover;
+	background-size: 100%;
+	border-radius: 10px;
+}
