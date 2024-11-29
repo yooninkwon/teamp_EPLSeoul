@@ -4,29 +4,26 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import lombok.Getter;
+
 @Configuration
 @PropertySource("classpath:com/properties/application-API-KEY.properties")
+@Getter
 public class ApiKeyConfig {
 
 	@Value("${seoul.metro}")
-	private String seoulMetro;
-
-	public String getSeoulMetroKey() {
-		return seoulMetro;
-	}
+	private String seoulMetroKey;
 
 	@Value("${open.realty}")
-	private String openRealty;
-
-	public String getOpenRealtyKey() {
-		return openRealty;
-	}
-
+	private String openRealtyKey;
+	
+	@Value("${kakao.monility}")
+	private String kakaoMobilityKey;
+	
 	@Value("${kakao.bus}")
 	private String kakaoBus;
-
-	public String getKakaoBusKey() {
-		return kakaoBus;
-	}
-
+	
+	@Value("${seoul.mobility}")
+	private String seoulMobilityKey;
+  
 }

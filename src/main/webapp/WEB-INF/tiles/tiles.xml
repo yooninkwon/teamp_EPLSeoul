@@ -53,6 +53,14 @@
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
 	</definition>
+	<definition name="epl/mobility/3" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility3.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	<definition name="epl/mobility/4" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility4.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
 	
 	
 	
@@ -60,7 +68,7 @@
 	<!-- date-->
 	<definition name="epl/date" extends="epl_baselayout">
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/date/date.jsp" />
-		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_date.jsp" />
+		<!-- <put-attribute name="epl_side" value="/WEB-INF/views/side/side_date.jsp" /> -->
 	</definition>
 	
 	
@@ -69,7 +77,7 @@
 	
 	<!-- realty-->
 	<definition name="epl/realty" extends="epl_baselayout">
-		<put-attribute name="epl_body" value="/WEB-INF/views/body/realtyy/realty.jsp" />
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
 	</definition>
 	
