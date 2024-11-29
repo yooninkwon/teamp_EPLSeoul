@@ -20,8 +20,8 @@
 	</definition>
 
 
-	<definition name="epl/bus2" extends="epl_baselayout">
-		<put-attribute name="epl_body" value="/WEB-INF/views/body/bus/bus2.jsp" />
+	<definition name="epl/busNearby" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/bus/busNearby.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_bus.jsp" />
 	</definition>
 

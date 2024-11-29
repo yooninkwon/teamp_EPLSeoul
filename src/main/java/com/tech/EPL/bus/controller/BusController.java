@@ -28,7 +28,7 @@ public class BusController {
     public String busTracking(Model model)  {                    
 	
 		model.addAttribute("kakaoBus",apiKeyConfig.getKakaoBusKey());
-		model.addAttribute("openBus",apiKeyConfig.getOpenBusKey());
+
 		
 		busStationService.execution(model);
 	
@@ -36,10 +36,15 @@ public class BusController {
         return "epl/bus";
     }
 		
+
 	
-	@GetMapping("/bus2")
-	public String bus2Main() {
-		return "epl/bus2";
+	@GetMapping("/busNearby")
+	public String getNearbyPlaces(Model model) {
+		model.addAttribute("kakaoBus",apiKeyConfig.getKakaoBusKey());
+		
+		busStationService.execution(model);
+		
+		return "epl/busNearby";
 	}	
 	
 }

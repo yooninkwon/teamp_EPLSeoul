@@ -12,7 +12,7 @@
 
     <!-- 외부 JavaScript 파일 로드 -->
 
-    <title>실시간 버스 위치 추적</title>
+    <title>정류소 주변 맛집</title>
 
 </head>
 
@@ -29,7 +29,7 @@
 	 </script>
 
 <body>
-    <h1 style="text-align: center;">실시간 버스 위치 추적</h1>
+    <h1 style="text-align: center;">정류장 주변 맛집</h1>
 
     <div id="map" ></div> <!-- 지도 영역 -->
 
@@ -40,9 +40,12 @@
     </ul>
 	</div>
 
-
-
-    <script src="/static/js/bus/busstation.js"></script>
+<div id="category-buttons">
+    <button class="category-btn" data-category="FD6">맛집</button>
+    <button class="category-btn" data-category="CT1">카페</button>
+    <button class="category-btn" data-category="HP8">병원</button>
+</div>
+    <script src="/static/js/bus/busnearby.js"></script>
 
 </body>
 </html>

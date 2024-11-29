@@ -23,7 +23,6 @@ public class BusStationService implements ExecutionModel {
 
 		ArrayList<BusStationDto> busStations = idao.busStation();
 
-
 		model.addAttribute("busStations", busStations);
 
 	}
