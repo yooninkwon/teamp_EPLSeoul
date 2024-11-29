@@ -60,8 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 				// 구 이름 가져오기
 				const districtName = this.getAttribute("title") || this.getAttribute("id");
-				alert(districtName);
-				
+
 	            // mapSide 활성화
 	            mapSide.style.display = "block"; // 먼저 표시
 	            setTimeout(() => {
@@ -70,7 +69,32 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	            // objectElement 크기 축소
 	            objectElement.style.width = "50%";
+				
+				// 구 정보 가져오기
+			    fetchDistrictInfo(districtName);
 	        });
         });
     });
+	
+	function fetchDistrictInfo(districtName) {
+	    fetch(`/epl/date/dist_info?distname=${districtName}`, {})
+	        .then(response => response.json())
+			.then(data => {
+	            // DOM 요소에 DTO 데이터 반영
+	            document.getElementById("districtName").textContent = data.dist_NAME || "구 이름 없음";
+	            document.getElementById("districtSlogan").textContent = data.dist_SLOGAN || "슬로건 없음";
+	            document.getElementById("districtMemo").textContent = data.dist_MEMO || "메모 없음";
+				document.getElementById("landmark").textContent = data.landmark || "랜드마크 없음";
+				
+				const districtImgDiv = document.getElementById("districtImg");
+	            districtImgDiv.style.backgroundImage = `url('/static/images/date/distImg/${data.dist_IMG}.jpeg')`;
+				const landmarkImgDiv = document.getElementById("landmarkImg");
+				landmarkImgDiv.style.backgroundImage = `url('/static/images/date/landmarkImg/${data.landmark_IMG}.jpeg')`;
+	        })
+	        .catch(error => {
+	            console.error("Error fetching district info:", error);
+	            alert("구 정보를 가져오는 데 문제가 발생했습니다.");
+	        });
+		
+	}
 });

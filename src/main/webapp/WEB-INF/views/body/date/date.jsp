@@ -18,8 +18,19 @@
 	<div class="seoulMap">
 		<h1>데이트할 구를 선택해 주세요!</h1>
 		<object id="seoulSvg" type="image/svg+xml" data="/static/data/date/Seoul_districts.svg"></object>
+		
 		<div class="mapSide">
-			fdfdss
+			<div id="districtImg"></div>
+			<h3 id="districtSlogan"></h3>
+			<h1 id="districtName">fdsfsd</h1>
+			<div class="memoDiv">
+				<h3 id="districtMemo"></h3>
+				<input type="button" id="distSubmit" value="여기로 정했어요!" />
+			</div>
+			<div class="landmarkDiv">
+				<h2 id="landmark"></h2>
+				<div id="landmarkImg"></div>				
+			</div>
 		</div>
 	</div>
 	
