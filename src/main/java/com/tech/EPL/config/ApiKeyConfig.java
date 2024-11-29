@@ -10,16 +10,20 @@ import lombok.Getter;
 @PropertySource("classpath:com/properties/application-API-KEY.properties")
 @Getter
 public class ApiKeyConfig {
-	
+
 	@Value("${seoul.metro}")
 	private String seoulMetroKey;
 
 	@Value("${open.realty}")
 	private String openRealtyKey;
 	
-	@Value("${seoul.mobility}")
-	private String seoulMobilityKey;
-	
 	@Value("${kakao.monility}")
 	private String kakaoMobilityKey;
+	
+	@Value("${kakao.bus}")
+	private String kakaoBus;
+	
+	@Value("${seoul.mobility}")
+	private String seoulMobilityKey;
+  
 }

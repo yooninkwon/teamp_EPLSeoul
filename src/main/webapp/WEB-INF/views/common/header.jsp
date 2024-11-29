@@ -54,7 +54,7 @@
 	       <!-- Navigation Menu -->
 	       <div class="nav-menu">
 	           <a href="/epl/bus" >BUS</a>
-	           <a href="/epl/metro">METRO</a>
+	           <a href="/epl/metro1">METRO</a>
 	           <a href="/epl/mobility">WALK & MINIMOBILITY</a>
 	           <a href="/epl/date">DATE</a>
 	           <a href="/epl/realty">REALTY</a>
