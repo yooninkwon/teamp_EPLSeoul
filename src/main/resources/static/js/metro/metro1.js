@@ -83,6 +83,8 @@ $(document).ready(function() {
 				  				$('#resultInfo').empty(); // 기존 결과를 지움
 				  				$('#resultHistory').empty(); // 기존 결과를 지움
 				  				$('#resultMapName').empty(); // 기존 결과를 지움
+				  				$('#resultAmenities').empty(); // 기존 결과를 지움
+				  				$('.modal-content').empty(); // 기존 결과를 지움
 				  				let stationInfo =
 									'<p class="topic"><역사 기본정보></p>' 
 				  					+'<table>'
@@ -121,9 +123,54 @@ $(document).ready(function() {
 								$('#resultHistory').append(stationNameHistory);
 								
 								let stationMapName =
-									'<p class="topic"><역 위치></p>';
+									'<span class="topic"><역 위치></span>'
+									+'<span id="stationHelpMap"> 안내도 보기 </span>';
 									
 								$('#resultMapName').append(stationMapName);
+								
+								let stationAmenities =
+								'<p class="topic"><편의시설 현황></p>'
+								+'<table>'
+			  							+'<thead>'
+			  								+'<tr>'
+			  									+'<th>엘리베이터</th>'
+			  									+'<th>휠체어리프트</th>'
+			  									+'<th>환승주차장</th>'
+			  									+'<th>무인민원발급기</th>'
+			  									+'<th>환전키오스크</th>'
+			  									+'<th>기차예매역</th>'
+			  									+'<th>문화공간</th>'
+			  									+'<th>만남의장소</th>'
+			  									+'<th>유아수유방</th>'
+			  								+'</tr>'
+			  							+'</thead>'
+			  							+'<tbody>'
+			  								+'<tr>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.elevator ? data.stationAmenities.elevator : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.wheelchairLift ? data.stationAmenities.wheelchairLift: '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.parking ? data.stationAmenities.parking : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.selfService ? data.stationAmenities.selfService : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.currencyKiosk ? data.stationAmenities.currencyKiosk : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.trainTicket ? data.stationAmenities.trainTicket : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.culturalSpace ? data.stationAmenities.culturalSpace : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.meetingPlace ? data.stationAmenities.meetingPlace : '')+'</td>'
+			  									+'<td>'+(data.stationAmenities && data.stationAmenities.babyRoom ? data.stationAmenities.babyRoom : '')+'</td>'
+			  								+'</tr>'
+			  							+'</tbody>'
+			  					 +'</table>';
+								
+								 $('#resultAmenities').append(stationAmenities);
+								
+								if (data.stationHelpMap == null){
+									$('#stationHelpMap').hide();
+								} 
+								 let stationHelpMap =
+								 '<img id="modalImage" src='
+								 +data.stationHelpMap.image
+								 +' alt="이미지">'
+								 +'<button class="close-button" id="closeModal">&times;</button>';
+								 
+								 $('.modal-content').append(stationHelpMap);
 				  			}
 				  		});
 	              console.log('주소:', address); // 주소 확인
@@ -166,7 +213,22 @@ $(document).ready(function() {
 		
 	}
 	
-	
+	// 요소 가져오기
+    const modal = document.getElementById('modal');
+    
+
+	// 이벤트 위임으로 동적 요소에 이벤트 연결
+	$(document).on('click', '#stationHelpMap', function (event) {
+	    event.preventDefault(); // 기본 동작 막기
+	    modal.style.display = 'flex'; // 모달 표시
+	});
+	// 이벤트 위임으로 동적 요소에 이벤트 연결
+	$(document).on('click', '#closeModal', function (event) {
+	    modal.style.display = 'none'; // 모달 숨기기
+	});
+
+
+    
 
 	
 

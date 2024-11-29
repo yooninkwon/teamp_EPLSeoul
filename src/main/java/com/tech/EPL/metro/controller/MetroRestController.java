@@ -39,7 +39,7 @@ public class MetroRestController {
 		
 		return list;
 	}
-	
+	 
 	//metro1 지하철역 정보 가져오기(db연결)
 	@GetMapping("/stationInfo")
 	public Map<String, Object> stationInfo(@RequestParam String stationName, 

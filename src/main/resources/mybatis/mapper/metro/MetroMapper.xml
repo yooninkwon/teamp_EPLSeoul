@@ -24,5 +24,29 @@
 		WHERE
 			STATIONNAME = #{stationName}
 	</select>
+	
+	<select id="stationAmenities" 
+	resultType="com.tech.EPL.metro.dto.StationAmenitiesDto">
+		SELECT
+			*
+		FROM
+			METRO_AMENITIES
+		WHERE
+			STATIONID = #{stationId}
+	</select>
+	
+	<select id="stationHelpMap" 
+	resultType="com.tech.EPL.metro.dto.StationHelpMapDto">
+		SELECT
+			IMAGE
+		FROM
+			METRO_HELPMAP
+		WHERE
+			LINE = #{stationRoute}
+		AND
+			STATIONNAME = #{stationName}
+	</select>
+	
+	
 
 </mapper>

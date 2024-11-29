@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import com.tech.EPL.interfaces.ExecutionModel;
 import com.tech.EPL.metro.dto.StationAmenitiesDto;
+import com.tech.EPL.metro.dto.StationHelpMapDto;
 import com.tech.EPL.metro.dto.StationNameHistoryDto;
 import com.tech.EPL.metro.mapper.MetroMapper;
 
@@ -36,6 +37,10 @@ public class StationInfoService implements ExecutionModel{
 		info.put("stationInfo", metroMapper.stationInfo(stationName, stationRoute));
 		//지하철명 유래 dto 반환 map에 담기
 		info.put("stationNameHistory", stationNameHistory(stationName));
+		//지하철 편의시설 유무 dto반환 map에 담기
+		info.put("stationAmenities", stationAmenities(stationId));
+		//지하철 안내도 dto 반환 map에 담기
+		info.put("stationHelpMap", stationHelpMap(stationName, stationRoute));
 		
 		
 		
@@ -52,6 +57,12 @@ public class StationInfoService implements ExecutionModel{
 	public StationAmenitiesDto stationAmenities(String stationId) {
 		
 		return metroMapper.stationAmenities(stationId);
+	}
+	
+	//지하철 안내도
+	public StationHelpMapDto stationHelpMap(String stationName, String stationRoute) {
+		
+		return metroMapper.stationHelpMap(stationName, stationRoute);
 	}
 	
 }
