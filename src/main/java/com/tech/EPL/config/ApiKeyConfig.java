@@ -21,7 +21,7 @@ public class ApiKeyConfig {
 	private String kakaoMobilityKey;
 	
 	@Value("${kakao.bus}")
-	private String kakaoBus;
+	private String kakaoBusKey;
 	
 	@Value("${seoul.mobility}")
 	private String seoulMobilityKey;
