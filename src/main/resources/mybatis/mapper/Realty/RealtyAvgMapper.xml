@@ -69,7 +69,7 @@
 	<!--       -->
 	<!--       -->
 	
-	<insert id="insertAvgForBuyingMaxMinAvgByGuName">
+	<insert id="insertBuyingMaxMinAvg">
 		INSERT INTO EPL_SEOUL.REALTY_BUYING_AVG
 		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, MAX_THING_AMT, MIN_THING_AMT, AVG_THING_AMT, COUNT_ALL)
 		SELECT 
@@ -89,7 +89,7 @@
 		GROUP BY 
 		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
 	</insert>
-	<insert id="insertAvgForRentMaxMinAvgByGuName">
+	<insert id="insertRentMaxMinAvg">
 		INSERT INTO EPL_SEOUL.REALTY_RENT_AVG
 		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, RENT_SE, 
 		MAX_GRFE, MIN_GRFE, AVG_GRFE, MAX_RTFE, MIN_RTFE, AVG_RTFE, COUNT_ALL)
@@ -115,7 +115,7 @@
 		GROUP BY 
 		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
 	</insert>
-	<insert id="insertAvgForJeonseMaxMinAvgByGuName">
+	<insert id="insertJeonseMaxMinAvg">
 		INSERT INTO EPL_SEOUL.REALTY_JEONSE_AVG
 		(CGG_NM, STDG_NM, RCPT_YR, BLDG_USG, RENT_SE, 
 		MAX_GRFE, MIN_GRFE, AVG_GRFE, COUNT_ALL)

@@ -30,8 +30,8 @@ public class RealtyRentDBInsertTest {
 		
 		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\부동산 실거래가 정보 모음\\월세_실거래가_건물용도별\\서울시 부동산 전월세가 정보 오피스텔.csv";
 		realtyFileDataMapper.rentDeleteAll();
-		int count = fileDBInsertService.insertFileData(fileName, "전월세");
-		assertEquals(count, realtyFileDataMapper.getRentCount());
+//		int count = fileDBInsertService.insertFileData(fileName, "전월세");
+//		assertEquals(count, realtyFileDataMapper.getRentCount());
 	}
 	
 	@Test

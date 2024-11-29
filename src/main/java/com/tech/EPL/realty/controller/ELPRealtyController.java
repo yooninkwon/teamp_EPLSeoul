@@ -42,6 +42,9 @@ public class ELPRealtyController {
 	
 	@GetMapping("/realty3")
 	public String realty3(Model model) {
+		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\부동산 실거래가 정보 모음\\월세_실거래가_년도별_엑셀\\파이썬작업끝난곳\\월세_실거래가_종합_문자_py.csv";
+		String type = "전월세";
+		serviceGroup.rentFileDBInsert(fileName, type);
 		return "epl/realty3";
 	}
 	

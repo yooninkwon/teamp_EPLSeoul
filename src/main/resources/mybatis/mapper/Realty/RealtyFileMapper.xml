@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.tech.EPL.realty.mapper.RealtyFileDataMapper">
-	<insert id="rentFileInsert" parameterType="com.tech.EPL.realty.dto.RealtyRentData">
+	<insert id="rentFileInsert" parameterType="list">
 		INSERT INTO `EPL_SEOUL`.`REALTY_RENT`
 			(
 			`RCPT_YR`,
@@ -32,31 +32,33 @@
 			`BFR_RTFE`
 			)
 		VALUES
+		<foreach collection="list" item="item" separator=",">
 			(
-			#{rcpt_yr},
-			#{cgg_cd},
-			#{cgg_nm},
-			#{stdg_cd},
-			#{stdg_nm},
-			#{lotno_se},
-			#{lotno_se_nm},
-			#{mno},
-			#{sno},
-			#{flr},
-			#{ctrt_day},
-			#{rent_se},
-			#{rent_area},
-			#{grfe},
-			#{rtfe},
-			#{bldg_nm},
-			#{arch_yr},
-			#{bldg_usg},
-			#{ctrt_prd},
-			#{new_updt_yn},
-			#{ctrt_updt_use_yn},
-			#{bfr_grfe},
-			#{bfr_rtfe}
+			#{item.rcpt_yr},
+			#{item.cgg_cd},
+			#{item.cgg_nm},
+			#{item.stdg_cd},
+			#{item.stdg_nm},
+			#{item.lotno_se},
+			#{item.lotno_se_nm},
+			#{item.mno},
+			#{item.sno},
+			#{item.flr},
+			#{item.ctrt_day},
+			#{item.rent_se},
+			#{item.rent_area},
+			#{item.grfe},
+			#{item.rtfe},
+			#{item.bldg_nm},
+			#{item.arch_yr},
+			#{item.bldg_usg},
+			#{item.ctrt_prd},
+			#{item.new_updt_yn},
+			#{item.ctrt_updt_use_yn},
+			#{item.bfr_grfe},
+			#{item.bfr_rtfe}
 			)
+		</foreach>
 	</insert>
 
 	<delete id="rentDeleteAll">
@@ -67,7 +69,7 @@
 		SELECT COUNT(*) FROM `EPL_SEOUL`.`REALTY_RENT`
 	</select>
 	<!--  -->
-	<insert id="buyFileInsert" parameterType="com.tech.EPL.realty.dto.RealtyRentData">
+	<insert id="buyFileInsert" parameterType="list">
 		INSERT INTO `EPL_SEOUL`.`REALTY_BUYING`
 			(
 			`RCPT_YR`,
@@ -92,30 +94,32 @@
 			`DCLR_SE`,
 			`OPBIZ_RESTAGNT_SGG_NM`
 			)
-			VALUES
+		VALUES
+		<foreach collection="list" item="item" separator=",">
 			(
-			#{rcpt_yr},
-			#{cgg_cd},
-			#{cgg_nm},
-			#{stdg_cd},
-			#{stdg_nm},
-			#{lotno_se},
-			#{lotno_se_nm},
-			#{mno},
-			#{sno},
-			#{bldg_nm},
-			#{ctrt_day},
-			#{thing_amt},
-			#{arch_area},
-			#{land_area},
-			#{flr},
-			#{rght_se},
-			#{rtrcn_day},
-			#{arch_yr},
-			#{bldg_usg},
-			#{dclr_se},
-			#{opbiz_restagnt_sgg_nm}
+			#{item.rcpt_yr},
+			#{item.cgg_cd},
+			#{item.cgg_nm},
+			#{item.stdg_cd},
+			#{item.stdg_nm},
+			#{item.lotno_se},
+			#{item.lotno_se_nm},
+			#{item.mno},
+			#{item.sno},
+			#{item.bldg_nm},
+			#{item.ctrt_day},
+			#{item.thing_amt},
+			#{item.arch_area},
+			#{item.land_area},
+			#{item.flr},
+			#{item.rght_se},
+			#{item.rtrcn_day},
+			#{item.arch_yr},
+			#{item.bldg_usg},
+			#{item.dclr_se},
+			#{item.opbiz_restagnt_sgg_nm}
 			)
+		</foreach>
 	</insert>
 
 	<delete id="buyingDeleteAll">
