@@ -2,13 +2,12 @@ package com.tech.EPL.realty.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
-import com.tech.EPL.interfaces.ExecutionModel;
+import com.tech.EPL.interfaces.Execution;
 import com.tech.EPL.realty.mapper.RealtyMapper;
 
 @Service
-public class TestService implements ExecutionModel {
+public class TestService implements Execution {
 	
 	private final RealtyMapper realtyMapper;
 	
@@ -18,7 +17,7 @@ public class TestService implements ExecutionModel {
 	
 	@Override
 	@Transactional
-	public void execution(Model model) {
+	public void execution() {
 		try {
 			System.out.println(realtyMapper.test());
 		} catch (Exception e) {

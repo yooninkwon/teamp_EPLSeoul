@@ -22,8 +22,8 @@ public class ELPRealtyController {
 	}
 	
 	@GetMapping("/realty1")
-	public String realty1(Model model) {
-		serviceGroup.testMethod(model);
+	public String realty1() {
+		serviceGroup.testMethod();
 		return "epl/realty1";
 	}
 		

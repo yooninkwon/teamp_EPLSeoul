@@ -34,34 +34,16 @@ public class InsertDataAVG implements ExecutionModel {
 	}
 
 	private void insertGuCode(GuName guName, BuildingUseName buildingUse) {
+				
+		System.out.println("매매 MAX/MIN/AVG | " + guName.toString() + " | " + buildingUse.toString());
+		avgMapper.insertBuyingMaxMinAvg(guName.toString(), buildingUse.toString());
 		
-		System.out.println("매매 AVG | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForBuyingByGuName(guName.toString(), buildingUse.toString());
 		
-		System.out.println("월세 AVG |" + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForRentByGuName(guName.toString(), buildingUse.toString());
+		System.out.println("월세 MAX/MIN/AVG | " + guName.toString() + " | " + buildingUse.toString());
+		avgMapper.insertRentMaxMinAvg(guName.toString(), buildingUse.toString());
 		
-		System.out.println("전세 AVG | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForJeonseByGuName(guName.toString(), buildingUse.toString());
-		
-		System.out.println("매매 MAX | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForBuyingMaxByGuName(guName.toString(), buildingUse.toString());
-		
-		System.out.println("매매 MIN | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForBuyingMinByGuName(guName.toString(), buildingUse.toString());
-		
-		System.out.println("월세 MAX | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForRentMaxByGuName(guName.toString(), buildingUse.toString());
-		
-		System.out.println("월세 MIN | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForRentMinByGuName(guName.toString(), buildingUse.toString());
-		
-		System.out.println("전세 MAX | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForJeonseMaxByGuName(guName.toString(), buildingUse.toString());
-		
-		System.out.println("전세 MIN | " + guName.toString() + " | " + buildingUse.toString());
-		avgMapper.insertAvgForJeonseMinByGuName(guName.toString(), buildingUse.toString());
-		
+		System.out.println("전세 MAX/MIN/AVG | " + guName.toString() + " | " + buildingUse.toString());
+		avgMapper.insertJeonseMaxMinAvg(guName.toString(), buildingUse.toString());
 		
 	}
 }

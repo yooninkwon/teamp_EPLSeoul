@@ -37,13 +37,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		
+		<!-- test (JUnit) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- MockMvc -->
+		<dependency>
+			<!--
+			https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>2.5.4</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- tomcat jasper -->
 		<dependency>
 			<!--
@@ -96,16 +107,6 @@
 		    <version>3.0.7</version>
 		</dependency>
 		
-		<!-- MockMvc -->
-		<dependency>
-			<!--
-			https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.5.4</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- Webflux (Web Client) -->
 		<dependency>
 			<!--

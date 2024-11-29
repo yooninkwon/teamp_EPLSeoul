@@ -22,8 +22,8 @@ public class RealtyServiceGroup {
 	private final FileDBInsertService fileDBInsertService; 
 	private final InsertDataAVG insertDataAVG;
 	
-	public void testMethod(Model model) {
-		testService.execution(model);
+	public void testMethod() {
+		testService.execution();
 	}
 	
 	public DongName searchDongCode(int code) {
