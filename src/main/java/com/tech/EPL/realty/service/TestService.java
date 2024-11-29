@@ -10,17 +10,17 @@ import com.tech.EPL.realty.mapper.RealtyMapper;
 @Service
 public class TestService implements ExecutionModel {
 	
-	private final RealtyMapper historyMapper;
+	private final RealtyMapper realtyMapper;
 	
-	public TestService(RealtyMapper historyMapper) {
-		this.historyMapper = historyMapper;
+	public TestService(RealtyMapper realtyMapper) {
+		this.realtyMapper = realtyMapper;
 	}
 	
 	@Override
 	@Transactional
 	public void execution(Model model) {
 		try {
-			System.out.println(historyMapper.test());
+			System.out.println(realtyMapper.test());
 		} catch (Exception e) {
 			System.err.println("Database operation failed: " + e.getMessage());
 			throw e;

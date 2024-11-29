@@ -1,0 +1,32 @@
+@charset "UTF-8";
+/* 공통 */
+
+/* main */
+.title {
+	font-size: 30px;
+	font-weight: bold;
+	color: #73a3ff;
+}
+.discript {
+	color: #6e6e6e;
+}
+#map {
+	width: 100%;
+	height: 100%;
+}
+.stationContainer {
+	width: 100%;
+	background-color: white;
+	border: solid 2px #ddd;
+	border-radius: 10px;
+	margin: 15px 0;
+	padding: 15px;
+}
+
+/* mobility1 */
+
+/* mobility2 */
+
+/* mobility3 */
+
+/* mobility4 */
