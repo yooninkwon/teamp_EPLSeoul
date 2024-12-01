@@ -10,5 +10,9 @@ public interface RealtyAvgMapper {
 	void insertRentMaxMinAvg(String guName, String buildingUse);
 
 	void insertJeonseMaxMinAvg(String guName, String buildingUse);
+	
+	void rentYearUpdate(String changeYear, String originalYear);
+
+	void jeonseYearUpdate(String changeYear, String originalYear);
 
 }

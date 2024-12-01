@@ -138,4 +138,14 @@
 		GROUP BY 
 		    CGG_NM, STDG_NM, RCPT_YR, BLDG_USG
 	</insert>
+	<update id="rentYearUpdate" parameterType="String">
+		UPDATE EPL_SEOUL.REALTY_RENT_AVG
+		SET RCPT_YR = #{changeYear}
+		WHERE RCPT_YR = #{originalYear};
+	</update>
+	<update id="jeonseYearUpdate" parameterType="String">
+		UPDATE EPL_SEOUL.REALTY_JEONSE_AVG
+		SET RCPT_YR = #{changeYear}
+		WHERE RCPT_YR = #{originalYear};
+	</update>
 </mapper>

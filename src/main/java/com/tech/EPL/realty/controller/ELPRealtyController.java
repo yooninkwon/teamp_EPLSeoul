@@ -34,8 +34,8 @@ public class ELPRealtyController {
 
 	@PostMapping("/realty2")
 	public String realty2Post(Model model) {
-//		System.out.println("데이터베이스 평균값 Insert 작동");
-//		serviceGroup.insertAVG(model);
+		System.out.println("데이터베이스 평균값 Insert 작동");
+		serviceGroup.insertAVG(model);
 		
 		return "epl/realty2";
 	}
