@@ -17,6 +17,7 @@
 	    </ul>
     </div>
 
+<script src="/static/js/mobility.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const submenuLinks = document.querySelectorAll('.submenu a');
@@ -33,8 +34,19 @@ document.addEventListener('DOMContentLoaded', function () {
             link.classList.add('active');
         }
     });
+    
+ 	// 따릉이 대여소 정보 호출
+	document.getElementById('fetchBikeData').addEventListener('click', function () {
+		console.log("따릉이 정보 호출")
+	    fetchAndDisplayData('/epl/mobility/data/bike', "/static/images/mobility/marker_bicycle.png", "Bike");
+	});
+	
+	// 전동킥보드 대여소 정보 호출
+	document.getElementById('fetchScooterData').addEventListener('click', function () {
+		console.log("전동킥보드 정보 호출")
+	    fetchAndDisplayData('/epl/mobility/data/scooter', "/static/images/mobility/marker_scooter.png", "Scooter");
+	});
 });
 </script>
-<script src="/static/js/mobility.js"></script>
 </body>
 </html>

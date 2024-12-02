@@ -30,22 +30,30 @@ document.addEventListener('DOMContentLoaded', function() {
 	var positions = [];
 	
 	// 데이터를 fetch하고 마커를 생성하는 공통 함수
-	function fetchAndDisplayData(url, imageSrc, category) {
-	    fetch(url) // RestController에서 제공하는 API URL
-	        .then(response => response.json()) // JSON 데이터를 JS 객체로 변환
-	        .then(data => {
-				
-				// 요청 타입에따라 배열 생성
-				if(category == "Bike"){
-		            const stations = data.bikeStationMaster.row; // 필요한 데이터 접근
-		            positions = stations.map(station => ({
-		                addr1: station.ADDR1,
-		                addr2: station.ADDR2,
-		                latlng: new kakao.maps.LatLng(station.LAT, station.LOT)
-		            }));
-				} else if(category == "Scooter"){
-					/* 추후 추가 */
-				}
+	// js코드 모듈화를 위해 글로벌 등록
+	window.fetchAndDisplayData = function (url, imageSrc, category) {
+	    fetch(url) // 서버에 데이터 요청
+	        .then(response => response.json()) // JSON 문자열을 JS 객체로 변환
+	        .then(data => { // 서버에서 받은 데이터를 활용
+				console.log(data);
+				data.forEach(page => {
+					console.log(page);
+		            const parsedPage = JSON.parse(page); // 각 JSON 페이지를 객체로 변환
+					console.log(parsedPage);
+		            const stations = parsedPage.bikeStationMaster.row; // 필요한 데이터 접근
+		            console.log(stations);
+					
+					// 요청 타입에따라 배열 생성
+					if(category == "Bike"){
+			            positions = stations.map(station => ({
+			                addr1: station.ADDR1,
+			                addr2: station.ADDR2,
+			                latlng: new kakao.maps.LatLng(station.LAT, station.LOT)
+			            }));
+					} else if(category == "Scooter"){
+						/* 추후 추가 */
+					}
+		        });
 
 	            // 배열에따라 마커 생성
 	            positions.forEach(position => {
@@ -88,16 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	        })
 	        .catch(error => console.error('Error fetching data:', error)); // 에러 처리
 	}
-	
-	// 따릉이 대여소 정보 호출
-	document.getElementById('fetchBikeData').addEventListener('click', function () {
-	    fetchAndDisplayData('/epl/mobility/data/bike', "/static/images/mobility/marker_bicycle.png", "Bike");
-	});
-	
-	// 전동킥보드 대여소 정보 호출
-	document.getElementById('fetchScooterData').addEventListener('click', function () {
-	    fetchAndDisplayData('/epl/mobility/data/scooter', "/static/images/mobility/marker_scooter.png", "Scooter");
-	});
 	
 	// 자전거도로 정보 보기
 	document.getElementById('chkBicycle').addEventListener('change',function(){

@@ -1,6 +1,7 @@
 package com.tech.EPL.mobility.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,9 @@ public class MobilityRestController {
     
     // 따릉이 데이터를 반환하는 API
     @GetMapping("bike")
-    public String getBikeStationData() throws IOException {
+    public List<String> getBikeStationData() throws IOException {
     	// 서울시 따릉이대여소 마스터 정보 : 서울시 따릉이대여소에 대한 대여소 ID, 역 주소, 좌표 정보
-        String response = mobilityService.fetchBikeStationData(seoulApiKey);
-        return response; // JSON 형식으로 반환
+    	List<String> response = mobilityService.fetchBikeStationData(seoulApiKey);
+        return response;
     }
 }
