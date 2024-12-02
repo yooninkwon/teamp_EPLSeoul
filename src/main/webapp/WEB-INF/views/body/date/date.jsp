@@ -22,7 +22,7 @@
 		<div class="mapSide">
 			<div id="districtImg"></div>
 			<h3 id="districtSlogan"></h3>
-			<h1 id="districtName">fdsfsd</h1>
+			<h1 id="districtName"></h1>
 			<div class="memoDiv">
 				<h3 id="districtMemo"></h3>
 				<input type="button" id="distSubmit" value="여기로 정했어요!" />
@@ -32,6 +32,40 @@
 				<div id="landmarkImg"></div>				
 			</div>
 		</div>
+	</div>
+	
+	<div class="liking">
+		<h1>취향을 알려주세요!</h1>
+		<div id="likeStatic">
+			<div class="likeTop">
+				<h1>차분하고</h1>
+				<h1>조용한 데이트가</h1>
+				<h1>좋아요!</h1>
+			</div>
+			<div class="likeBottom">
+				<h2>-맛집 탐방</h2>
+				<h2>-산책로 산책</h2>
+				<h2>-분위기 좋은 카페</h2>
+				<h2>-영화관</h2>
+			</div>
+		</div>
+		<div id="likeDynamic">
+			<div class="likeTop">
+				<h1>신나고</h1>
+				<h1>활동적인 데이트가</h1>
+				<h1>좋아요!</h1>
+			</div>
+			<div class="likeBottom">
+				<h2>-액티비티</h2>
+				<h2>-각종 체험 클래스</h2>
+				<h2>-보드게임 카페</h2>
+				<h2>-이색 테마 체험</h2>
+			</div>
+		</div>
+	</div>
+	
+	<div class="localList">
+		ddsfds
 	</div>
 	
 	

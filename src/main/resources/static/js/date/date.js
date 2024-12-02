@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const seoulMap = document.querySelector(".seoulMap");
     const objectElement = document.getElementById("seoulSvg");
 	const mapSide = document.querySelector(".mapSide");
+	const liking = document.querySelector(".liking");
+	const distSubmit = document.getElementById("distSubmit");
+	const likeStatic = document.getElementById("likeStatic");
+	const likeDynamic = document.getElementById("likeDynamic");
+	const localList = document.querySelector(".localList");
+	let like = "";
 	
 	let selectedDistrict = null;
 
@@ -11,8 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
     expContainer.classList.add("active");
     seoulMap.style.display = "none";
     mapSide.style.display = "none";
+	liking.style.display = "none";
+	localList.style.display = "none"
 	
-
     // 버튼 클릭 시 설명 숨기고 지도 보이기
     expSubmitButton.addEventListener("click", function () {
         expContainer.style.display = "none";
@@ -59,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	            this.style.fill = "#73A3FF";
 				
 				// 구 이름 가져오기
-				const districtName = this.getAttribute("title") || this.getAttribute("id");
+				let districtName = this.getAttribute("title") || this.getAttribute("id");
 
 	            // mapSide 활성화
 	            mapSide.style.display = "block"; // 먼저 표시
@@ -74,6 +81,29 @@ document.addEventListener("DOMContentLoaded", function () {
 			    fetchDistrictInfo(districtName);
 	        });
         });
+		
+		distSubmit.addEventListener("click", function() {
+			liking.style.display = "block";
+			mapSide.style.display = "none";
+			seoulMap.style.display = "none";
+		});
+		
+		likeStatic.addEventListener("click", function() {
+			liking.style.display = "none";
+			like = "static";
+			console.log(districtName);
+			console.log(like);
+			localList.style.display = "block"
+		});
+		
+		likeDynamic.addEventListener("click", function() {
+			liking.style.display = "none";
+			like = "Dynamic";
+			console.log(districtName);
+			console.log(like);
+			localList.style.display = "block"
+		});
+		
     });
 	
 	function fetchDistrictInfo(districtName) {
@@ -81,10 +111,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	        .then(response => response.json())
 			.then(data => {
 	            // DOM 요소에 DTO 데이터 반영
-	            document.getElementById("districtName").textContent = data.dist_NAME || "구 이름 없음";
-	            document.getElementById("districtSlogan").textContent = data.dist_SLOGAN || "슬로건 없음";
-	            document.getElementById("districtMemo").textContent = data.dist_MEMO || "메모 없음";
-				document.getElementById("landmark").textContent = data.landmark || "랜드마크 없음";
+	            document.getElementById("districtName").textContent = data.dist_NAME;
+	            document.getElementById("districtSlogan").textContent = data.dist_SLOGAN;
+	            document.getElementById("districtMemo").textContent = data.dist_MEMO;
+				document.getElementById("landmark").textContent = data.landmark;
 				
 				const districtImgDiv = document.getElementById("districtImg");
 	            districtImgDiv.style.backgroundImage = `url('/static/images/date/distImg/${data.dist_IMG}.jpeg')`;

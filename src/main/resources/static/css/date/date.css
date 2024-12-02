@@ -141,3 +141,52 @@
 #distSubmit:hover{
 	background-color: #13AFFA;
 }
+
+/* 데이트 취향선택 */
+.liking{
+	width: 60%;
+	height: 800px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#likeStatic{
+	width: 40%;
+	background-color: #73A3FF;
+	float: left;
+	height: 600px;
+	border-radius: 20px;
+}
+
+#likeDynamic{
+	width: 40%;
+	background-color: #73A3FF;
+	float: right;
+	height: 600px;
+	border-radius: 20px;
+}
+
+#likeStatic:hover, #likeDynamic:hover{
+	background-color: #13AFFA;
+	cursor: pointer;
+}
+
+.likeTop{
+	text-align: left;
+	padding-left: 40px;
+	padding-top: 20px;
+	height: 50%;
+}
+
+.likeBottom{
+	text-align: left;;
+	padding-left: 40px;
+	height: 50%;
+}
+
+/* 장소 리스트업 */
+.localList{
+	width: 100%;
+	height: 800px;
+	background-color: silver;	
+}
