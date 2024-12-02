@@ -1,11 +1,11 @@
-package com.tech.EPL.realty.code;
+package com.tech.EPL.realty.enums;
 
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum GuCode {
+public enum GuName {
 	종로구("종로구", 11110),
 	중구("중구", 11140),
 	용산구("용산구", 11170),
@@ -38,7 +38,7 @@ public enum GuCode {
 	private final String guName;
     private final int guCode;
 
-	GuCode(String guName, int guCode) {
+	GuName(String guName, int guCode) {
 	    this.guName = guName;
 	    this.guCode = guCode;
 	}
@@ -50,18 +50,18 @@ public enum GuCode {
     public int getGuCode() {
         return guCode;
     }
+        
+    private static final Map<String, GuName> BY_GU_NAME =
+            Stream.of(values()).collect(Collectors.toMap(GuName::getGuName, Function.identity()));
 
-    private static final Map<String, GuCode> BY_GU_NAME =
-            Stream.of(values()).collect(Collectors.toMap(GuCode::getGuName, Function.identity()));
+    private static final Map<Integer, GuName> BY_GU_CODE =
+            Stream.of(values()).collect(Collectors.toMap(GuName::getGuCode, Function.identity()));
 
-    private static final Map<Integer, GuCode> BY_GU_CODE =
-            Stream.of(values()).collect(Collectors.toMap(GuCode::getGuCode, Function.identity()));
-
-    public static GuCode valueOfGuName(String guName) {
+    public static GuName valueOfGuName(String guName) {
         return BY_GU_NAME.get(guName);
     }
 
-    public static GuCode valueOfGuCode(int guCode) {
+    public static GuName valueOfGuCode(int guCode) {
         return BY_GU_CODE.get(guCode);
     }
 	

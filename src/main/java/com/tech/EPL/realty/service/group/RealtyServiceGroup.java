@@ -3,11 +3,12 @@ package com.tech.EPL.realty.service.group;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.tech.EPL.realty.code.DongCode;
-import com.tech.EPL.realty.code.GuCode;
+import com.tech.EPL.realty.enums.DongName;
+import com.tech.EPL.realty.enums.GuName;
 import com.tech.EPL.realty.service.DongCodeService;
 import com.tech.EPL.realty.service.FileDBInsertService;
 import com.tech.EPL.realty.service.GuCodeService;
+import com.tech.EPL.realty.service.InsertDataAVG;
 import com.tech.EPL.realty.service.TestService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,24 +20,25 @@ public class RealtyServiceGroup {
 	private final DongCodeService dongCodeService;
 	private final GuCodeService guCodeService;
 	private final FileDBInsertService fileDBInsertService; 
+	private final InsertDataAVG insertDataAVG;
 	
-	public void testMethod(Model model) {
-		testService.execution(model);
+	public void testMethod() {
+		testService.execution();
 	}
 	
-	public DongCode searchDongCode(int code) {
+	public DongName searchDongCode(int code) {
 		return dongCodeService.findByDongCode(code);
 	}
 	
-	public DongCode searchDongName(String name) {
+	public DongName searchDongName(String name) {
 		return dongCodeService.findByDongName(name);
 	}
 	
-	public GuCode searchGuCode(int code) {
+	public GuName searchGuCode(int code) {
 		return guCodeService.findByGuCode(code);
 	}
 	
-	public GuCode searchGuName(String name) {
+	public GuName searchGuName(String name) {
 		return guCodeService.findByGuName(name);
 	}
 	
@@ -46,6 +48,10 @@ public class RealtyServiceGroup {
 
 	public void buyFileDBInsert(String fileName, String type) {
 		fileDBInsertService.insertFileData(fileName, type);
+	}
+
+	public void insertAVG(Model model) {
+		insertDataAVG.execution(model);
 	}
 	
 }
