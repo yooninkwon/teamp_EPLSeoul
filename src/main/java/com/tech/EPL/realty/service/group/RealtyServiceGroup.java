@@ -7,25 +7,42 @@ import com.tech.EPL.realty.enums.DongName;
 import com.tech.EPL.realty.enums.GuName;
 import com.tech.EPL.realty.service.DongCodeService;
 import com.tech.EPL.realty.service.FileDBInsertService;
+import com.tech.EPL.realty.service.GuAvgData;
 import com.tech.EPL.realty.service.GuCodeService;
 import com.tech.EPL.realty.service.InsertDataAVG;
-import com.tech.EPL.realty.service.TestService;
+import com.tech.EPL.realty.service.RealtyAvgData;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class RealtyServiceGroup {
-	private final TestService testService;
+	private final RealtyAvgData realtyAvgData;
+	private final GuAvgData guAvgData;
 	private final DongCodeService dongCodeService;
 	private final GuCodeService guCodeService;
 	private final FileDBInsertService fileDBInsertService; 
 	private final InsertDataAVG insertDataAVG;
 	
-	public void testMethod() {
-		testService.execution();
+	public void getAvgData(Model model) {
+		realtyAvgData.execution(model);
 	}
 	
+	public void getGuData(Model model) {
+		guAvgData.execution(model);		
+	}
+	
+	public void rentFileDBInsert(String fileName, String type) {
+		fileDBInsertService.insertFileData(fileName, type);
+	}
+
+	public void buyFileDBInsert(String fileName, String type) {
+		fileDBInsertService.insertFileData(fileName, type);
+	}
+
+	public void insertAVG(Model model) {
+		insertDataAVG.execution(model);
+	}
 	public DongName searchDongCode(int code) {
 		return dongCodeService.findByDongCode(code);
 	}
@@ -40,18 +57,6 @@ public class RealtyServiceGroup {
 	
 	public GuName searchGuName(String name) {
 		return guCodeService.findByGuName(name);
-	}
-	
-	public void rentFileDBInsert(String fileName, String type) {
-		fileDBInsertService.insertFileData(fileName, type);
-	}
-
-	public void buyFileDBInsert(String fileName, String type) {
-		fileDBInsertService.insertFileData(fileName, type);
-	}
-
-	public void insertAVG(Model model) {
-		insertDataAVG.execution(model);
 	}
 	
 }
