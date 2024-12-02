@@ -12,14 +12,14 @@ import java.util.List;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.tech.EPL.config.ApiKeyConfig;
-
 @Service
-public class MobilityService {
+public class MobilitySeoulAPIService {
 	
-	 @Cacheable("bikeStationData") // Spring Cache로 캐싱
-	 public List<String> fetchBikeStationData(String apiKey) throws IOException {
-		
+	 // Spring Cache로 캐싱 : 캐시를 service 값에 따라 분리
+	 @Cacheable(value = "seoulAPIData", key = "#service")
+	 // 서울시 따릉이대여소 마스터 정보(bikeStationMaster) : 서울시 따릉이대여소에 대한 대여소 ID, 역 주소, 좌표 정보
+	 // 서울시 전동킥보드 주차구역 현황(parkingKickboard) : 서울시 예산으로 설치한 전동킥보드 주차구역에 대한 순번, 구명, 주소, 상세위치, 거치대 유무, 거치대 크기 정보
+	 public List<String> fetchSeoulAPIData(String apiKey, String service) throws IOException {
 		// 호출한 전체 데이터를 담을 배열
 		 List<String> allData = new ArrayList<>();
 		
@@ -34,7 +34,7 @@ public class MobilityService {
 	    	StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
 	    	urlBuilder.append("/" +  URLEncoder.encode(apiKey,"UTF-8") ); /*인증키 (sample사용시에는 호출시 제한됩니다.)*/
 	    	urlBuilder.append("/" +  URLEncoder.encode("json","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
-	    	urlBuilder.append("/" + URLEncoder.encode("bikeStationMaster","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
+	    	urlBuilder.append("/" + URLEncoder.encode(service,"UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
 	    	urlBuilder.append("/" + URLEncoder.encode(Integer.toString(start),"UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
 	    	urlBuilder.append("/" + URLEncoder.encode(Integer.toString(end),"UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
 	    	// 상위 5개는 필수적으로 순서바꾸지 않고 호출해야 합니다.
@@ -46,7 +46,7 @@ public class MobilityService {
 	    	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	    	conn.setRequestMethod("GET");
 	    	conn.setRequestProperty("Content-type", "application/json"); /*요청파일타입 (xml,xmlf,xls,json) */
-	    	System.out.println(start + "~" + end + " Response code: " + conn.getResponseCode()); /* 연결 자체에 대한 확인이 필요하므로 추가합니다.*/
+	    	int responseCode = conn.getResponseCode(); /* 연결 자체에 대한 확인이 필요하므로 추가합니다.*/
 	    	BufferedReader rd;
 	    	
 	    	// 서비스코드가 정상이면 200~300사이의 숫자가 나옵니다.
@@ -73,6 +73,8 @@ public class MobilityService {
             	allData.add(response);
             	// 페이지 갱신
             	start += pageSize;
+            	
+            	System.out.println(service+" 데이터 "+allData.size()+"page 호출 결과 : "+responseCode);
             }
 	    }
 	    
