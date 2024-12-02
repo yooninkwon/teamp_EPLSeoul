@@ -47,6 +47,19 @@
 			STATIONNAME = #{stationName}
 	</select>
 	
+	<select id="stationCongestion" 
+	resultType="com.tech.EPL.metro.dto.StationCongestionDto">
+		SELECT
+			*
+		FROM
+			METRO_CONGESTION
+		WHERE
+			LINE = #{stationRoute}
+		AND
+			STATION = #{stationName}
+	</select>
+	
+	
 	
 
 </mapper>
