@@ -22,26 +22,26 @@ public class ELPRealtyController {
 	}
 	
 	@GetMapping("/realty1")
-	public String realty1() {
-		serviceGroup.testMethod();
+	public String realty1(Model model) {
+		serviceGroup.getAvgData(model);
 		return "epl/realty1";
 	}
 		
 	@GetMapping("/realty2")
 	public String realty2(Model model) {
+		serviceGroup.getAvgData(model);
 		return "epl/realty2";
 	}
 
-	@PostMapping("/realty2")
+	@GetMapping("/realty6")
 	public String realty2Post(Model model) {
-		System.out.println("데이터베이스 평균값 Insert 작동");
-		serviceGroup.insertAVG(model);
 		
-		return "epl/realty2";
+		return "epl/realty6";
 	}
 	
 	@GetMapping("/realty3")
 	public String realty3(Model model) {
+		serviceGroup.getAvgData(model);
 //		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\부동산 실거래가 정보 모음\\월세_실거래가_년도별_엑셀\\파이썬작업끝난곳\\월세_실거래가_종합_문자_py.csv";
 //		String type = "전월세";
 //		serviceGroup.rentFileDBInsert(fileName, type);
@@ -50,6 +50,7 @@ public class ELPRealtyController {
 	
 	@GetMapping("/realty4")
 	public String realty4(Model model) {
+		serviceGroup.getGuData(model);
 		return "epl/realty4";
 	}
 	
@@ -58,10 +59,10 @@ public class ELPRealtyController {
 		return "epl/realty5";
 	}
 	
-	@GetMapping("/realty6")
-	public String realty6(Model model) {
-		return "epl/realty6";
-	}
+//	@GetMapping("/realty6")
+//	public String realty6(Model model) {
+//		return "epl/realty6";
+//	}
 
 	// 파일업로드
 	@PostMapping("/rent-file")
