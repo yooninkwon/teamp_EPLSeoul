@@ -41,7 +41,7 @@ public class SearchStationNameService implements ExecutionModel {
 
 			if (bldnNm != null && bldnNm.contains(searchValue)) {
 				matchingRows.add(list); // 여러 개의 매칭된 row를 리스트에 저장
-				System.out.println(bldnNm);
+				
 			}
 		}
 

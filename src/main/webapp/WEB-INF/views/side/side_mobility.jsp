@@ -37,14 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
  	// 따릉이 대여소 정보 호출
 	document.getElementById('fetchBikeData').addEventListener('click', function () {
-		console.log("따릉이 정보 호출")
-	    fetchAndDisplayData('/epl/mobility/data/bike', "/static/images/mobility/marker_bicycle.png", "Bike");
+		fetchAndDisplayData('/static/images/mobility/marker_bike.png', 'bikeStationMaster');
 	});
 	
-	// 전동킥보드 대여소 정보 호출
+	// 전동킥보드 주차구역 정보 호출
 	document.getElementById('fetchScooterData').addEventListener('click', function () {
-		console.log("전동킥보드 정보 호출")
-	    fetchAndDisplayData('/epl/mobility/data/scooter', "/static/images/mobility/marker_scooter.png", "Scooter");
+		fetchAndDisplayData('/static/images/mobility/marker_kickboard.png', 'parkingKickboard', true);
 	});
 });
 </script>
