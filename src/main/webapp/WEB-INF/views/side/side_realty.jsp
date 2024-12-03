@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">
-	        <li><a href="/epl/realty1">매매 실거래가 통계</a></li>
-	        <li><a href="/epl/realty2">월세 실거래가 통계</a></li>
-	        <li><a href="/epl/realty3">전세 실거래가 통계</a></li>
-	        <li><a href="/epl/realty4">구별 통계</a></li>
-	        <li><a href="/epl/realty5">부동산내용5</a></li>
-	        <li><a href="/epl/realty6">부동산내용6</a></li>
+	        <li><a href="/epl/realty1">연도별 실거래가 통계</a></li>
+	        <li><a href="/epl/realty2">자치구별 실거래가 통계</a></li>
+	        <li><a href="/epl/realty3">3</a></li>
+	        <li><a href="/epl/realty4">4</a></li>
+	        <li><a href="/epl/realty5">5</a></li>
+	        <li><a href="/epl/realty6">6</a></li>
 	    </ul>
     </div>
 </body>
