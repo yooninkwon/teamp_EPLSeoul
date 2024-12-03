@@ -1,0 +1,77 @@
+.searchBox {
+  display: flex; /* 입력창과 버튼을 가로로 배치 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 가운데 정렬 (선택 사항) */
+  gap: 10px; /* 입력창과 버튼 간의 간격 */
+  margin-top: 40px;	 
+}
+.searchInput {
+  width: 50%; /* 입력창의 너비 */
+  height: 40px; /* 입력창의 높이 */
+  padding: 0 15px; /* 내부 여백 */
+  border: 2px solid #ccc; /* 입력창 테두리 */
+  border-radius: 25px; /* 둥근 모양 */
+  font-size: 16px; /* 글자 크기 */
+  outline: none; /* 포커스 시 기본 스타일 제거 */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 효과 */
+}
+
+.searchInput:focus {
+  border-color: #73A3FF; /* 포커스 시 초록색 테두리 */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 포커스 시 그림자 */
+}
+
+.searchInput::placeholder {
+  color: #aaa; /* 플레이스홀더 색상 */
+  font-style: italic; /* 플레이스홀더 기울임 */
+}
+
+.searchBtn {
+  height: 40px; /* 버튼 높이 */
+  width: 11%;
+  padding: 0 5px; /* 좌우 여백 */
+  background-color: #73A3FF; /* 버튼 배경색 */
+  color: white; /* 버튼 텍스트 색상 */
+  border: none; /* 버튼 테두리 제거 */
+  border-radius: 25px; /* 버튼 둥근 모양 */
+  font-size: 16px; /* 버튼 텍스트 크기 */
+  cursor: pointer; /* 커서 포인터 표시 */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 */
+}
+
+.searchBtn:hover {
+  background-color: #73A3FF; /* 호버 시 배경색 변경 */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 호버 시 그림자 */
+}
+
+#startDate {
+  width: 110px; /* 날짜 입력창 너비 */
+  height: 40px; /* 날짜 입력창 높이 */
+  padding: 0 15px; /* 내부 여백 */
+  border: 2px solid #ccc; /* 테두리 색상 */
+  border-radius: 25px; /* 둥근 모서리 */
+  font-size: 16px; /* 텍스트 크기 */
+  outline: none; /* 포커스 시 기본 스타일 제거 */
+  
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 효과 */
+}
+
+/* 포커스 시 스타일 */
+#startDate:focus {
+  border-color: #73A3FF; /* 포커스 시 테두리 색상 */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 포커스 시 그림자 */
+}
+
+/* placeholder 스타일 (일부 브라우저에서만 적용됨) */
+#startDate::-webkit-input-placeholder {
+  color: #aaa; /* 플레이스홀더 색상 */
+  font-style: italic; /* 플레이스홀더 기울임 */
+}
+#startDate::-moz-placeholder {
+  color: #aaa; /* Firefox에서 플레이스홀더 색상 */
+  font-style: italic; /* Firefox에서 플레이스홀더 기울임 */
+}
+#startDate:-ms-input-placeholder {
+  color: #aaa; /* IE에서 플레이스홀더 색상 */
+  font-style: italic; /* IE에서 플레이스홀더 기울임 */
+}
