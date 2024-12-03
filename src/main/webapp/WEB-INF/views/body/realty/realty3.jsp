@@ -21,7 +21,7 @@
   <h1> 전세 실거래가 통계 </h1>
   
 	<canvas id="chart-jeonse"></canvas>
-<script src="/static/js/realty/realty_body3.js"></script>
+
 <script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>

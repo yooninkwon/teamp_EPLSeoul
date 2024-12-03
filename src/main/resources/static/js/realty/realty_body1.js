@@ -1,116 +1,182 @@
 /**
  * 
  */
+function chart(buyingStat, rentStat, jeonseStat) {
 
-function chart(buyingStat) {
-		
-	console.log(buyingStat);
+	const chart_buying = $('#chart-buying');
+	const chart_rent_grfe = $('#chart-rent-grfe');
+	const chart_rent_rtfe = $('#chart-rent-rtfe');
+	const chart_jeonse = $('#chart-jeonse');
+
+	const datasetsBuyingInfo = [
+		{ label: '아파트 매매가 평균', index: 2, color: '#005197' },
+		{ label: '단독다가구 매매가 평균', index: 3, color: '#970000' },
+		{ label: '연립다세대 매매가 평균', index: 1, color: '#E0CE06' },
+		{ label: '오피스텔 매매가 평균', index: 0, color: '#00C900' }
+	];
+
+	const datasetInfoRentGrfe = [
+		{ label: '아파트 월세 보증금 평균', index: 2, color: '#005197' },
+		{ label: '단독다가구 월세 보증금 평균', index: 3, color: '#970000' },
+		{ label: '연립다세대 월세 보증금 평균', index: 1, color: '#E0CE06' },
+		{ label: '오피스텔 월세 보증금 평균', index: 0, color: '#00C900' }
+	];
+
+	const datasetInfoRentRtfe = [
+		{ label: '아파트 월세 월납금 평균', index: 2, color: '#005197' },
+		{ label: '단독다가구 월세 월납금 평균', index: 3, color: '#970000' },
+		{ label: '연립다세대 월세 월납금 평균', index: 1, color: '#E0CE06' },
+		{ label: '오피스텔 월세 월납금 평균', index: 0, color: '#00C900' }
+	];
 	
-	let chart_buying = $('#chart-buying');
-		
-	let chartBuild_buying = new Chart(chart_buying, {
-		type: 'bar',
-		data: {
-			labels: ['2011', '2012', '2013', '2014', 
-				'2015', '2016', '2017', '2018', 
-				'2019', '2020', '2021', '2022', 
-				'2023', '2024'],
-			datasets: [
-				{
-					label: '아파트 매매가 평균',
-					data: [
-						buyingStat[2].avg_thing_amt * 10000, 
-						buyingStat[6].avg_thing_amt * 10000, 
-						buyingStat[10].avg_thing_amt * 10000, 
-						buyingStat[14].avg_thing_amt * 10000, 
-						buyingStat[18].avg_thing_amt * 10000, 
-						buyingStat[22].avg_thing_amt * 10000, 
-						buyingStat[26].avg_thing_amt * 10000, 
-						buyingStat[30].avg_thing_amt * 10000, 
-						buyingStat[34].avg_thing_amt * 10000, 
-						buyingStat[38].avg_thing_amt * 10000, 
-						buyingStat[42].avg_thing_amt * 10000, 
-						buyingStat[46].avg_thing_amt * 10000, 
-						buyingStat[50].avg_thing_amt * 10000, 
-						buyingStat[54].avg_thing_amt * 10000
-					],
-					backgroundColor: '#005197',
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 30
-				},
-				{
-					label: '단독다가구 매매가 평균',
-					data: [
-						buyingStat[3].avg_thing_amt * 10000, 
-						buyingStat[7].avg_thing_amt * 10000, 
-						buyingStat[11].avg_thing_amt * 10000, 
-						buyingStat[15].avg_thing_amt * 10000, 
-						buyingStat[19].avg_thing_amt * 10000, 
-						buyingStat[23].avg_thing_amt * 10000, 
-						buyingStat[27].avg_thing_amt * 10000, 
-						buyingStat[31].avg_thing_amt * 10000, 
-						buyingStat[35].avg_thing_amt * 10000, 
-						buyingStat[39].avg_thing_amt * 10000, 
-						buyingStat[43].avg_thing_amt * 10000, 
-						buyingStat[47].avg_thing_amt * 10000, 
-						buyingStat[51].avg_thing_amt * 10000, 
-						buyingStat[55].avg_thing_amt * 10000
-					],
-					backgroundColor: '#970000',
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 30
-				},
-				{
-					label: '연립다세대 매매가 평균',
-					data: [
-						buyingStat[1].avg_thing_amt * 10000, 
-						buyingStat[5].avg_thing_amt * 10000, 
-						buyingStat[9].avg_thing_amt * 10000, 
-						buyingStat[13].avg_thing_amt * 10000, 
-						buyingStat[17].avg_thing_amt * 10000, 
-						buyingStat[21].avg_thing_amt * 10000, 
-						buyingStat[25].avg_thing_amt * 10000, 
-						buyingStat[29].avg_thing_amt * 10000, 
-						buyingStat[33].avg_thing_amt * 10000, 
-						buyingStat[37].avg_thing_amt * 10000, 
-						buyingStat[41].avg_thing_amt * 10000, 
-						buyingStat[45].avg_thing_amt * 10000, 
-						buyingStat[49].avg_thing_amt * 10000, 
-						buyingStat[53].avg_thing_amt * 10000
-					],
-					backgroundColor: '#E0CE06',
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 30
-				},
-				{
-					label: '오피스텔 매매가 평균',
-					data: [
-						buyingStat[0].avg_thing_amt * 10000, 
-						buyingStat[4].avg_thing_amt * 10000, 
-						buyingStat[8].avg_thing_amt * 10000, 
-						buyingStat[12].avg_thing_amt * 10000, 
-						buyingStat[16].avg_thing_amt * 10000, 
-						buyingStat[20].avg_thing_amt * 10000, 
-						buyingStat[24].avg_thing_amt * 10000, 
-						buyingStat[28].avg_thing_amt * 10000, 
-						buyingStat[32].avg_thing_amt * 10000, 
-						buyingStat[36].avg_thing_amt * 10000, 
-						buyingStat[40].avg_thing_amt * 10000, 
-						buyingStat[44].avg_thing_amt * 10000, 
-						buyingStat[48].avg_thing_amt * 10000, 
-						buyingStat[52].avg_thing_amt * 10000
-					],
-					backgroundColor: '#00C900',
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 30
-				}
-			]
+	const datasetsJeonseInfo = [
+	    { label: '아파트 전세 보증금 평균', index: 2, color: '#005197' },
+	    { label: '단독다가구 전세 보증금 평균', index: 3, color: '#970000' },
+	    { label: '연립다세대 전세 보증금 평균', index: 1, color: '#E0CE06' },
+	    { label: '오피스텔 전세 보증금 평균', index: 0, color: '#00C900' }
+	];
+
+	const labels = ['2011', '2012', '2013', '2014',
+		'2015', '2016', '2017', '2018',
+		'2019', '2020', '2021', '2022',
+		'2023', '2024'];
+
+	const datasetsBuying = datasetsBuyingInfo.map(info => {
+
+		const data = [];
+
+		for (let i = 0; i < 14; i++) {
+			const statIndex = info.index + i * 4;
+			data.push(buyingStat[statIndex].avg_thing_amt * 10000);
 		}
-		
+		return {
+			label: info.label,
+			data: data,
+			backgroundColor: info.color,
+			borderColor: 'white',
+			borderWidth: 2,
+			maxBarThickness: 30
+		};
 	});
 
+	const datasetsRentGrfe = datasetInfoRentGrfe.map(info => {
+		const data = [];
+
+		for (let i = 0; i < 14; i++) {
+			const startIndex = info.index + i * 4;
+			data.push(rentStat[startIndex].avg_grfe * 10000);
+		}
+
+		return {
+			label: info.label,
+			data: data,
+			backgroundColor: info.color,
+			borderColor: 'white',
+			borderWidth: 2,
+			maxBarThickness: 30
+		};
+	});
+
+	const datasetsRentRtfe = datasetInfoRentRtfe.map(info => {
+		const data = [];
+
+		for (let i = 0; i < 14; i++) {
+			const statIndex = info.index + i * 4;
+			data.push(rentStat[statIndex].avg_rtfe * 10000);
+		}
+
+		return {
+			label: info.label,
+			data: data,
+			backgroundColor: info.color,
+			borderColor: 'white',
+			borderWidth: 2,
+			maxBarThickness: 30
+		};
+	});
+
+	const datasetsJeonse = datasetsJeonseInfo.map(info => {
+
+		const data = [];
+
+		for (let i = 0; i < 14; i++) {
+			const statIndex = info.index + i * 4;
+			data.push(jeonseStat[statIndex].avg_grfe * 10000);
+		}
+		return {
+			label: info.label,
+			data: data,
+			backgroundColor: info.color,
+			borderColor: 'white',
+			borderWidth: 2,
+			maxBarThickness: 30
+		};
+	});
+
+	new Chart(chart_buying, {
+		type: 'bar',
+		data: {
+			labels: labels,
+			datasets: datasetsBuying
+		}
+	});
+
+	new Chart(chart_rent_grfe, {
+		type: 'bar',
+		data: {
+			labels: labels,
+			datasets: datasetsRentGrfe
+		}
+
+	});
+
+	new Chart(chart_rent_rtfe, {
+		type: 'bar',
+		data: {
+			labels: labels,
+			datasets: datasetsRentRtfe
+		}
+
+	});
+
+	new Chart(chart_jeonse, {
+		type: 'bar',
+		data: {
+			labels: labels,
+			datasets: datasetsJeonse
+		}
+	});
 }
+
+$('input[name="avg"]').on('change', function() {
+
+		$('#grfe-chart').toggleClass('on off');
+		$('#rtfe-chart').toggleClass('on off');
+
+//	let checked = $('input[name="avg"]:checked').val();
+//	if (checked === 'grfe') {
+//		$('#grfe-chart').removeClass().addClass('on');
+//		$('#rtfe-chart').removeClass().addClass('off');
+//	} else {
+//		$('#grfe-chart').removeClass().addClass('off');
+//		$('#rtfe-chart').removeClass().addClass('on');
+//	}
+});
+
+$('input[name="seType"]').on('change', function() {
+	
+	let checked = $('input[name="seType"]:checked').val();
+	
+	$('#buying-container').removeClass().addClass('off');
+	$('#rent-container').removeClass().addClass('off');
+	$('#jeonse-container').removeClass().addClass('off');
+	
+	if (checked === 'buying') {
+		$('#buying-container').removeClass().addClass('on');
+	} else if(checked === 'rent') {
+		$('#rent-container').removeClass().addClass('on');
+	} else if(checked === 'jeonse') {
+		$('#jeonse-container').removeClass().addClass('on');
+	}
+	
+});
