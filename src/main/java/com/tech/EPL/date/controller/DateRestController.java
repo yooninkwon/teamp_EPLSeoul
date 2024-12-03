@@ -1,6 +1,8 @@
 package com.tech.EPL.date.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tech.EPL.date.dto.DateDistDto;
+import com.tech.EPL.date.dto.DateRestaurantDto;
 import com.tech.EPL.date.mapper.DateMapper;
 import com.tech.EPL.date.service.DateFileInsertService;
 
@@ -33,14 +36,15 @@ public class DateRestController {
 		return ResponseEntity.ok(dist);
 	}
 	
+	// csv 데이터 DB 삽입용 코드
 	@GetMapping("/upload")
     public ResponseEntity<String> uploadFile() {
         try {
             // 파일 저장
-            //String filename = "서울시 일반음식점 인허가 정보_py.csv";
-            //File savedFile = new File("C:\\Users\\goott4\\Documents\\project2DB\\" + filename);           
+            String filename = "";
+            File savedFile = new File("C:\\Users\\goott4\\Documents\\project2DB\\" + filename);           
             // 데이터 삽입
-//            int insertedCount = dateFileInsertService.insertFileData(savedFile.getPath());
+            int insertedCount = dateFileInsertService.insertFileData(savedFile.getPath());
 
             return ResponseEntity.ok(insertedCount + " records inserted successfully.");
         } catch (Exception e) {
@@ -48,4 +52,23 @@ public class DateRestController {
             return ResponseEntity.status(500).body("File upload failed.");
         }
     }
+	
+	@GetMapping("/restaurant_info")
+	public List<DateRestaurantDto> restaurantList(
+	        @RequestParam String distname,
+	        @RequestParam(defaultValue = "0") int page, // 요청한 페이지 번호
+	        @RequestParam(defaultValue = "20") int size // 페이지당 데이터 수
+	) {
+	    int offset = page * size; // 시작 위치 계산
+	    return dateMapper.restaurantList(distname, offset, size);
+	}
 }
+
+
+
+
+
+
+
+
+

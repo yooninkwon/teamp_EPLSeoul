@@ -56,5 +56,14 @@
             #{coordinate_y}
         )
     </insert>
+    
+    <select id="restaurantList" resultType="com.tech.EPL.date.dto.DateRestaurantDto">
+   		SELECT STREET_ADDRESS, BUSINESS_NAME, BUSINESS_TYPE
+		FROM DATE_RESTAURANT
+		WHERE STREET_ADDRESS LIKE CONCAT('%', #{distname}, '%')
+		LIMIT #{size} OFFSET #{offset}
+    </select>
+    
+    
 
 </mapper>

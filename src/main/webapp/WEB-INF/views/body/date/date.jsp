@@ -65,7 +65,36 @@
 	</div>
 	
 	<div class="localList">
-		ddsfds
+	    <div class="filterDiv">
+	        <input type="button" class="filterButtonLeft" value="맛집/카페" />
+	        <input type="button" class="filterButtonRight" value="활동" />        
+	    </div> <br />
+	    <div class="SubFilter">
+	    	<select id="searchFilter">
+	    		<option value="가게명">가게명</option>
+	    		<option value="태그">태그</option>
+	    		<option value="주소">주소</option>
+	    	</select>
+	    	<input type="search" id="searchInput"/>
+	    	<input type="button" id="searchSubmit" value="검색" /> <br />
+	    	<input type="button" class="restaurantFilter" value="한식" />
+	    	<input type="button" class="restaurantFilter" value="양식" />
+	    	<input type="button" class="restaurantFilter" value="중식" />
+	    	<input type="button" class="restaurantFilter" value="일식" />
+	    	<input type="button" class="restaurantFilter" value="카페" />
+	    	<input type="button" class="restaurantFilter" value="기타" />
+	    </div>  
+	    <div class="listUp">
+	        <table id="listTable">
+	        	<thead>
+	        		
+	        	</thead>
+		        <tbody>
+		            <!-- 데이터가 여기에 추가됩니다 -->
+		        </tbody>
+	        </table>
+	        
+	    </div>
 	</div>
 	
 	

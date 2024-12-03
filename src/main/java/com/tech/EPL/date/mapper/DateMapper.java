@@ -1,5 +1,8 @@
 package com.tech.EPL.date.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.tech.EPL.date.dto.DateDistDto;
@@ -13,4 +16,8 @@ public interface DateMapper {
 	
 	// 음식점 정보 DB에 저장
 	void insertRestaurantData(DateRestaurantDto restaurantData);
+
+	// 페이징
+	List<DateRestaurantDto> restaurantList(String distname, int offset, int size);
+	
 }

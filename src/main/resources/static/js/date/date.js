@@ -1,130 +1,196 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const expContainer = document.querySelector(".expContainer");
-    const expSubmitButton = document.getElementById("expSubmit");
-    const seoulMap = document.querySelector(".seoulMap");
-    const objectElement = document.getElementById("seoulSvg");
-	const mapSide = document.querySelector(".mapSide");
-	const liking = document.querySelector(".liking");
-	const distSubmit = document.getElementById("distSubmit");
-	const likeStatic = document.getElementById("likeStatic");
-	const likeDynamic = document.getElementById("likeDynamic");
-	const localList = document.querySelector(".localList");
-	let like = "";
-	
-	let selectedDistrict = null;
+document.addEventListener("DOMContentLoaded", () => {
+    const elements = {
+        expContainer: document.querySelector(".expContainer"),
+        expSubmitButton: document.getElementById("expSubmit"),
+        seoulMap: document.querySelector(".seoulMap"),
+        objectElement: document.getElementById("seoulSvg"),
+        mapSide: document.querySelector(".mapSide"),
+        liking: document.querySelector(".liking"),
+        distSubmit: document.getElementById("distSubmit"),
+        likeStatic: document.getElementById("likeStatic"),
+        likeDynamic: document.getElementById("likeDynamic"),
+        localList: document.querySelector(".localList"),
+        listUp: document.querySelector(".listUp"),
+        listTableBody: document.querySelector("#listTable tbody"),
+        filterButtonLeft: document.querySelector(".filterButtonLeft"),
+        filterButtonRight: document.querySelector(".filterButtonRight"),
+    };
 
-    // 초기 상태 설정: 설명 컨테이너 활성화, 지도 숨기기
-    expContainer.classList.add("active");
-    seoulMap.style.display = "none";
-    mapSide.style.display = "none";
-	liking.style.display = "none";
-	localList.style.display = "none"
-	
-    // 버튼 클릭 시 설명 숨기고 지도 보이기
-    expSubmitButton.addEventListener("click", function () {
-        expContainer.style.display = "none";
-        seoulMap.style.display = "block";
+    let currentPage = 0;
+    const pageSize = 20;
+    let isFetching = false;
+    let hasMoreData = true;
+    let likeType = "";
+    let selectedDistrict = "";
+    let districtName = "";
+
+    // 초기 상태 설정
+    initState();
+
+    // 설명 숨기고 지도 보여주기
+    elements.expSubmitButton.addEventListener("click", () => {
+        toggleDisplay([elements.expContainer], false);
+        toggleDisplay([elements.seoulMap], true);
     });
 
-    // SVG 내부의 요소에 접근하여 클래스 추가 및 이벤트 처리
-    objectElement.addEventListener("load", function () {
-        const svgDoc = objectElement.contentDocument;
+    // SVG 로드 후 지역 이벤트 설정
+    elements.objectElement.addEventListener("load", () => setupDistrictInteractions());
 
-        // 모든 <path> 태그에 .district 클래스 추가
-        const paths = svgDoc.querySelectorAll("path");
-        paths.forEach(function (path) {
-            if (!path.classList.contains("district")) {
-                path.classList.add("district");
-            }
-        });
-
-        // .district 요소에 이벤트 리스너 추가
-        const districts = svgDoc.querySelectorAll(".district");
-
-        districts.forEach(function (district) {
-            district.addEventListener("mouseover", function () {
-                // 호버 시 시각적 효과를 추가
-                this.style.fill = "#73A3FF";
-				this.style.cursor = "pointer"
-            });
-
-			district.addEventListener("mouseout", function () {
-                // 마우스 나갔을 때 원래 색상 복원 (선택된 구 제외)
-                if (district !== selectedDistrict) {
-                    this.style.fill = "";
-                }
-            });
-
-			district.addEventListener("click", function () {
-	            // 이전 선택된 구의 색상을 초기화
-	            if (selectedDistrict) {
-	                selectedDistrict.style.fill = "";
-	            }
-	
-	            // 현재 선택된 구 업데이트 및 색상 고정
-	            selectedDistrict = district;
-	            this.style.fill = "#73A3FF";
-				
-				// 구 이름 가져오기
-				let districtName = this.getAttribute("title") || this.getAttribute("id");
-
-	            // mapSide 활성화
-	            mapSide.style.display = "block"; // 먼저 표시
-	            setTimeout(() => {
-	                mapSide.classList.add("active"); // 애니메이션 트리거
-	            }, 10);
-	
-	            // objectElement 크기 축소
-	            objectElement.style.width = "50%";
-				
-				// 구 정보 가져오기
-			    fetchDistrictInfo(districtName);
-	        });
-        });
-		
-		distSubmit.addEventListener("click", function() {
-			liking.style.display = "block";
-			mapSide.style.display = "none";
-			seoulMap.style.display = "none";
-		});
-		
-		likeStatic.addEventListener("click", function() {
-			liking.style.display = "none";
-			like = "static";
-			console.log(districtName);
-			console.log(like);
-			localList.style.display = "block"
-		});
-		
-		likeDynamic.addEventListener("click", function() {
-			liking.style.display = "none";
-			like = "Dynamic";
-			console.log(districtName);
-			console.log(like);
-			localList.style.display = "block"
-		});
-		
+    // "확인" 버튼 클릭 시 좋아요 화면으로 전환
+    elements.distSubmit.addEventListener("click", () => {
+        toggleDisplay([elements.liking], true);
+        toggleDisplay([elements.mapSide, elements.seoulMap], false);
     });
-	
-	function fetchDistrictInfo(districtName) {
-	    fetch(`/epl/date/dist_info?distname=${districtName}`, {})
-	        .then(response => response.json())
-			.then(data => {
-	            // DOM 요소에 DTO 데이터 반영
-	            document.getElementById("districtName").textContent = data.dist_NAME;
-	            document.getElementById("districtSlogan").textContent = data.dist_SLOGAN;
-	            document.getElementById("districtMemo").textContent = data.dist_MEMO;
-				document.getElementById("landmark").textContent = data.landmark;
-				
-				const districtImgDiv = document.getElementById("districtImg");
-	            districtImgDiv.style.backgroundImage = `url('/static/images/date/distImg/${data.dist_IMG}.jpeg')`;
-				const landmarkImgDiv = document.getElementById("landmarkImg");
-				landmarkImgDiv.style.backgroundImage = `url('/static/images/date/landmarkImg/${data.landmark_IMG}.jpeg')`;
-	        })
-	        .catch(error => {
-	            console.error("Error fetching district info:", error);
-	            alert("구 정보를 가져오는 데 문제가 발생했습니다.");
-	        });
-		
+
+    // 좋아요 정적/동적 선택 처리
+    elements.likeStatic.addEventListener("click", () => handleLikeSelection("static"));
+    elements.likeDynamic.addEventListener("click", () => handleLikeSelection("dynamic"));
+
+    // 필터 버튼 이벤트 설정
+    elements.filterButtonLeft.addEventListener("click", () => toggleFilter("left"));
+    elements.filterButtonRight.addEventListener("click", () => toggleFilter("right"));
+
+    // 스크롤 이벤트로 데이터 추가 로드
+    elements.listUp.addEventListener("scroll", () => handleScrollLoad());
+
+    // 초기 상태 설정 함수
+    function initState() {
+        elements.expContainer.classList.add("active");
+        elements.filterButtonLeft.classList.add("active");
+        toggleDisplay([elements.seoulMap, elements.mapSide, elements.liking, elements.localList], false);
+    }
+
+    // 지역 SVG 상호작용 설정 함수
+    function setupDistrictInteractions() {
+        const svgDoc = elements.objectElement.contentDocument;
+        const districts = svgDoc.querySelectorAll("path:not(.district)");
+        districts.forEach((district) => {
+            district.classList.add("district");
+            district.addEventListener("mouseover", () => district.style.fill = "#007bff");
+            district.addEventListener("mouseout", () => {
+                if (district !== selectedDistrict) district.style.fill = "";
+            });
+            district.addEventListener("click", () => handleDistrictClick(district));
+        });
+    }
+
+    // 지역 클릭 처리 함수
+    function handleDistrictClick(district) {
+        if (selectedDistrict) selectedDistrict.style.fill = "";
+        selectedDistrict = district;
+        district.style.fill = "#007bff";
+        districtName = district.getAttribute("id");
+
+        toggleDisplay([elements.mapSide], true);
+        elements.mapSide.classList.add("active");
+        elements.objectElement.style.width = "50%";
+        fetchDistrictInfo(districtName);
+    }
+
+    // 좋아요 선택 처리 함수
+    function handleLikeSelection(type) {
+        likeType = type;
+        toggleDisplay([elements.liking], false);
+        toggleDisplay([elements.localList], true);
+
+        currentPage = 0;
+        hasMoreData = true;
+        elements.listTableBody.innerHTML = "";
+        loadMoreRestaurants();
+    }
+
+    // 필터 토글 처리 함수
+    function toggleFilter(side) {
+        elements.filterButtonLeft.classList.toggle("active", side === "left");
+        elements.filterButtonRight.classList.toggle("active", side === "right");
+    }
+
+    // 데이터 로드 함수
+    async function loadMoreRestaurants() {
+        if (isFetching || !hasMoreData) return;
+        isFetching = true;
+
+        try {
+            const data = await fetchRestaurants(currentPage, pageSize);
+            renderRestaurants(data);
+            if (data.length < pageSize) hasMoreData = false;
+        } catch (error) {
+            console.error("식당 데이터 로드 중 오류:", error);
+        } finally {
+            isFetching = false;
+        }
+    }
+
+    // 스크롤 로드 처리 함수
+    function handleScrollLoad() {
+        const { scrollTop, clientHeight, scrollHeight } = elements.listUp;
+        if (scrollTop + clientHeight >= scrollHeight - 100 && !isFetching) {
+            currentPage++;
+            loadMoreRestaurants();
+        }
+    }
+
+    // 지역 정보 가져오기 함수
+    async function fetchDistrictInfo(districtName) {
+        try {
+            const response = await fetch(`/epl/date/dist_info?distname=${districtName}`);
+            const data = await response.json();
+            updateDistrictInfo(data);
+        } catch (error) {
+            console.error("구 정보 가져오기 오류:", error);
+            alert("구 정보를 가져오는 중 문제가 발생했습니다.");
+        }
+    }
+
+    // 지역 정보 업데이트 함수
+    function updateDistrictInfo(data) {
+        document.getElementById("districtName").textContent = data.dist_NAME;
+        document.getElementById("districtSlogan").textContent = data.dist_SLOGAN;
+        document.getElementById("districtMemo").textContent = data.dist_MEMO;
+        document.getElementById("landmark").textContent = data.landmark;
+
+        document.getElementById("districtImg").style.backgroundImage =
+            `url('/static/images/date/distImg/${data.dist_IMG}.jpeg')`;
+        document.getElementById("landmarkImg").style.backgroundImage =
+            `url('/static/images/date/landmarkImg/${data.landmark_IMG}.jpeg')`;
+    }
+
+    // 식당 데이터 가져오기 함수
+    async function fetchRestaurants(page, size) {
+        const response = await fetch(`/epl/date/restaurant_info?distname=${districtName}&page=${page}&size=${size}`);
+        if (!response.ok) throw new Error("식당 데이터 요청 실패");
+        return await response.json();
+    }
+
+	function renderRestaurants(restaurants) {
+	    restaurants.forEach((restaurant) => {
+			// '한식', '중식', '일식', '카페' 외의 경우 '기타', '경양식'은 '양식'으로 설정
+	        const allowedTypes = ["한식", "중식", "일식", "카페"];
+	        let businessType;
+
+	        if (restaurant.business_type === "경양식") {
+	            businessType = "양식"; // 경양식을 양식으로 변환
+	        } else if (allowedTypes.includes(restaurant.business_type)) {
+	            businessType = restaurant.business_type; // 허용된 타입 유지
+	        } else {
+	            businessType = "기타"; // 나머지는 기타로 설정
+	        }
+			
+	        // street_address에서 ','나 '(' 기준으로 문자열을 자르기
+	        const shortenedAddress = restaurant.street_address.split(/,|\(/)[0].trim() || "주소 없음";
+
+	        const row = document.createElement("tr");
+	        row.innerHTML = `
+	            <td style="width: 30%;">${restaurant.business_name}</td>
+	            <td style="width: 10%;">${businessType}</td>
+	            <td style="width: 30%;">${shortenedAddress}</td>
+	        `;
+	        elements.listTableBody.appendChild(row);
+	    });
 	}
+
+    // 여러 요소 표시/숨기기 토글 함수
+    function toggleDisplay(elements, show) {
+        elements.forEach(element => element.style.display = show ? "block" : "none");
+    }
 });
