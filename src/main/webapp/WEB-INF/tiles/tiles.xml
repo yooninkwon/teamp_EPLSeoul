@@ -44,6 +44,10 @@
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro4.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
 	</definition>
+	<definition name="epl/metro5" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro5.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
+	</definition>
 
 
 
