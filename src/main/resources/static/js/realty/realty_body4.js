@@ -4,6 +4,10 @@
 $(document).ready(function() {
 	
 	let type = 'apt';
+	let chartBuild_guBuying = null;
+	let chartBuild_guRent_rtfe = null;
+	let chartBuild_guRent = null;
+	let chartBuild_guJeonse = null;
 	
 	loadData(type);
 	
@@ -53,16 +57,23 @@ $(document).ready(function() {
 	});
 
 	function chart(data) {
-		console.log('type: ', type)
-		console.log(data.guAvgBuying);
-		console.log(data.guAvgRent);
-		console.log(data.guAvgJeonse);
+//		console.log('type: ', type)
+//		console.log(data.guAvgBuying);
+//		console.log(data.guAvgRent);
+//		console.log(data.guAvgJeonse);
 
+		if(chartBuild_guBuying != null) {
+			chartBuild_guBuying.destroy();
+			chartBuild_guRent_rtfe.destroy();
+			chartBuild_guRent.destroy();
+			chartBuild_guJeonse.destroy();
+		}
+		
 		let chart_gu_buying = $('#chart-gu-buying');
 		let chart_gu_rent_rtfe = $('#chart-gu-rent-rtfe');
 		let chart_gu_rent_grfe = $('#chart-gu-rent-grfe');
 		let chart_gu_jeonse = $('#chart-gu-jeonse');
-
+				
 		const labels = ['강남구', '강동구', '강북구', '강서구', '관악구',
 			'광진구', '구로구', '금천구', '노원구', '도봉구',
 			'동대문구', '동작구', '마포구', '서대문구', '서초구',
@@ -88,7 +99,7 @@ $(document).ready(function() {
 		});
 
 		
-		let chartBuild_guBuying = new Chart(chart_gu_buying, {
+		chartBuild_guBuying = new Chart(chart_gu_buying, {
 			type: 'bar',
 			data: {
 				labels,
@@ -101,9 +112,8 @@ $(document).ready(function() {
 		});
 
 		// // // // //
-
-
-		let chartBuild_guRent_rtfe = new Chart(chart_gu_rent_rtfe, {
+		
+		chartBuild_guRent_rtfe = new Chart(chart_gu_rent_rtfe, {
 			type: 'bar',
 			data: {
 				labels,
@@ -114,8 +124,7 @@ $(document).ready(function() {
 				]
 			}
 		});
-
-		let chartBuild_guRent = new Chart(chart_gu_rent_grfe, {
+		chartBuild_guRent = new Chart(chart_gu_rent_grfe, {
 			type: 'bar',
 			data: {
 				labels,
@@ -128,8 +137,8 @@ $(document).ready(function() {
 		});
 
 		// // // // // //
-
-		let chartBuild_guJeonse = new Chart(chart_gu_jeonse, {
+		
+		chartBuild_guJeonse = new Chart(chart_gu_jeonse, {
 			type: 'bar',
 			data: {
 				labels,

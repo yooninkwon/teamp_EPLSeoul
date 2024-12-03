@@ -33,16 +33,16 @@
 	  <input type="radio" name="avg" id="office" value="office" />
 	  오피스텔 통계 
   </label>
-  	<div id="">
+  	<div id="buying-container">
 		<canvas id="chart-gu-buying"></canvas>
   	</div>
-  	<div id="">
+  	<div id="rent-rtfe-container">
 		<canvas id="chart-gu-rent-rtfe"></canvas>
   	</div>
-  	<div id="">
+  	<div id="rent-grfe-container">
 		<canvas id="chart-gu-rent-grfe"></canvas>
   	</div>
-  	<div id="">
+  	<div id="jeonse-container">
 		<canvas id="chart-gu-jeonse"></canvas>
   	</div>
 
