@@ -126,20 +126,3 @@
 <script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>
-
-
-<!-- 
-if(linvingSe === 'buying') {
-	buying_container.removeClass().addClass();
-	rent_rtfe_container.removeClass().addClass();
-	rent_grfe_container.removeClass().addClass();
-	jeonse_container.removeClass().addClass();
-} else if(linvingSe === 'buying') {
-	
-} else if(linvingSe === 'buying') {
-	
-} else {
-	
-}
-
- -->
