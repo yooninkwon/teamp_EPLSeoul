@@ -22,7 +22,6 @@ public class ELPRealtyRestController {
 	
 	@GetMapping("/gu-data")
 	public ResponseEntity<Map<String, Object>> fetchGuData(@RequestParam String type) {
-		System.out.println(type);
 		return serviceGroup.getGuData(type);
 	}
 	
