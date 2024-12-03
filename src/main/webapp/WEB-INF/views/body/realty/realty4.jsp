@@ -43,13 +43,13 @@
 		  매매 
 	 </label>
 	 
-	 <label for="rent-rtfe">
-		  <input type="radio" name="living-se" id="rent-rtfe" value="rent-rtfe" />
-		  월세 보증금 
-	 </label>
-	 
 	 <label for="rent-grfe">
 		  <input type="radio" name="living-se" id="rent-grfe" value="rent-grfe" />
+		  월세 보증금 		  
+	 </label>
+	 
+	 <label for="rent-rtfe">
+		  <input type="radio" name="living-se" id="rent-rtfe" value="rent-rtfe" />
 		  월세 월납입금 
 	 </label>
 	 
