@@ -2,7 +2,7 @@ kakao.maps.load(function () {
     var container = document.getElementById('map');
     var options = {
         center: new kakao.maps.LatLng(37.5759, 126.9796),  // 초기 지도 중심 (서울)
-        level: 3
+        level: 5
     };
     var map = new kakao.maps.Map(container, options);
 
@@ -99,7 +99,7 @@ kakao.maps.load(function () {
         marker.setMap(map);
 
         var infoWindow = new kakao.maps.InfoWindow({
-            content: `<div class="info-window">${station.station_name}</div>`
+            content: `<div class="info-main-window">${station.station_name}</div>`
         });
 
         closeInfoWindow();
@@ -110,7 +110,7 @@ kakao.maps.load(function () {
 
         kakao.maps.event.addListener(marker, 'click', function () {
             var infoWindow = new kakao.maps.InfoWindow({
-                content: `<div class="info-window">${station.station_name}</div>`
+                content: `<div class="info-main-window">${station.station_name}</div>`
             });
 
             closeInfoWindow();
@@ -118,7 +118,7 @@ kakao.maps.load(function () {
             currentInfoWindow = infoWindow;
         });
 
-        searchNearbyPlaces(position);
+ 
 
         // 카테고리 검색을 해당 위치를 기준으로 실행
         searchCategoryPlaces(currentPosition);
@@ -159,70 +159,121 @@ kakao.maps.load(function () {
 
 	    clearCategoryMarkers();
 	    closeCategoryInfoWindows(); // 카테고리 정보창 닫기
+	    clearCategoryInfoList(); // 카테고리 정보 리스트 초기화
 
-		// 카테고리에 따른 마커 이미지 설정
-		  var markerImages = {
-		      'FD6': '/static/images/bus/utensils.png',
-		      'CE7': '/static/images/bus/coffee.png',
-		      'HP8': '/static/images/bus/hospital.png',
-		      'PM9': '/static/images/bus/prescription.png',
-		      'CS2': '/static/images/bus/store.png',
-		      'PK6': '/static/images/bus/parking.png',
-		      'SW8': '/static/images/bus/subway.png',
-		      'BK9': '/static/images/bus/bank.png',
-		      'CT1': '/static/images/bus/landmark.png',
-		      'AD5': '/static/images/bus/hotel.png'
-		  };
-		
-		
-		
-		
-		  placesService.categorySearch(category, function (results, status) {
-		          if (status === kakao.maps.services.Status.OK) {
-		              results.forEach(function (place) {
-		                  var placePosition = new kakao.maps.LatLng(place.y, place.x);
+	    var markerImages = {
+	        'FD6': '/static/images/bus/utensils.png',
+	        'CE7': '/static/images/bus/coffee.png',
+	        'HP8': '/static/images/bus/hospital.png',
+	        'PM9': '/static/images/bus/prescription.png',
+	        'CS2': '/static/images/bus/store.png',
+	        'PK6': '/static/images/bus/parking.png',
+	        'SW8': '/static/images/bus/subway.png',
+	        'BK9': '/static/images/bus/bank.png',
+	        'CT1': '/static/images/bus/landmark.png',
+	        'AD5': '/static/images/bus/hotel.png'
+	    };
 
-		                  if (bounds.contain(placePosition)) {
-		                      var markerImage = new kakao.maps.MarkerImage(
-		                          markerImages[category], // 카테고리별 이미지
-		                          new kakao.maps.Size(25, 25), // 이미지 크기 조정
-		                          { offset: new kakao.maps.Point(10, 0) } // 마커의 앵커 포인트
-		                      );
+	    placesService.categorySearch(category, function (results, status) {
+	        if (status === kakao.maps.services.Status.OK) {
+	            results.forEach(function (place) {
+	                var placePosition = new kakao.maps.LatLng(place.y, place.x);
 
-		                      var marker = new kakao.maps.Marker({
-		                          position: placePosition,
-		                          title: place.place_name,
-		                          image: markerImage // 사용자 정의 이미지 설정
-		                      });
-		                      marker.setMap(map);
+	                if (bounds.contain(placePosition)) {
+	                    var markerImage = new kakao.maps.MarkerImage(
+	                        markerImages[category], // 카테고리별 이미지
+	                        new kakao.maps.Size(25, 25),
+	                        { offset: new kakao.maps.Point(12, 0) }
+	                    );
 
-		                      var content = `<div class="info-window">
-		                                         <strong>${place.place_name}</strong><br>
-		                                         ${place.address_name}<br>
-		                                         <a href="${place.place_url}" target="_blank">자세히 보기</a>
-		                                     </div>`;
+	                    var marker = new kakao.maps.Marker({
+	                        position: placePosition,
+	                        title: place.place_name,
+	                        image: markerImage
+	                    });
+	                    marker.setMap(map);
 
-		                      var infoWindow = new kakao.maps.InfoWindow({
-		                          content: content
-		                      });
+	                    var content = `<div class="info-window">
+	                                       <strong>${place.place_name}</strong><br>
+	                                       ${place.address_name}<br>
+	                                       <a href="${place.place_url}" target="_blank">자세히 보기</a>
+	                                   </div>`;
 
-		                      kakao.maps.event.addListener(marker, 'click', function () {
-		                          closeCategoryInfoWindows();
-		                          infoWindow.open(map, marker);
-		                          categoryInfoWindows.push(infoWindow);
-		                      });
+	                    var infoWindow = new kakao.maps.InfoWindow({
+	                        content: content
+	                    });
 
-		                      categoryMarkers.push(marker);
-		                  }
-		              });
-		          } else {
-		              console.log("주변 장소를 찾을 수 없습니다.");
-		          }
-		      }, {
-		          location: position,
-		          radius: 500 // 검색 반경 설정
-		      });
-		  }
+	                    kakao.maps.event.addListener(marker, 'click', function () {
+	                        closeCategoryInfoWindows();
+	                        infoWindow.open(map, marker);
+	                        categoryInfoWindows.push(infoWindow);
+	                    });
+
+	                    categoryMarkers.push(marker);
+
+	                    // 카테고리 정보를 리스트로 추가
+	                    addToCategoryInfoList(place);
+	                }
+	            });
+	        } else {
+	            console.log("주변 장소를 찾을 수 없습니다.");
+	        }
+	    }, {
+	        location: position,
+	        radius: 500 // 검색 반경 설정
+	    });
+	}
+
+	// 카테고리 정보 리스트에 장소 추가
+	function addToCategoryInfoList(place) {
+	    var listContainer = document.getElementById('categoryInfoList');
+
+	    var placeDiv = document.createElement('div');
+	    placeDiv.className = 'category-info-item';
+	    placeDiv.style.padding = '10px';
+	    placeDiv.style.borderBottom = '1px solid #eee';
+
+	    placeDiv.innerHTML = `
+	        <strong>${place.place_name}</strong><br>
+	        ${place.address_name}<br>
+	        <a href="${place.place_url}" target="_blank">자세히 보기</a>
+	    `;
+
+		// 클릭 이벤트로 지도 중심 이동 및 정보창 열기
+		placeDiv.addEventListener('click', function () {
+		    var position = new kakao.maps.LatLng(place.y, place.x);
+		    console.log("place.y", place.y);
+		    console.log("place.x", place.x);
+
+		    // 지도 중심 이동
+		    map.setCenter(position);
+
+		    // 기존 열려 있는 정보창 닫기
+		    closeCategoryInfoWindows();
+
+		    // 해당 장소의 마커 찾기 (좌표 근사값 비교)
+		    var targetMarker = categoryMarkers.find(function (marker) {
+		        var markerPosition = marker.getPosition();
+		        // 소수점 이하 6자리까지 비교
+		        return Math.abs(markerPosition.getLat() - position.getLat()) < 0.000001 && Math.abs(markerPosition.getLng() - position.getLng()) < 0.000001;
+		    });
+
+		    if (targetMarker) {
+		        // 해당 마커에 대해 클릭 이벤트 강제로 트리거
+		        kakao.maps.event.trigger(targetMarker, 'click');
+		    } else {
+		        console.log("마커를 찾을 수 없습니다.");
+		    }
+		});
+
+	    listContainer.appendChild(placeDiv);
+	}
+
+	// 카테고리 정보 리스트 초기화
+	function clearCategoryInfoList() {
+	    var listContainer = document.getElementById('categoryInfoList');
+	    listContainer.innerHTML = '';
+	}
 
     // 카테고리 마커를 지우는 함수
     function clearCategoryMarkers() {
@@ -251,4 +302,6 @@ kakao.maps.load(function () {
             currentInfoWindow.close();
         }
     }
+
+	
 });

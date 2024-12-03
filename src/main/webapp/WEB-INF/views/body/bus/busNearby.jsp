@@ -83,7 +83,7 @@
 	</div>
 	
 
-   
+   <div id="categoryInfoList"></div>
    
     <script src="/static/js/bus/busnearby.js"></script>
 
