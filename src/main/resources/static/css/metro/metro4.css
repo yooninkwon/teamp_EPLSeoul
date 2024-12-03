@@ -146,7 +146,7 @@ margin-top: 30px;
   font-weight: bold; /* 헤더 글씨 굵게 */
 }
 /* CSS: 차트를 담을 부모 요소에 고정 크기 설정 */
-#dayChart, #monthChart {
+#dayChart, #monthChart, #congestionChart {
     width: 100px;  /* 부모 요소 크기에 맞추기 */
     height: 400px; /* 고정된 높이 설정 */
 }

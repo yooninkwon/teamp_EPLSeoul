@@ -21,7 +21,7 @@
 <body>
 	<div class="box">
 		<div id="search">
-			<h1>지하철 통계 정보</h1>
+			<h1>지하철 이용자 통계</h1>
 			<div class="searchBox">
 				<input type="date" id="startDate" name="startDate">
 				<input type="text" class="searchInput" placeholder="지하철역을 입력하세요 ex)서울역 " />
@@ -51,7 +51,7 @@
 			<div id="resultCongestion">
 				<div id="congestionTopic">
 				</div>
-				<canvas id="congestionData"></canvas>
+				<canvas id="congestionChart"></canvas>
 				<div id="congestionData"></div>
 			</div>
 		</div>	

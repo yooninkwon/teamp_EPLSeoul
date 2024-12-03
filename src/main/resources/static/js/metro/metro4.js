@@ -357,10 +357,22 @@ $(document).ready(function() {
 					congestionData += '</tbody></table>';
 					
 						
-			 $('#congestionData').append(congestionData);
+					$('#congestionData').append(congestionData);
 						 
-			 
-			 
+					let congestion= [[],[],[],[],[],[]]
+					
+					// 반복문을 통해 각 객체에서 특정 값들만 추출하여 넣음
+					for (let i = 0; i < 6; i++) {
+					    // 각 항목에서 "date", "line", "station", "upDown"을 제외한 값들을 추출
+					    const values = Object.entries(data.congestion[i])
+					        .filter(([key]) => !['date', 'line', 'station', 'upDown'].includes(key))
+					        .map(([_, value]) => value); // 값만 추출
+					    
+					    congestion[i] = congestion[i].concat(values);
+					}
+					 
+			 		congestionGraph(congestion[0],congestion[1],congestion[2],
+						congestion[3],congestion[4],congestion[5],);
 			 
 			 
 			 
@@ -430,9 +442,9 @@ $(document).ready(function() {
 	       monthChart = new Chart(monthChartBox, {
 	            type: 'line',
 	            data: {
-                labels: ['4시', '5시', '6시', '7시', '8시', '9시', '10시', '11시', '12시', '13시', 
+                labels: ['5시', '6시', '7시', '8시', '9시', '10시', '11시', '12시', '13시', 
 					     '14시', '15시', '16시', '17시', '18시', '19시', '20시', '21시', '22시', 
-					     '23시', '0시', '1시', '2시', '3시'],
+					     '23시', '0시', '1시', '2시', '3시', '4시' ],
 	                datasets: [
 	                    {
 	                        label: '승차',
@@ -468,6 +480,85 @@ $(document).ready(function() {
 	            }
 	        });
 		}
+		
+		
+		let congestionChart = null;
+			function congestionGraph(weekUp, weekDo, satUp, satDo, sunUp, sunDo) {
+				    // 기존 차트가 있다면 제거
+				    if (congestionChart) {
+				        congestionChart.destroy();
+				    }
+
+				    // 차트의 컨텍스트
+				    const congestionChartBox = document.getElementById('congestionChart').getContext('2d');
+
+			       congestionChart= new Chart(congestionChartBox, {
+			            type: 'line',
+			            data: {
+		                labels: [ '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30',
+				                '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00',
+				                '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
+				                '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00',
+				                '23:30', '00:00', '00:30'],
+			                datasets: [
+			                    {
+			                        label: '평일/상',
+			                        data: weekUp,
+			                        borderColor: 'rgb(54, 162, 235)',
+			                        fill: false
+			                    },
+			                    {
+			                        label: '평일/하',
+			                        data: weekDo,
+			                        borderColor: 'rgb(255, 99, 132)',
+			                        fill: false
+			                    },
+			                    {
+			                        label: '토요일/상',
+			                        data: satUp,
+			                        borderColor: 'rgb(75, 192, 192)',
+			                        fill: false
+			                    },
+			                    {
+			                        label: '토요일/하',
+			                        data: satDo,
+			                        borderColor: 'rgb(255, 159, 64)',
+			                        fill: false
+			                    },
+			                    {
+			                        label: '일요일/상',
+			                        data: sunUp,
+			                        borderColor: 'rgb(34, 193, 195)',
+			                        fill: false
+			                    },
+			                    {
+			                        label: '일요일/하',
+			                        data: sunDo,
+			                        borderColor: 'rgb(255, 99, 71)',
+			                        fill: false
+			                    },
+			                ]
+			            },
+			            options: {
+			                responsive: true,
+			                scales: {
+			                    x: {
+			                        title: {
+			                            display: true,
+			                            text: '시간'
+			                        }
+			                    },
+			                    y: {
+			                        title: {
+			                            display: true,
+			                            text: '혼잡도(%)'
+			                        },
+			                        beginAtZero: true
+			                    }
+			                }
+			            }
+			        });
+				}
 
 
 

@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
 </script>
 
 
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	        <li><a href="/epl/metro1">지하철역 정보</a></li>
 	        <li><a href="/epl/metro2">자하철내용2</a></li>
 	        <li><a href="/epl/metro3">분실물 습득물 정보</a></li>
-	        <li><a href="/epl/metro4">지하철 통계 정보</a></li>
+	        <li><a href="/epl/metro4">지하철 이용자 통계</a></li>
 	    </ul>
     </div>
 </body>
