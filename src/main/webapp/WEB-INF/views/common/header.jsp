@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 메뉴별 첫 번째 사이드바 경로 설정
     const firstSubmenuLinks = {
         '/epl/bus': '/epl/bus/', // 버스 길찾기
-        '/epl/metro1': '/epl/metro1', // 지하철 첫 메뉴
+        '/epl/metro': '/epl/metro1', // 지하철 첫 메뉴
         '/epl/mobility': '/epl/mobility/', // 워크 & 모빌리티 첫 메뉴
         '/epl/date': '/epl/date/submenu1', // 데이트 첫 메뉴
         '/epl/realty1': '/epl/realty1/submenu1', // 부동산 첫 메뉴
@@ -96,7 +96,7 @@ function updateBreadcrumb(link) {
 	       <!-- Navigation Menu -->
 	       <div class="nav-menu">
 	           <a href="/epl/bus" >BUS</a>
-	           <a href="/epl/metro1">METRO</a>
+	           <a href="/epl/metro">METRO</a>
 	           <a href="/epl/mobility">WALK & MINIMOBILITY</a>
 	           <a href="/epl/date">DATE</a>
 	           <a class="realty" href="/epl/realty1">REALTY</a>

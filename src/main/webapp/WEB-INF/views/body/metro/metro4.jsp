@@ -21,7 +21,7 @@
 <body>
 	<div class="box">
 		<div id="search">
-			<h1>지하철 이용자 통계</h1>
+			<h1>지하철 이용자 현황</h1>
 			<div class="searchBox">
 				<input type="date" id="startDate" name="startDate">
 				<input type="text" class="searchInput" placeholder="지하철역을 입력하세요 ex)서울역 " />

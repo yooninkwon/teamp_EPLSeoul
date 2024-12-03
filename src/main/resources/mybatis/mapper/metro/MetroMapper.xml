@@ -59,6 +59,24 @@
 			STATION = #{stationName}
 	</select>
 	
+	<select id="stationAccident" 
+	resultType="com.tech.EPL.metro.dto.StationAccidentDto">
+		SELECT
+			*
+		FROM
+			METRO_ACCIDENT
+		ORDER BY YEAR DESC
+	</select>
+	
+	<select id="stationCrime" 
+	resultType="com.tech.EPL.metro.dto.StationCrimeDto">
+		SELECT
+			*
+		FROM
+			METRO_CRIME
+		ORDER BY YEAR DESC
+	</select>
+	
 	
 	
 
