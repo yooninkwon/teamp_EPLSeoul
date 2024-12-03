@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="icon" href="/static/icon/icon.ico" />
+<link rel="icon" href="/static/icon/favicon.ico" />
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
 <title>
 	<tiles:insertAttribute name="epl_title" />

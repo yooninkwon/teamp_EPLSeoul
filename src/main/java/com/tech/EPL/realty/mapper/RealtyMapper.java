@@ -14,18 +14,27 @@ import com.tech.EPL.realty.dto.YearsStatRent;
 @Mapper
 public interface RealtyMapper {
 	
-	public String chart1();
-
 	public ArrayList<YearsStatBuying> getYearsStatBuying();
 	
 	public ArrayList<YearsStatRent> getYearsStatRent();
 	
 	public ArrayList<YearsStatJeonse> getYearsStatJeonse();
+	
+	
+	/* 구별 통계 */
+	public ArrayList<GuStatBuying> getGuAvgBuyingApt();
+	public ArrayList<GuStatBuying> getGuAvgBuyingSingle();
+	public ArrayList<GuStatBuying> getGuAvgBuyingMulti();
+	public ArrayList<GuStatBuying> getGuAvgBuyingOffice();
 
-	public ArrayList<GuStatBuying> getGuAvgBuying();
+	public ArrayList<GuStatRent> getGuAvgRentApt();
+	public ArrayList<GuStatRent> getGuAvgRentSingle();
+	public ArrayList<GuStatRent> getGuAvgRentMulti();
+	public ArrayList<GuStatRent> getGuAvgRentOffice();
 
-	public ArrayList<GuStatRent> getGuAvgRent();
-
-	public ArrayList<GuStatJeonse> getGuAvgJeonse();
+	public ArrayList<GuStatJeonse> getGuAvgJeonseApt();
+	public ArrayList<GuStatJeonse> getGuAvgJeonseSingle();
+	public ArrayList<GuStatJeonse> getGuAvgJeonseMulti();
+	public ArrayList<GuStatJeonse> getGuAvgJeonseOffice();
 	
 }

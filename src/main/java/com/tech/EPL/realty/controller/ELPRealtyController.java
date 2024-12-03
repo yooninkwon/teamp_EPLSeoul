@@ -13,12 +13,10 @@ import com.tech.EPL.realty.service.group.RealtyServiceGroup;
 @RequestMapping("/epl") // 추후 변경
 public class ELPRealtyController {
 	
-//	private final ApiKeyConfig apiKeyConfig;
 	private final RealtyServiceGroup serviceGroup;
 	
-	public ELPRealtyController(RealtyServiceGroup serviceGroup /* , ApiKeyConfig apiKeyConfig */ ) {
+	public ELPRealtyController(RealtyServiceGroup serviceGroup) {
 		this.serviceGroup = serviceGroup;
-//		this.apiKeyConfig = apiKeyConfig;
 	}
 	
 	@GetMapping("/realty1")
@@ -32,12 +30,6 @@ public class ELPRealtyController {
 		serviceGroup.getAvgData(model);
 		return "epl/realty2";
 	}
-
-	@GetMapping("/realty6")
-	public String realty2Post(Model model) {
-		
-		return "epl/realty6";
-	}
 	
 	@GetMapping("/realty3")
 	public String realty3(Model model) {
@@ -49,8 +41,7 @@ public class ELPRealtyController {
 	}
 	
 	@GetMapping("/realty4")
-	public String realty4(Model model) {
-		serviceGroup.getGuData(model);
+	public String realty4() {
 		return "epl/realty4";
 	}
 	
@@ -59,10 +50,10 @@ public class ELPRealtyController {
 		return "epl/realty5";
 	}
 	
-//	@GetMapping("/realty6")
-//	public String realty6(Model model) {
-//		return "epl/realty6";
-//	}
+	@GetMapping("/realty6")
+	public String realty6(Model model) {
+		return "epl/realty6";
+	}
 
 	// 파일업로드
 	@PostMapping("/rent-file")
