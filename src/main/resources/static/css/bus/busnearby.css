@@ -1,0 +1,182 @@
+/* 검색 UI 스타일 */
+#searchBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    position: relative; /* 추천 목록을 이 요소에 상대적으로 배치 */
+}
+
+#searchInput {
+    width: 600px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: #007bff;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    transition: background-color 0.3s ease;
+}
+
+#searchButton:hover {
+    background-color: #0056b3;
+}
+
+/* 추천 목록 스타일 */
+#suggestions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100%; /* 검색창 바로 아래에 위치 */
+    left: 50%; /* 중앙에 배치 */
+    transform: translateX(-50%); /* 정확히 중앙 정렬 */
+    width: 700px; /* 검색 입력창과 동일한 너비 */
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 스크롤이 생기도록 설정 */
+    z-index: 10;
+    display: none; /* 기본적으로 숨김 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+#suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions li:hover {
+    background-color: #f0f0f0; /* 마우스를 올렸을 때 배경 색상 */
+}
+
+/* 지도 스타일 */
+#map {
+    width: 70%;
+    height: 500px; /* 지도 높이 설정 */
+    margin: 0 auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+#category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.category-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.category-btn.active {
+    background-color: #e0e0e0; /* 클릭된 버튼에 파란색 배경 */
+    color: white;  /* 클릭된 버튼의 텍스트 색상 */
+}
+
+.category-btn i {
+    font-size: 20px;
+    color: #73A3FF;
+}
+
+/* 정보창 스타일 */
+.info-window {
+    width: 200px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+}
+
+/* 정보창 제목 강조 */
+.info-window strong {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0078d4;
+    margin-bottom: 5px;
+}
+
+/* 주소 및 상세 링크 스타일 */
+.info-window a {
+    font-size: 12px;
+    color: #0078d4;
+    text-decoration: none;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.info-window a:hover {
+    text-decoration: underline;
+}
+
+/* 정보창 내부 간격 */
+.info-window p {
+    margin: 5px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+/* 작은 아이콘 스타일 (옵션) */
+.info-window .icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* 정보창 닫기 버튼 스타일 */
+.info-window .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.info-window .close-btn:hover {
+    color: #333;
+}
+
+
+
