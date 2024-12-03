@@ -1,27 +1,29 @@
 package com.tech.EPL.realty.controller;
 
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tech.EPL.realty.service.group.RealtyServiceGroup;
+
 @RestController
-@RequestMapping("/") // 추후 변경
+@RequestMapping("/epl") 
 public class ELPRealtyRestController {
-//	private final WebClient webClientXml;
-//	private final WebClient webClientJson;
-//
-//    public ELPRealtyRestController(
-//    		@Qualifier("webClientForXml") WebClient webClientXml,
-//    		@Qualifier("webClientForJson") WebClient webClientJson) {
-//    	this.webClientXml = webClientXml;
-//        this.webClientJson = webClientJson;
-//    }
-    
-//    public Mono<ResponseEntity<"타입">> exp_xml() {
-//    	return webClientXml.get().uri(""). 어쩌구 저쩌구
-//
-//	}
-//    
-//    public Mono<ResponseEntity<"타입">> exp_json() {
-//    	return webClientXml.get().uri(""). 어쩌구 저쩌구
-//    }
+	
+	private final RealtyServiceGroup serviceGroup;
+	
+	public ELPRealtyRestController(RealtyServiceGroup serviceGroup) {
+		this.serviceGroup = serviceGroup;
+	}
+	
+	@GetMapping("/gu-data")
+	public ResponseEntity<Map<String, Object>> fetchGuData(@RequestParam String type) {
+		System.out.println(type);
+		return serviceGroup.getGuData(type);
+	}
+	
 }

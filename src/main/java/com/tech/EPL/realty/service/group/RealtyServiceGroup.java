@@ -1,5 +1,8 @@
 package com.tech.EPL.realty.service.group;
 
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -28,8 +31,9 @@ public class RealtyServiceGroup {
 		realtyAvgData.execution(model);
 	}
 	
-	public void getGuData(Model model) {
-		guAvgData.execution(model);		
+	public ResponseEntity<Map<String, Object>> getGuData(String type) {
+		guAvgData.setType(type);
+		return guAvgData.execution();
 	}
 	
 	public void rentFileDBInsert(String fileName, String type) {

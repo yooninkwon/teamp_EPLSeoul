@@ -12,22 +12,39 @@
 </head>
 
 <body>
-  <h1> realty_body 4 </h1>
-	<script>
-		$(document).ready(function(){
-		
-			let guAvgBuying = ${guAvgBuying };
-			let guAvgRent = ${guAvgRent };
-			let guAvgJeonse = ${guAvgJeonse };
-			
-			chart(guAvgBuying, guAvgRent, guAvgJeonse);
-		});
-	</script>
-  <h1> 전세 실거래가 통계 </h1>
+  <h1> 구별 실거래가 통계 </h1>
   
-	<canvas id="chart-gu-buying"></canvas>
-	<canvas id="chart-gu-rent"></canvas>
-	<canvas id="chart-gu-jeonse"></canvas>
+  <label for="apt">
+	  <input type="radio" name="avg" id="apt" value="apt" checked />
+	  아파트 통계 
+  </label>
+  
+  <label for="single">
+	  <input type="radio" name="avg" id="single" value="single" />
+	  단독다가구 통계 
+  </label>
+  
+  <label for="multi">
+	  <input type="radio" name="avg" id="multi" value="multi" />
+	  연립다세대 통계 
+  </label>
+  
+  <label for="office">
+	  <input type="radio" name="avg" id="office" value="office" />
+	  오피스텔 통계 
+  </label>
+  	<div id="buying-container">
+		<canvas id="chart-gu-buying"></canvas>
+  	</div>
+  	<div id="rent-rtfe-container">
+		<canvas id="chart-gu-rent-rtfe"></canvas>
+  	</div>
+  	<div id="rent-grfe-container">
+		<canvas id="chart-gu-rent-grfe"></canvas>
+  	</div>
+  	<div id="jeonse-container">
+		<canvas id="chart-gu-jeonse"></canvas>
+  	</div>
 
 <script src="/static/js/realty/realty_body4.js"></script>
 <script src="/static/js/realty/realty_navbar.js"></script>

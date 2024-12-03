@@ -1,599 +1,158 @@
 /**
  * 
  */
-function chart(guAvgBuying, guAvgRent, guAvgJeonse) {
+$(document).ready(function() {
+	
+	let type = 'apt';
+	let chartBuild_guBuying = null;
+	let chartBuild_guRent_rtfe = null;
+	let chartBuild_guRent = null;
+	let chartBuild_guJeonse = null;
+	
+	loadData(type);
+	
+	$('input[name="avg"]').on('change', function() {
+		type = $('input[name="avg"]:checked').val();
+		loadData(type);
+	})
+	
+	function loadData(type) {
+		
+		fetch('/epl/gu-data?type=' + type, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		.then(response => {
+			if(!response.ok) {
+				console.log('response is bad: ', response);
+			} else {
+				return response.json();
+			}
+		})
+		.then(data => {
+			console.log(data);
+//			console.log(data.guAvgBuyingApt[0].cgg_nm);
+			chart(data);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+		
+	}
+	
+	
+//	chart(guAvgBuyingApt, guAvgRentApt, guAvgJeonseApt);
 
-	console.log(guAvgBuying);
-	console.log(guAvgRent);
-	console.log(guAvgJeonse);
-
-	let chart_gu_buying = $('#chart-gu-buying');
-	let chart_gu_rent = $('#chart-gu-rent');
-	let chart_gu_jeonse = $('#chart-gu-jeonse');
-
-	let chartBuild_guBuying = new Chart(chart_gu_buying, {
-		type: 'bar',
-		data: {
-			labels: ['강남구', '강동구', '강북구', '강서구', '관악구',
-				'광진구', '구로구', '금천구', '노원구', '도봉구',
-				'동대문구', '동작구', '마포구', '서대문구', '서초구',
-				'성동구', '성북구', '송파구', '양천구', '영등포구',
-				'용산구', '은평구', '종로구', '중구', '중랑구'],
-			datasets: [
-				{
-					label: '구별 매매 평균가 (2020-2024)',
-					data: [
-						guAvgBuying[0].avg_thing_amt * 10000,
-						guAvgBuying[1].avg_thing_amt * 10000,
-						guAvgBuying[2].avg_thing_amt * 10000,
-						guAvgBuying[3].avg_thing_amt * 10000,
-						guAvgBuying[4].avg_thing_amt * 10000,
-						guAvgBuying[5].avg_thing_amt * 10000,
-						guAvgBuying[6].avg_thing_amt * 10000,
-						guAvgBuying[7].avg_thing_amt * 10000,
-						guAvgBuying[8].avg_thing_amt * 10000,
-						guAvgBuying[9].avg_thing_amt * 10000,
-						guAvgBuying[10].avg_thing_amt * 10000,
-						guAvgBuying[11].avg_thing_amt * 10000,
-						guAvgBuying[12].avg_thing_amt * 10000,
-						guAvgBuying[13].avg_thing_amt * 10000,
-						guAvgBuying[14].avg_thing_amt * 10000,
-						guAvgBuying[15].avg_thing_amt * 10000,
-						guAvgBuying[16].avg_thing_amt * 10000,
-						guAvgBuying[17].avg_thing_amt * 10000,
-						guAvgBuying[18].avg_thing_amt * 10000,
-						guAvgBuying[19].avg_thing_amt * 10000,
-						guAvgBuying[20].avg_thing_amt * 10000,
-						guAvgBuying[21].avg_thing_amt * 10000,
-						guAvgBuying[22].avg_thing_amt * 10000,
-						guAvgBuying[23].avg_thing_amt * 10000,
-						guAvgBuying[24].avg_thing_amt * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				},
-				{
-					label: '구별 매매 평균가 (2020-2024)',
-					data: [
-						guAvgBuying[0].max_thing_amt * 10000,
-						guAvgBuying[1].max_thing_amt * 10000,
-						guAvgBuying[2].max_thing_amt * 10000,
-						guAvgBuying[3].max_thing_amt * 10000,
-						guAvgBuying[4].max_thing_amt * 10000,
-						guAvgBuying[5].max_thing_amt * 10000,
-						guAvgBuying[6].max_thing_amt * 10000,
-						guAvgBuying[7].max_thing_amt * 10000,
-						guAvgBuying[8].max_thing_amt * 10000,
-						guAvgBuying[9].max_thing_amt * 10000,
-						guAvgBuying[10].max_thing_amt * 10000,
-						guAvgBuying[11].max_thing_amt * 10000,
-						guAvgBuying[12].max_thing_amt * 10000,
-						guAvgBuying[13].max_thing_amt * 10000,
-						guAvgBuying[14].max_thing_amt * 10000,
-						guAvgBuying[15].max_thing_amt * 10000,
-						guAvgBuying[16].max_thing_amt * 10000,
-						guAvgBuying[17].max_thing_amt * 10000,
-						guAvgBuying[18].max_thing_amt * 10000,
-						guAvgBuying[19].max_thing_amt * 10000,
-						guAvgBuying[20].max_thing_amt * 10000,
-						guAvgBuying[21].max_thing_amt * 10000,
-						guAvgBuying[22].max_thing_amt * 10000,
-						guAvgBuying[23].max_thing_amt * 10000,
-						guAvgBuying[24].max_thing_amt * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				},
-				{
-					label: '구별 매매 평균가 (2020-2024)',
-					data: [
-						guAvgBuying[0].min_thing_amt * 10000,
-						guAvgBuying[1].min_thing_amt * 10000,
-						guAvgBuying[2].min_thing_amt * 10000,
-						guAvgBuying[3].min_thing_amt * 10000,
-						guAvgBuying[4].min_thing_amt * 10000,
-						guAvgBuying[5].min_thing_amt * 10000,
-						guAvgBuying[6].min_thing_amt * 10000,
-						guAvgBuying[7].min_thing_amt * 10000,
-						guAvgBuying[8].min_thing_amt * 10000,
-						guAvgBuying[9].min_thing_amt * 10000,
-						guAvgBuying[10].min_thing_amt * 10000,
-						guAvgBuying[11].min_thing_amt * 10000,
-						guAvgBuying[12].min_thing_amt * 10000,
-						guAvgBuying[13].min_thing_amt * 10000,
-						guAvgBuying[14].min_thing_amt * 10000,
-						guAvgBuying[15].min_thing_amt * 10000,
-						guAvgBuying[16].min_thing_amt * 10000,
-						guAvgBuying[17].min_thing_amt * 10000,
-						guAvgBuying[18].min_thing_amt * 10000,
-						guAvgBuying[19].min_thing_amt * 10000,
-						guAvgBuying[20].min_thing_amt * 10000,
-						guAvgBuying[21].min_thing_amt * 10000,
-						guAvgBuying[22].min_thing_amt * 10000,
-						guAvgBuying[23].min_thing_amt * 10000,
-						guAvgBuying[24].min_thing_amt * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				}
-			]
+	$('input[name="avg"]').on('change', function() {
+		let checked = $('input[name="avg"]:checked').val();
+		if (checked === 'grfe') {
+			$('#grfe-chart').removeClass().addClass('on');
+			$('#rtfe-chart').removeClass().addClass('off');
+		} else {
+			$('#grfe-chart').removeClass().addClass('off');
+			$('#rtfe-chart').removeClass().addClass('on');
 		}
 	});
 
-	// // // // //
+	function chart(data) {
+//		console.log('type: ', type)
+//		console.log(data.guAvgBuying);
+//		console.log(data.guAvgRent);
+//		console.log(data.guAvgJeonse);
 
-	let chartBuild_guRent = new Chart(chart_gu_rent, {
-		type: 'bar',
-		data: {
-			labels: ['강남구', '강동구', '강북구', '강서구', '관악구',
-				'광진구', '구로구', '금천구', '노원구', '도봉구',
-				'동대문구', '동작구', '마포구', '서대문구', '서초구',
-				'성동구', '성북구', '송파구', '양천구', '영등포구',
-				'용산구', '은평구', '종로구', '중구', '중랑구'],
-			datasets: [
-				{
-					label: '구별 월세 평균가 (2020-2024)',
-					data: [
-						guAvgRent[0].avg_rtfe * 10000,
-						guAvgRent[1].avg_rtfe * 10000,
-						guAvgRent[2].avg_rtfe * 10000,
-						guAvgRent[3].avg_rtfe * 10000,
-						guAvgRent[4].avg_rtfe * 10000,
-						guAvgRent[5].avg_rtfe * 10000,
-						guAvgRent[6].avg_rtfe * 10000,
-						guAvgRent[7].avg_rtfe * 10000,
-						guAvgRent[8].avg_rtfe * 10000,
-						guAvgRent[9].avg_rtfe * 10000,
-						guAvgRent[10].avg_rtfe * 10000,
-						guAvgRent[11].avg_rtfe * 10000,
-						guAvgRent[12].avg_rtfe * 10000,
-						guAvgRent[13].avg_rtfe * 10000,
-						guAvgRent[14].avg_rtfe * 10000,
-						guAvgRent[15].avg_rtfe * 10000,
-						guAvgRent[16].avg_rtfe * 10000,
-						guAvgRent[17].avg_rtfe * 10000,
-						guAvgRent[18].avg_rtfe * 10000,
-						guAvgRent[19].avg_rtfe * 10000,
-						guAvgRent[20].avg_rtfe * 10000,
-						guAvgRent[21].avg_rtfe * 10000,
-						guAvgRent[22].avg_rtfe * 10000,
-						guAvgRent[23].avg_rtfe * 10000,
-						guAvgRent[24].avg_rtfe * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				},
-				{
-					label: '구별 월세 최대가 (2020-2024)',
-					data: [
-						guAvgRent[0].max_rtfe * 10000,
-						guAvgRent[1].max_rtfe * 10000,
-						guAvgRent[2].max_rtfe * 10000,
-						guAvgRent[3].max_rtfe * 10000,
-						guAvgRent[4].max_rtfe * 10000,
-						guAvgRent[5].max_rtfe * 10000,
-						guAvgRent[6].max_rtfe * 10000,
-						guAvgRent[7].max_rtfe * 10000,
-						guAvgRent[8].max_rtfe * 10000,
-						guAvgRent[9].max_rtfe * 10000,
-						guAvgRent[10].max_rtfe * 10000,
-						guAvgRent[11].max_rtfe * 10000,
-						guAvgRent[12].max_rtfe * 10000,
-						guAvgRent[13].max_rtfe * 10000,
-						guAvgRent[14].max_rtfe * 10000,
-						guAvgRent[15].max_rtfe * 10000,
-						guAvgRent[16].max_rtfe * 10000,
-						guAvgRent[17].max_rtfe * 10000,
-						guAvgRent[18].max_rtfe * 10000,
-						guAvgRent[19].max_rtfe * 10000,
-						guAvgRent[20].max_rtfe * 10000,
-						guAvgRent[21].max_rtfe * 10000,
-						guAvgRent[22].max_rtfe * 10000,
-						guAvgRent[23].max_rtfe * 10000,
-						guAvgRent[24].max_rtfe * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				},
-				{
-					label: '구별 월세 최저가 (2020-2024)',
-					data: [
-						guAvgRent[0].min_rtfe * 10000,
-						guAvgRent[1].min_rtfe * 10000,
-						guAvgRent[2].min_rtfe * 10000,
-						guAvgRent[3].min_rtfe * 10000,
-						guAvgRent[4].min_rtfe * 10000,
-						guAvgRent[5].min_rtfe * 10000,
-						guAvgRent[6].min_rtfe * 10000,
-						guAvgRent[7].min_rtfe * 10000,
-						guAvgRent[8].min_rtfe * 10000,
-						guAvgRent[9].min_rtfe * 10000,
-						guAvgRent[10].min_rtfe * 10000,
-						guAvgRent[11].min_rtfe * 10000,
-						guAvgRent[12].min_rtfe * 10000,
-						guAvgRent[13].min_rtfe * 10000,
-						guAvgRent[14].min_rtfe * 10000,
-						guAvgRent[15].min_rtfe * 10000,
-						guAvgRent[16].min_rtfe * 10000,
-						guAvgRent[17].min_rtfe * 10000,
-						guAvgRent[18].min_rtfe * 10000,
-						guAvgRent[19].min_rtfe * 10000,
-						guAvgRent[20].min_rtfe * 10000,
-						guAvgRent[21].min_rtfe * 10000,
-						guAvgRent[22].min_rtfe * 10000,
-						guAvgRent[23].min_rtfe * 10000,
-						guAvgRent[24].min_rtfe * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				}
-			]
+		if(chartBuild_guBuying != null) {
+			chartBuild_guBuying.destroy();
+			chartBuild_guRent_rtfe.destroy();
+			chartBuild_guRent.destroy();
+			chartBuild_guJeonse.destroy();
 		}
-	});
+		
+		let chart_gu_buying = $('#chart-gu-buying');
+		let chart_gu_rent_rtfe = $('#chart-gu-rent-rtfe');
+		let chart_gu_rent_grfe = $('#chart-gu-rent-grfe');
+		let chart_gu_jeonse = $('#chart-gu-jeonse');
+				
+		const labels = ['강남구', '강동구', '강북구', '강서구', '관악구',
+			'광진구', '구로구', '금천구', '노원구', '도봉구',
+			'동대문구', '동작구', '마포구', '서대문구', '서초구',
+			'성동구', '성북구', '송파구', '양천구', '영등포구',
+			'용산구', '은평구', '종로구', '중구', '중랑구'];
 
-	// // // // // //
+		const backgroundColors = [
+			'rgb(255, 100, 132)', 'rgb(54, 162, 123)', 'rgb(99, 206, 86)', 'rgb(75, 192, 77)',
+			'rgb(153, 102, 44)', 'rgb(255, 15, 64)', 'rgb(255, 10, 132)', 'rgb(54, 99, 235)',
+			'rgb(125, 206, 86)', 'rgb(75, 20, 192)', 'rgb(35, 102, 255)', 'rgb(113, 159, 64)',
+			'rgb(75, 98, 192)', 'rgb(153, 35, 255)', 'rgb(255, 99, 255)', 'rgb(54, 162, 98)',
+			'rgb(255, 206, 186)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)', 'rgb(255, 159, 64)',
+			'rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 206, 86)', 'rgb(77, 192, 192)', 'rgb(153, 88, 255)',
+		];
 
-	let chartBuild_guJeonse = new Chart(chart_gu_jeonse, {
-		type: 'bar',
-		data: {
-			labels: ['강남구', '강동구', '강북구', '강서구', '관악구',
-				'광진구', '구로구', '금천구', '노원구', '도봉구',
-				'동대문구', '동작구', '마포구', '서대문구', '서초구',
-				'성동구', '성북구', '송파구', '양천구', '영등포구',
-				'용산구', '은평구', '종로구', '중구', '중랑구'],
-			datasets: [
-				{
-					label: '구별 전세 보증금 평균가 (2020-2024)',
-					data: [
-						guAvgJeonse[0].avg_grfe * 10000,
-						guAvgJeonse[1].avg_grfe * 10000,
-						guAvgJeonse[2].avg_grfe * 10000,
-						guAvgJeonse[3].avg_grfe * 10000,
-						guAvgJeonse[4].avg_grfe * 10000,
-						guAvgJeonse[5].avg_grfe * 10000,
-						guAvgJeonse[6].avg_grfe * 10000,
-						guAvgJeonse[7].avg_grfe * 10000,
-						guAvgJeonse[8].avg_grfe * 10000,
-						guAvgJeonse[9].avg_grfe * 10000,
-						guAvgJeonse[10].avg_grfe * 10000,
-						guAvgJeonse[11].avg_grfe * 10000,
-						guAvgJeonse[12].avg_grfe * 10000,
-						guAvgJeonse[13].avg_grfe * 10000,
-						guAvgJeonse[14].avg_grfe * 10000,
-						guAvgJeonse[15].avg_grfe * 10000,
-						guAvgJeonse[16].avg_grfe * 10000,
-						guAvgJeonse[17].avg_grfe * 10000,
-						guAvgJeonse[18].avg_grfe * 10000,
-						guAvgJeonse[19].avg_grfe * 10000,
-						guAvgJeonse[20].avg_grfe * 10000,
-						guAvgJeonse[21].avg_grfe * 10000,
-						guAvgJeonse[22].avg_grfe * 10000,
-						guAvgJeonse[23].avg_grfe * 10000,
-						guAvgJeonse[24].avg_grfe * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				},
-				{
-					label: '구별 매매 평균가 (2020-2024)',
-					data: [
-						guAvgJeonse[0].max_grfe * 10000,
-						guAvgJeonse[1].max_grfe * 10000,
-						guAvgJeonse[2].max_grfe * 10000,
-						guAvgJeonse[3].max_grfe * 10000,
-						guAvgJeonse[4].max_grfe * 10000,
-						guAvgJeonse[5].max_grfe * 10000,
-						guAvgJeonse[6].max_grfe * 10000,
-						guAvgJeonse[7].max_grfe * 10000,
-						guAvgJeonse[8].max_grfe * 10000,
-						guAvgJeonse[9].max_grfe * 10000,
-						guAvgJeonse[10].max_grfe * 10000,
-						guAvgJeonse[11].max_grfe * 10000,
-						guAvgJeonse[12].max_grfe * 10000,
-						guAvgJeonse[13].max_grfe * 10000,
-						guAvgJeonse[14].max_grfe * 10000,
-						guAvgJeonse[15].max_grfe * 10000,
-						guAvgJeonse[16].max_grfe * 10000,
-						guAvgJeonse[17].max_grfe * 10000,
-						guAvgJeonse[18].max_grfe * 10000,
-						guAvgJeonse[19].max_grfe * 10000,
-						guAvgJeonse[20].max_grfe * 10000,
-						guAvgJeonse[21].max_grfe * 10000,
-						guAvgJeonse[22].max_grfe * 10000,
-						guAvgJeonse[23].max_grfe * 10000,
-						guAvgJeonse[24].max_grfe * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				},
-				{
-					label: '구별 매매 평균가 (2020-2024)',
-					data: [
-						guAvgJeonse[0].min_grfe * 10000,
-						guAvgJeonse[1].min_grfe * 10000,
-						guAvgJeonse[2].min_grfe * 10000,
-						guAvgJeonse[3].min_grfe * 10000,
-						guAvgJeonse[4].min_grfe * 10000,
-						guAvgJeonse[5].min_grfe * 10000,
-						guAvgJeonse[6].min_grfe * 10000,
-						guAvgJeonse[7].min_grfe * 10000,
-						guAvgJeonse[8].min_grfe * 10000,
-						guAvgJeonse[9].min_grfe * 10000,
-						guAvgJeonse[10].min_grfe * 10000,
-						guAvgJeonse[11].min_grfe * 10000,
-						guAvgJeonse[12].min_grfe * 10000,
-						guAvgJeonse[13].min_grfe * 10000,
-						guAvgJeonse[14].min_grfe * 10000,
-						guAvgJeonse[15].min_grfe * 10000,
-						guAvgJeonse[16].min_grfe * 10000,
-						guAvgJeonse[17].min_grfe * 10000,
-						guAvgJeonse[18].min_grfe * 10000,
-						guAvgJeonse[19].min_grfe * 10000,
-						guAvgJeonse[20].min_grfe * 10000,
-						guAvgJeonse[21].min_grfe * 10000,
-						guAvgJeonse[22].min_grfe * 10000,
-						guAvgJeonse[23].min_grfe * 10000,
-						guAvgJeonse[24].min_grfe * 10000
-					],
-					backgroundColor: [
-						'rgb(255, 100, 132)',
-						'rgb(54, 162, 123)',
-						'rgb(99, 206, 86)',
-						'rgb(75, 192, 77)',
-						'rgb(153, 102, 44)',
-						'rgb(255, 15, 64)',
-						'rgb(255, 10, 132)',
-						'rgb(54, 99, 235)',
-						'rgb(125, 206, 86)',
-						'rgb(75, 20, 192)',
-						'rgb(35, 102, 255)',
-						'rgb(113, 159, 64)',
-						'rgb(75, 98, 192)',
-						'rgb(153, 35, 255)',
-						'rgb(255, 99, 255)',
-						'rgb(54, 162, 98)',
-						'rgb(255, 206, 186)',
-						'rgb(75, 192, 192)',
-						'rgb(153, 102, 255)',
-						'rgb(255, 159, 64)',
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 206, 86)',
-						'rgb(77, 192, 192)',
-						'rgb(153, 88, 255)',
-					],
-					borderColor: 'white',
-					borderWidth: 2,
-					maxBarThickness: 10
-				}
-			]
-		}
-	});
+		const createDataset = (label, data) => ({
+			label,
+			data: data.map(d => d * 10000),
+			backgroundColor: backgroundColors,
+			borderColor: 'white',
+			borderWidth: 2,
+			maxBarThickness: 10
+		});
+
+		
+		chartBuild_guBuying = new Chart(chart_gu_buying, {
+			type: 'bar',
+			data: {
+				labels,
+				datasets: [
+					createDataset('구별 아파트 매매 평균가 (2020-2024)', data.guAvgBuying.map(item => item.avg_thing_amt)),
+					createDataset('구별 아파트 매매 최대가 (2020-2024)', data.guAvgBuying.map(item => item.max_thing_amt)),
+					createDataset('구별 아파트 매매 최저가 (2020-2024)', data.guAvgBuying.map(item => item.min_thing_amt))
+				]
+			}
+		});
+
+		// // // // //
+		
+		chartBuild_guRent_rtfe = new Chart(chart_gu_rent_rtfe, {
+			type: 'bar',
+			data: {
+				labels,
+				datasets: [
+					createDataset('구별 아파트 월세 평균가 (2020-2024)', data.guAvgRent.map(item => item.avg_rtfe)),
+					createDataset('구별 아파트 월세 최대가 (2020-2024)', data.guAvgRent.map(item => item.max_rtfe)),
+					createDataset('구별 아파트 월세 최저가 (2020-2024)', data.guAvgRent.map(item => item.min_rtfe))
+				]
+			}
+		});
+		chartBuild_guRent = new Chart(chart_gu_rent_grfe, {
+			type: 'bar',
+			data: {
+				labels,
+				datasets: [
+					createDataset('구별 아파트 월세 보증금 평균가 (2020-2024)', data.guAvgRent.map(item => item.avg_grfe)),
+					createDataset('구별 아파트 월세 보증금 최대가 (2020-2024)', data.guAvgRent.map(item => item.max_grfe)),
+					createDataset('구별 아파트 월세 보증금 최저가 (2020-2024)', data.guAvgRent.map(item => item.min_grfe))
+				]
+			}
+		});
+
+		// // // // // //
+		
+		chartBuild_guJeonse = new Chart(chart_gu_jeonse, {
+			type: 'bar',
+			data: {
+				labels,
+				datasets: [
+					createDataset('구별 아파트 전세 보증금 평균가 (2020-2024)', data.guAvgJeonse.map(item => item.avg_grfe)),
+					createDataset('구별 아파트 전세 보증금 최대가 (2020-2024)', data.guAvgJeonse.map(item => item.max_grfe)),
+					createDataset('구별 아파트 전세 보증금 최저가 (2020-2024)', data.guAvgJeonse.map(item => item.min_grfe))
+				]
+			}
+		});
 
 
 
-}
+	}
+
+
+});
