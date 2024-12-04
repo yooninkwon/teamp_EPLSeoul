@@ -372,7 +372,7 @@ $(document).ready(function() {
 					}
 					 
 			 		congestionGraph(congestion[0],congestion[1],congestion[2],
-						congestion[3],congestion[4],congestion[5],);
+						congestion[3],congestion[4],congestion[5]);
 			 
 			 
 			 

@@ -1,6 +1,7 @@
 package com.tech.EPL.realty.csvinsert.parser;
 
 import com.tech.EPL.interfaces.Parser;
+
 import com.tech.EPL.realty.dto.RealtyBuyData;
 
 public class RealtyBuyDataParser implements Parser<RealtyBuyData> {

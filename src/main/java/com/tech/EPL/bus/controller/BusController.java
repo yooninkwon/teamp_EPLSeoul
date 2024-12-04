@@ -24,6 +24,7 @@ public class BusController {
 
 	private final ApiKeyConfig apiKeyConfig;
 	
+	
 	@GetMapping("/bus")
     public String busTracking(Model model)  {                    
 	
@@ -41,8 +42,11 @@ public class BusController {
 	@GetMapping("/busNearby")
 	public String getNearbyPlaces(Model model) {
 		model.addAttribute("kakaoBus",apiKeyConfig.getKakaoBusKey());
+		model.addAttribute("googleBusKey",apiKeyConfig.getGoogleBusKey());
+		System.out.println("googleBusKey:"+apiKeyConfig.getGoogleBusKey());
 		
 		busStationService.execution(model);
+		
 		
 		return "epl/busNearby";
 	}	

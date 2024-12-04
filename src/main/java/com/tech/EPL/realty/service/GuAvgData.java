@@ -19,36 +19,36 @@ public class GuAvgData implements ExecutionModelEntity<Map<String, Object>> {
 	
 	private final RealtyMapper realtyMapper;
 	
-	private Map<String, Object> dataMap = new HashMap<>();
-	
 	@Setter
 	private String type = "";
 	
 	@Override
 	public ResponseEntity<Map<String, Object>> execution() {
 		
+		Map<String, Object> dataMap = new HashMap<>();
+		
 		if (type.equals("apt")) {
-		    putMapMethod("guAvgBuying", realtyMapper.getGuAvgBuyingApt());
-		    putMapMethod("guAvgRent", realtyMapper.getGuAvgRentApt());
-		    putMapMethod("guAvgJeonse", realtyMapper.getGuAvgJeonseApt());
+		    putMapMethod(dataMap, "guAvgBuying", realtyMapper.getGuAvgBuyingApt());
+		    putMapMethod(dataMap, "guAvgRent", realtyMapper.getGuAvgRentApt());
+		    putMapMethod(dataMap, "guAvgJeonse", realtyMapper.getGuAvgJeonseApt());
 		} else if (type.equals("single")) {
-		    putMapMethod("guAvgBuying", realtyMapper.getGuAvgBuyingSingle());
-		    putMapMethod("guAvgRent", realtyMapper.getGuAvgRentSingle());
-		    putMapMethod("guAvgJeonse", realtyMapper.getGuAvgJeonseSingle());
+		    putMapMethod(dataMap, "guAvgBuying", realtyMapper.getGuAvgBuyingSingle());
+		    putMapMethod(dataMap, "guAvgRent", realtyMapper.getGuAvgRentSingle());
+		    putMapMethod(dataMap, "guAvgJeonse", realtyMapper.getGuAvgJeonseSingle());
 		} else if (type.equals("multi")) {
-		    putMapMethod("guAvgBuying", realtyMapper.getGuAvgBuyingMulti());
-		    putMapMethod("guAvgRent", realtyMapper.getGuAvgRentMulti());
-		    putMapMethod("guAvgJeonse", realtyMapper.getGuAvgJeonseMulti());
+		    putMapMethod(dataMap, "guAvgBuying", realtyMapper.getGuAvgBuyingMulti());
+		    putMapMethod(dataMap, "guAvgRent", realtyMapper.getGuAvgRentMulti());
+		    putMapMethod(dataMap, "guAvgJeonse", realtyMapper.getGuAvgJeonseMulti());
 		} else { // office
-		    putMapMethod("guAvgBuying", realtyMapper.getGuAvgBuyingOffice());
-		    putMapMethod("guAvgRent", realtyMapper.getGuAvgRentOffice());
-		    putMapMethod("guAvgJeonse", realtyMapper.getGuAvgJeonseOffice());	
+		    putMapMethod(dataMap, "guAvgBuying", realtyMapper.getGuAvgBuyingOffice());
+		    putMapMethod(dataMap, "guAvgRent", realtyMapper.getGuAvgRentOffice());
+		    putMapMethod(dataMap, "guAvgJeonse", realtyMapper.getGuAvgJeonseOffice());	
 		}
 		
 	    return ResponseEntity.ok(dataMap);
 	}	
 	
-	private <T> void putMapMethod(String keyName, ArrayList<T> list) {
+	private <T> void putMapMethod(Map<String, Object> dataMap, String keyName, ArrayList<T> list) {
 		dataMap.put(keyName, list);
 	}
 	
