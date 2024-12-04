@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 public class ReturnApiDataService {
 
 	private final WebClient webClientForJson;
+	private final WebClient webClientForXml;
 
 	
 	// api 연결된 자료 받아오는 메소드
@@ -28,4 +29,12 @@ public class ReturnApiDataService {
 		return response;
 
 	}
+	
+	public Mono<String> xmlApi(String url) {
+	    return webClientForXml.get()
+	            .uri(url)
+	            .retrieve()
+	            .bodyToMono(String.class);  
+	}
+	
 }

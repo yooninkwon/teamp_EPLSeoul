@@ -19,13 +19,19 @@
 <body>
 	<div class="box">
 		<div id="search">
-			<h1> 분실물 습득물 정보 </h1>
+			<h1> 분실물 찾기 </h1>
 			<div class="searchBox">
-				<input type="date" id="startDate" name="startDate">
-				<input type="text" class="searchInput" placeholder="분실물을 입력하세요" />
+				<input type="text" class="searchInput" id="station" placeholder="지하철역을 입력하세요" />
+				<input type="text" class="searchInput" id="lostItem" placeholder="분실물을 입력하세요" />
 				<button class="searchBtn">검색하기</button>
 			</div>
 		</div>
+		<div id="result">
+			<div id="resultLostItem">
+				<div id="lostItemTopic"></div>
+				<div id="resultLostItemData"></div>
+			</div> 
+		</div>	
 	</div>
 
 
