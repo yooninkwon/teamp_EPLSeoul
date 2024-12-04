@@ -76,7 +76,7 @@ $(document).ready(function() {
 	
 	function changeChartTypeDiv(chartType) {
 		
-		$('#all-chart-container').children('.on').removeClass().addClass('off');
+		$('#all-chart-container').children().children('.on').removeClass().addClass('off');
 		
 		if(chartType === 'avg') {
 			buy_avg_div.removeClass().addClass('on');
