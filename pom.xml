@@ -160,12 +160,12 @@
 		</dependency>
 		
 		<!-- json file -->
-		<dependency>
+<!--		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20240303</version>
 		</dependency>
-		
+-->		
 		<!-- Spring Data JPA -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
