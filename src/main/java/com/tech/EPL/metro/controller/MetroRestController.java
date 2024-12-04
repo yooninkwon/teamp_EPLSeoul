@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tech.EPL.config.ApiKeyConfig;
 import com.tech.EPL.metro.dto.StationInfoDto;
+import com.tech.EPL.metro.service.LostFoundService;
 import com.tech.EPL.metro.service.SearchStationNameService;
 import com.tech.EPL.metro.service.StationInfoService;
+import com.tech.EPL.metro.service.StationPassDataService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +27,8 @@ public class MetroRestController {
 	
 	private final SearchStationNameService searchStationNameService;
 	private final StationInfoService stationInfoService;
-	
+	private final LostFoundService lostFoundService;
+	private final StationPassDataService stationPassDataService;
 	
 	//metro1 지하철역 검색 리스트나오기(api url연결)
 	@GetMapping("/searchStationName")
@@ -40,7 +43,7 @@ public class MetroRestController {
 		return list;
 	}
 	 
-	//metro1 지하철역 정보 가져오기(db연결)
+	//metro1 지하철역 정보(기본정보,이름유래,편의시설현황,대피안내도 가져오기(db연결)
 	@GetMapping("/stationInfo")
 	public Map<String, Object> stationInfo(@RequestParam String stationName, 
 			@RequestParam String stationRoute, 
@@ -57,6 +60,33 @@ public class MetroRestController {
 	}
 	
 	
+	//metro3 분실물 습득물 정보 가져오기 (api url연결)
+	@GetMapping("/lostFound")
+	public List<Map> lostFound(@RequestParam String dateValue,
+			@RequestParam String searchValue,  Model model){
+		
+		model.addAttribute("dateValue",dateValue);
+		model.addAttribute("searchValue",searchValue);
+		model.addAttribute("apiKeyConfig", apiKeyConfig);
+		lostFoundService.execution(model);
+		
+		return null;
+	}
+	
+	//metro4 지하철역 통계 정보
+	@GetMapping("/stationPassData")
+	public Map<String, Object> stationPassData(@RequestParam String stationName,
+			@RequestParam String stationRoute, @RequestParam String dateValue, Model model) {
+
+		model.addAttribute("apiKeyConfig", apiKeyConfig);
+		model.addAttribute("stationName",stationName);
+		model.addAttribute("stationRoute",stationRoute);
+		model.addAttribute("dateValue",dateValue);
+		stationPassDataService.execution(model);
+		Map<String, Object> data = (Map<String, Object>) model.getAttribute("data");
+		
+		return data;
+	}
 	
 	
 }

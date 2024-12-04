@@ -22,7 +22,7 @@ public class RealtyBuyDataParser implements Parser<RealtyBuyData> {
 		buyFileData.setSno(splitted[8]);
 		buyFileData.setBldg_nm(splitted[9]);
 		buyFileData.setCtrt_day(splitted[10]);
-		buyFileData.setThing_amt(splitted[11]);
+		buyFileData.setThing_amt(Integer.parseInt(splitted[11]));
 		buyFileData.setArch_area(splitted[12]);
 		buyFileData.setLand_area(splitted[13]);
 		buyFileData.setFlr(splitted[14]);

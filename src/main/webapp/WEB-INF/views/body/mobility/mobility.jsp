@@ -30,12 +30,6 @@
 	</div>
 </div>
 
-<!--
-공공 API 데이터를 활용해 지도에 마커를 표시.
-RESTful API를 통해 데이터를 가져오고, 이를 JavaScript로 활용.
-JavaScript를 사용해 지도에 데이터 시각화.
-API 데이터에서 필요한 정보를 필터링 및 변환.
--->
 <input type="checkbox" id="chkBicycle" /> 자전거도로 정보 보기
 
 <p><em>대여소를 클릭하여 상세 정보를 확인하세요.</em></p> 
@@ -43,7 +37,7 @@ API 데이터에서 필요한 정보를 필터링 및 변환.
 
 <div id="map"></div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey }"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey }&libraries=services"></script>
 <script src="/static/js/mobility.js"></script>
 </body>
 </html>

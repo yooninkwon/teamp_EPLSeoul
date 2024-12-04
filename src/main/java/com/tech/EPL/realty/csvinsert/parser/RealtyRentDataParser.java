@@ -8,6 +8,10 @@ public class RealtyRentDataParser implements Parser<RealtyRentData>{
 	@Override
 	public RealtyRentData parse(String str) {
 		String[] splitted = str.split("\",\"");
+//		String[] splitted = str.split(",");
+//		for(String asd : splitted) {
+//			System.out.println(asd+", ");			
+//		}
 		RealtyRentData rentFileData = new RealtyRentData();
 		
 		rentFileData.setRcpt_yr(splitted[0]);
@@ -23,8 +27,8 @@ public class RealtyRentDataParser implements Parser<RealtyRentData>{
 		rentFileData.setCtrt_day(splitted[10]);
 		rentFileData.setRent_se(splitted[11]);
 		rentFileData.setRent_area(splitted[12]);
-		rentFileData.setGrfe(splitted[13]);
-		rentFileData.setRtfe(splitted[14]);
+		rentFileData.setGrfe(Integer.parseInt(splitted[13]));
+		rentFileData.setRtfe(Integer.parseInt(splitted[14]));
 		rentFileData.setBldg_nm(splitted[15]);
 		rentFileData.setArch_yr(splitted[16]);
 		rentFileData.setBldg_usg(splitted[17]);

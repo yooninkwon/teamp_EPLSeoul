@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tech.EPL.config.ApiKeyConfig;
+import com.tech.EPL.metro.service.StationAccidentCrimeDataService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 public class MetroController {
 
 	private final ApiKeyConfig apiKeyConfig;
+	
+	private final StationAccidentCrimeDataService stationAccidentCrimeDataService;
 	
 	@GetMapping("/metro1")
 	public String metro1(Model model) {
@@ -43,6 +46,14 @@ public class MetroController {
 		
 		
 		return "epl/metro4";
+	}
+	
+	@GetMapping("/metro5")
+	public String metro5(Model model) {
+		
+		stationAccidentCrimeDataService.execution(model);
+		
+		return "epl/metro5";
 	}	
 	
 }

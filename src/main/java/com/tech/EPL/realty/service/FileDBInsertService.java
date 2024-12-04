@@ -2,7 +2,6 @@ package com.tech.EPL.realty.service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,61 +30,35 @@ public class FileDBInsertService {
 	}
 
 	@Transactional
-	public int insertFileData(String filename, String type) {
-		
-		if (type.equals("전월세")) {
-			List<RealtyRentData> rentDataList;
-			
-			try {
-				rentDataList = rentDataContext.readByLine(filename);
-				System.out.println("파싱 종료");
-				rentDataList.stream().parallel().forEach(rent -> {
-					try {
-						fileMapper.rentFileInsert(rent);
-					} catch (Exception e) {
-						e.printStackTrace();
-						throw new RuntimeException(e);
-					}
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-			
-			if (!Optional.of(rentDataList).isEmpty()) {
-				return rentDataList.size();
-			} else {
-
-				return 0;
-			}
-			
-		} else {
-			List<RealtyBuyData> buyDataList;
-			
-			try {
-				buyDataList = buyDataContext.readByLine(filename);
-				System.out.println("파싱 종료");
-				buyDataList.stream().parallel().forEach(rent -> {
-					try {
-						fileMapper.buyFileInsert(rent);
-					} catch (Exception e) {
-						e.printStackTrace();
-						throw new RuntimeException(e);
-					}
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-			
-			if (!Optional.of(buyDataList).isEmpty()) {
-				return buyDataList.size();
-			} else {
-
-				return 0;
-			}
-		}
-		
+	public void insertFileData(String filename, String type) {
+       try {
+            if ("전월세".equals(type)) {
+                rentDataContext.readByLine(filename, this::insertRentBatch);
+            } else {
+                buyDataContext.readByLine(filename, this::insertBuyBatch);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("파일 처리 중 오류 발생", e);
+        }
 	}
+	
+    private void insertRentBatch(List<RealtyRentData> dataList) {
+        try {
+            fileMapper.rentFileInsert(dataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("배치 삽입 중 오류 발생", e);
+        }
+    }
+
+    private void insertBuyBatch(List<RealtyBuyData> dataList) {
+        try {
+            fileMapper.buyFileInsert(dataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("배치 삽입 중 오류 발생", e);
+        }
+    }
 
 }

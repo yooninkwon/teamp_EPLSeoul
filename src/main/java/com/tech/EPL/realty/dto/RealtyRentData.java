@@ -24,8 +24,8 @@ public class RealtyRentData {
 	private String ctrt_day; // 계약일
 	private String rent_se;	// 전월세 구분
 	private String rent_area; // 임대면적(㎡)
-	private String grfe; // 보증금(만원)
-	private String rtfe; // 임대료(만원)
+	private int grfe; // 보증금(만원)
+	private int rtfe; // 임대료(만원)
 	private String bldg_nm; // 건물명
 	private String arch_yr; // 건축년도
 	private String bldg_usg; // 건물용도

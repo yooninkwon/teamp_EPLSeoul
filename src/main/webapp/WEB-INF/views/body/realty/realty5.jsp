@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -11,12 +10,13 @@
 
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
 
-<title>bus_body</title>
+<title>realty_body</title>
 </head>
 
 <body>
-  <h1> bus2_body </h1>
+  <h1> realty_body 5 </h1>
 
-
+<script src="/static/js/realty/realty_body5.js"></script>
+<script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>

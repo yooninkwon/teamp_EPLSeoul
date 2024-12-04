@@ -1,22 +1,23 @@
 package com.tech.EPL.realty.service;
 
-import com.tech.EPL.realty.code.DongCode;
 import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
+import com.tech.EPL.realty.enums.DongName;
+
 @Service
 public class DongCodeService {
 	
-	public DongCode findByDongName(String name) {
-		return Arrays.stream(DongCode.values())
+	public DongName findByDongName(String name) {
+		return Arrays.stream(DongName.values())
 				.filter(dong -> dong.getDongName().equals(name))
 				.findFirst()
 				.orElse(null);		
 	}
 
-	public DongCode findByDongCode(int code) {
-		return Arrays.stream(DongCode.values())
+	public DongName findByDongCode(int code) {
+		return Arrays.stream(DongName.values())
 				.filter(dong -> dong.getDongCode() == code)
 				.findFirst()
 				.orElse(null);		
