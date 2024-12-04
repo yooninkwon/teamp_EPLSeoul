@@ -11,5 +11,70 @@
 	    FROM DATE_DIST 
 	    WHERE DIST_NAME = #{name}
 	</select>
+	
+	<insert id="insertRestaurantData">
+        INSERT INTO DATE_RESTAURANT (
+            management_number, 
+            permission_date, 
+            business_status_code, 
+            business_status_name, 
+            detail_status_code, 
+            detail_status_name, 
+            phone_number, 
+            area_size, 
+            zip_code, 
+            lot_address, 
+            street_address, 
+            street_zip_code, 
+            business_name, 
+            last_updated_date, 
+            data_update_flag, 
+            data_update_date, 
+            business_type, 
+            coordinate_x, 
+            coordinate_y
+        )
+        VALUES (
+            #{management_number}, 
+            #{permission_date}, 
+            #{business_status_code}, 
+            #{business_status_name}, 
+            #{detail_status_code}, 
+            #{detail_status_name}, 
+            #{phone_number}, 
+            #{area_size}, 
+            #{zip_code}, 
+            #{lot_address}, 
+            #{street_address}, 
+            #{street_zip_code}, 
+            #{business_name}, 
+            #{last_updated_date}, 
+            #{data_update_flag}, 
+            #{data_update_date}, 
+            #{business_type}, 
+            #{coordinate_x}, 
+            #{coordinate_y}
+        )
+    </insert>
+    
+    <select id="restaurantList" resultType="com.tech.EPL.date.dto.DateRestaurantDto">
+   		SELECT STREET_ADDRESS, BUSINESS_NAME, BUSINESS_TYPE, AREA_SIZE, PERMISSION_DATE
+		FROM DATE_RESTAURANT
+		WHERE STREET_ADDRESS LIKE CONCAT('%', #{distname}, '%') AND BUSINESS_TYPE = #{type}
+		LIMIT #{size} OFFSET #{offset}
+    </select>
+    
+    <select id="searchRestaurantList" resultType="com.tech.EPL.date.dto.DateRestaurantDto">
+	    SELECT STREET_ADDRESS, BUSINESS_NAME, BUSINESS_TYPE, AREA_SIZE, PERMISSION_DATE
+	    FROM DATE_RESTAURANT
+	    WHERE STREET_ADDRESS LIKE CONCAT('%', #{distname}, '%')
+	    <if test="st != null and searchKeyword != null">
+	        AND ${st} LIKE CONCAT('%', #{searchKeyword}, '%')
+	    </if>
+	    LIMIT #{size} OFFSET #{offset}
+	</select>
+	
+	
+    
 
 </mapper>

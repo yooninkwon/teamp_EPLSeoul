@@ -17,11 +17,10 @@ public class ApiKeyConfig {
 	@Value("${open.realty}")
 	private String openRealtyKey;	
 
-	
-	@Value("${open.bus}")
+  @Value("${open.bus}")
 	private String openBus;
 
-	@Value("${kakao.monility}")
+	@Value("${kakao.mobility}")
 	private String kakaoMobilityKey;
 	
 	@Value("${kakao.bus}")
