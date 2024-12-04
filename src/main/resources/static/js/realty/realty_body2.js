@@ -76,11 +76,8 @@ $(document).ready(function() {
 	
 	function changeChartTypeDiv(chartType) {
 		
-		buying_container.children('.on').removeClass().addClass('off');
-		rent_rtfe_container.children('.on').removeClass().addClass('off');
-		rent_grfe_container.children('.on').removeClass().addClass('off');
-		jeonse_container.children('.on').removeClass().addClass('off');
-
+		$('#all-chart-container').children().children('.on').removeClass().addClass('off');
+		
 		if(chartType === 'avg') {
 			buy_avg_div.removeClass().addClass('on');
 			rent_rtfe_avg_div.removeClass().addClass('on');
@@ -99,23 +96,9 @@ $(document).ready(function() {
 		} 
 	}
 	
-	function changeLiveSeDivClass(linvingSe) {
-		
-		beforeLiveSeChecked.removeClass().addClass('off');
-		
-		if(linvingSe === 'buying') {
-			buying_container.removeClass().addClass('on');
-			beforeLiveSeChecked = buying_container;
-		} else if(linvingSe === 'rent-rtfe') {
-			rent_rtfe_container.removeClass().addClass('on');
-			beforeLiveSeChecked = rent_rtfe_container;
-		} else if(linvingSe === 'rent-grfe') {
-			rent_grfe_container.removeClass().addClass('on');
-			beforeLiveSeChecked = rent_grfe_container;
-		} else {
-			jeonse_container.removeClass().addClass('on');	
-			beforeLiveSeChecked = jeonse_container;
-		}
+	function changeLiveSeDivClass(livingSe) {
+		$('#all-chart-container').children('.on').removeClass().addClass('off');
+		$(`#${livingSe}`).removeClass().addClass('on');
 	}
 	
 	function loadData(type) {
@@ -141,7 +124,6 @@ $(document).ready(function() {
 	}
 
 	function chart(data) {
-
 		charts.forEach(chart => {
 			chart.destroy();
 		});
@@ -255,6 +237,8 @@ $(document).ready(function() {
 
 		// // // // // //
 		
+console.log(data.guAvgRent);
+		//.map(item => item.avg_grfe)
 		let chartBuild_guRent_grfe_avg = new Chart(chart_gu_rent_grfe_avg, {
 			type: 'bar',
 			data: {

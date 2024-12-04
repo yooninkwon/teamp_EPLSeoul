@@ -138,7 +138,6 @@
 			RCPT_YR > '2020'
 		AND BLDG_USG = '아파트'
 		AND	MIN_GRFE > 0
-		AND MIN_RTFE > 0
 		GROUP BY 
 			CGG_NM
 		ORDER BY 
@@ -160,7 +159,6 @@
 			RCPT_YR > '2020'
 		AND BLDG_USG = '단독다가구'
 		AND	MIN_GRFE > 0
-		AND MIN_RTFE > 0
 		GROUP BY 
 			CGG_NM
 		ORDER BY 
@@ -182,7 +180,6 @@
 			RCPT_YR > '2020'
 		AND BLDG_USG = '연립다세대'
 		AND	MIN_GRFE > 0
-		AND MIN_RTFE > 0
 		GROUP BY 
 			CGG_NM
 		ORDER BY 
@@ -204,7 +201,6 @@
 			RCPT_YR > '2020'
 		AND BLDG_USG = '오피스텔'
 		AND	MIN_GRFE > 0
-		AND MIN_RTFE > 0
 		GROUP BY 
 			CGG_NM
 		ORDER BY 
@@ -276,5 +272,5 @@
 		ORDER BY 
 			CGG_NM ASC
 	</select>
-
+	
 </mapper>

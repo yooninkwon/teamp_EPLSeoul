@@ -26,6 +26,11 @@ public class ELPRealtyRestController {
 		return serviceGroup.getGuData(type);
 	}
 	
+	@GetMapping("/rank-data")
+	public ResponseEntity<Map<String, Object>> getTopData() {
+		return serviceGroup.getRankingData();	
+	}
+	
 
 	
 	// 파일업로드
