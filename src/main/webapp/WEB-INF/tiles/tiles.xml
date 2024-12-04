@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="epl_baselayout" template="/WEB-INF/views/common/layout.jsp">
+		<put-attribute name="epl_title" value="EPL" />
+		<put-attribute name="epl_header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="epl_side" value="" />
+		<put-attribute name="epl_body" value="" />
+	</definition>
+	
+	
+	<!-- layout -->
+	
+	<!-- bus -->
+	<definition name="epl/bus" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/bus/bus.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_bus.jsp" />
+	</definition>
+
+
+	<definition name="epl/busNearby" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/bus/busNearby.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_bus.jsp" />
+	</definition>
+
+
+
+	<!-- metro -->
+	<definition name="epl/metro1" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro1.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
+	</definition>
+	<definition name="epl/metro2" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro2.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
+	</definition>
+	<definition name="epl/metro3" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro3.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
+	</definition>
+	<definition name="epl/metro4" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro4.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
+	</definition>
+	<definition name="epl/metro5" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro5.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" />
+	</definition>
+
+
+
+
+	<!-- mobility-->
+	<definition name="epl/mobility" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	<definition name="epl/mobility/3" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility3.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	<definition name="epl/mobility/4" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility4.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
+	</definition>
+	
+	
+	
+	
+	<!-- date-->
+	<definition name="epl/date" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/date/date.jsp" />
+		<!-- <put-attribute name="epl_side" value="/WEB-INF/views/side/side_date.jsp" /> -->
+	</definition>
+	
+	
+	
+	
+	
+	<!-- realty-->
+	<definition name="epl/realty1" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty1.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
+	<definition name="epl/realty2" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty2.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
+	<definition name="epl/realty3" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty3.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
+	<definition name="epl/realty4" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty4.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
+	<definition name="epl/realty5" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty5.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
+	<definition name="epl/realty6" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty6.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>

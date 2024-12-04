@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.tech.EPL.realty.mapper.RealtyFileDataMapper">
+	<insert id="rentFileInsert" parameterType="list">
+		INSERT INTO `EPL_SEOUL`.`REALTY_RENT`
+			(
+			`RCPT_YR`,
+			`CGG_CD`,
+			`CGG_NM`,
+			`STDG_CD`,
+			`STDG_NM`,
+			`LOTNO_SE`,
+			`LOTNO_SE_NM`,
+			`MNO`,
+			`SNO`,
+			`FLR`,
+			`CTRT_DAY`,
+			`RENT_SE`,
+			`RENT_AREA`,
+			`GRFE`,
+			`RTFE`,
+			`BLDG_NM`,
+			`ARCH_YR`,
+			`BLDG_USG`,
+			`CTRT_PRD`,
+			`NEW_UPDT_YN`,
+			`CTRT_UPDT_USE_YN`,
+			`BFR_GRFE`,
+			`BFR_RTFE`
+			)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.rcpt_yr},
+			#{item.cgg_cd},
+			#{item.cgg_nm},
+			#{item.stdg_cd},
+			#{item.stdg_nm},
+			#{item.lotno_se},
+			#{item.lotno_se_nm},
+			#{item.mno},
+			#{item.sno},
+			#{item.flr},
+			#{item.ctrt_day},
+			#{item.rent_se},
+			#{item.rent_area},
+			#{item.grfe},
+			#{item.rtfe},
+			#{item.bldg_nm},
+			#{item.arch_yr},
+			#{item.bldg_usg},
+			#{item.ctrt_prd},
+			#{item.new_updt_yn},
+			#{item.ctrt_updt_use_yn},
+			#{item.bfr_grfe},
+			#{item.bfr_rtfe}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="rentDeleteAll">
+		DELETE FROM `EPL_SEOUL`.`REALTY_RENT`
+	</delete>
+	
+	<select id="getRentCount" resultType="_int">
+		SELECT COUNT(*) FROM `EPL_SEOUL`.`REALTY_RENT`
+	</select>
+	<!--  -->
+	<insert id="buyFileInsert" parameterType="list">
+		INSERT INTO `EPL_SEOUL`.`REALTY_BUYING`
+			(
+			`RCPT_YR`,
+			`CGG_CD`,
+			`CGG_NM`,
+			`STDG_CD`,
+			`STDG_NM`,
+			`LOTNO_SE`,
+			`LOTNO_SE_NM`,
+			`MNO`,
+			`SNO`,
+			`BLDG_NM`,
+			`CTRT_DAY`,
+			`THING_AMT`,
+			`ARCH_AREA`,
+			`LAND_AREA`,
+			`FLR`,
+			`RGHT_SE`,
+			`RTRCN_DAY`,
+			`ARCH_YR`,
+			`BLDG_USG`,
+			`DCLR_SE`,
+			`OPBIZ_RESTAGNT_SGG_NM`
+			)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.rcpt_yr},
+			#{item.cgg_cd},
+			#{item.cgg_nm},
+			#{item.stdg_cd},
+			#{item.stdg_nm},
+			#{item.lotno_se},
+			#{item.lotno_se_nm},
+			#{item.mno},
+			#{item.sno},
+			#{item.bldg_nm},
+			#{item.ctrt_day},
+			#{item.thing_amt},
+			#{item.arch_area},
+			#{item.land_area},
+			#{item.flr},
+			#{item.rght_se},
+			#{item.rtrcn_day},
+			#{item.arch_yr},
+			#{item.bldg_usg},
+			#{item.dclr_se},
+			#{item.opbiz_restagnt_sgg_nm}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="buyingDeleteAll">
+		DELETE FROM `EPL_SEOUL`.`REALTY_BUYING`
+	</delete>
+	
+	<select id="getBuyingCount" resultType="_int">
+		SELECT COUNT(*) FROM `EPL_SEOUL`.`REALTY_BUYING`
+	</select>
+	
+</mapper>

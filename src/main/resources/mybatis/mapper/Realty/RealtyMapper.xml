@@ -1,0 +1,276 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.tech.EPL.realty.mapper.RealtyMapper">
+	<!-- 년도별 매매 실거래가 -->
+	<select id="getYearsStatBuying" resultType="com.tech.EPL.realty.dto.YearsStatBuying">
+		SELECT 
+			RCPT_YR, BLDG_USG, 
+			MAX_THING_AMT, 
+			MIN_THING_AMT, 
+			AVG_THING_AMT, 
+			COUNT(*) as COUNT_ALL
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2010'
+		GROUP BY 
+			RCPT_YR, BLDG_USG
+		ORDER BY 
+			RCPT_YR ASC,
+			BLDG_USG DESC
+	</select>
+	<!-- 년도별 월세 실거래가 -->
+	<select id="getYearsStatRent" resultType="com.tech.EPL.realty.dto.YearsStatRent">
+		SELECT 
+			RCPT_YR, BLDG_USG, 
+			MAX_GRFE, MIN_GRFE, AVG_GRFE, 
+			MAX_RTFE, MIN_RTFE, AVG_RTFE, 
+			COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		GROUP BY
+			RCPT_YR, BLDG_USG
+		ORDER BY 
+			RCPT_YR ASC,
+			BLDG_USG DESC
+	</select>
+	<!-- 년도별 전세 실거래가 -->
+	<select id="getYearsStatJeonse" resultType="com.tech.EPL.realty.dto.YearsStatJeonse">
+		SELECT 
+			RCPT_YR, BLDG_USG, 
+			MAX_GRFE, MIN_GRFE, AVG_GRFE, 
+			COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		GROUP BY 
+			RCPT_YR, BLDG_USG
+		ORDER BY 
+			RCPT_YR ASC,
+			BLDG_USG DESC
+	</select>
+	
+	<!-- 구별 매매 실거래가 -->
+	<select id="getGuAvgBuyingApt" resultType="com.tech.EPL.realty.dto.GuStatBuying">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_THING_AMT) as MAX_THING_AMT, 
+		    MIN(MIN_THING_AMT) as MIN_THING_AMT, 
+		    ROUND(AVG(AVG_THING_AMT), 0) as AVG_THING_AMT, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '아파트'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgBuyingSingle" resultType="com.tech.EPL.realty.dto.GuStatBuying">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_THING_AMT) as MAX_THING_AMT, 
+		    MIN(MIN_THING_AMT) as MIN_THING_AMT, 
+		    ROUND(AVG(AVG_THING_AMT), 0) as AVG_THING_AMT, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '단독다가구'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgBuyingMulti" resultType="com.tech.EPL.realty.dto.GuStatBuying">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_THING_AMT) as MAX_THING_AMT, 
+		    MIN(MIN_THING_AMT) as MIN_THING_AMT, 
+		    ROUND(AVG(AVG_THING_AMT), 0) as AVG_THING_AMT, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '연립다세대'			
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgBuyingOffice" resultType="com.tech.EPL.realty.dto.GuStatBuying">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_THING_AMT) as MAX_THING_AMT, 
+		    MIN(MIN_THING_AMT) as MIN_THING_AMT, 
+		    ROUND(AVG(AVG_THING_AMT), 0) as AVG_THING_AMT, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '오피스텔'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	
+	<!-- 구별 월세 실거래가 -->
+	<select id="getGuAvgRentApt" resultType="com.tech.EPL.realty.dto.GuStatRent">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE,
+		    MAX(MAX_RTFE) as MAX_RTFE, 
+		    MIN(MIN_RTFE) as MIN_RTFE, 
+		    ROUND(AVG(AVG_RTFE), 0) as AVG_RTFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '아파트'
+		AND	MIN_GRFE > 0
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgRentSingle" resultType="com.tech.EPL.realty.dto.GuStatRent">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE,
+		    MAX(MAX_RTFE) as MAX_RTFE, 
+		    MIN(MIN_RTFE) as MIN_RTFE, 
+		    ROUND(AVG(AVG_RTFE), 0) as AVG_RTFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '단독다가구'
+		AND	MIN_GRFE > 0
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgRentMulti" resultType="com.tech.EPL.realty.dto.GuStatRent">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE,
+		    MAX(MAX_RTFE) as MAX_RTFE, 
+		    MIN(MIN_RTFE) as MIN_RTFE, 
+		    ROUND(AVG(AVG_RTFE), 0) as AVG_RTFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '연립다세대'
+		AND	MIN_GRFE > 0
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgRentOffice" resultType="com.tech.EPL.realty.dto.GuStatRent">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE,
+		    MAX(MAX_RTFE) as MAX_RTFE, 
+		    MIN(MIN_RTFE) as MIN_RTFE, 
+		    ROUND(AVG(AVG_RTFE), 0) as AVG_RTFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		AND BLDG_USG = '오피스텔'
+		AND	MIN_GRFE > 0
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	
+	<!-- 구별 전세 실거래가 -->
+	<select id="getGuAvgJeonseApt" resultType="com.tech.EPL.realty.dto.GuStatJeonse">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		WHERE 
+			BLDG_USG = '아파트'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgJeonseSingle" resultType="com.tech.EPL.realty.dto.GuStatJeonse">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		WHERE
+			BLDG_USG = '단독다가구'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgJeonseMulti" resultType="com.tech.EPL.realty.dto.GuStatJeonse">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		WHERE
+			BLDG_USG = '연립다세대'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	<select id="getGuAvgJeonseOffice" resultType="com.tech.EPL.realty.dto.GuStatJeonse">
+		SELECT 
+			CGG_NM, 
+		    MAX(MAX_GRFE) as MAX_GRFE, 
+		    MIN(MIN_GRFE) as MIN_GRFE, 
+		    ROUND(AVG(AVG_GRFE), 0) as AVG_GRFE, 
+		    COUNT(*) as COUNT_ALL 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		WHERE
+			BLDG_USG = '오피스텔'
+		GROUP BY 
+			CGG_NM
+		ORDER BY 
+			CGG_NM ASC
+	</select>
+	
+</mapper>

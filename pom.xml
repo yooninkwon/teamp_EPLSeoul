@@ -9,10 +9,10 @@
 		<version>2.6.12</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tech.Petfriend</groupId>
-	<artifactId>Petfriend</artifactId>
+	<groupId>com.tech.EPL</groupId>
+	<artifactId>EPL_Seoul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Petfriend</name>
+	<name>EPLSeoul</name>
 	<description>Demo project for Spring Boot</description>
 	<url />
 	<licenses>
@@ -28,7 +28,7 @@
 		<url />
 	</scm>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	
 	<dependencies>
@@ -37,13 +37,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		
+		<!-- test (JUnit) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- MockMvc -->
+		<dependency>
+			<!--
+			https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>2.5.4</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- tomcat jasper -->
 		<dependency>
 			<!--
@@ -96,16 +107,6 @@
 		    <version>3.0.7</version>
 		</dependency>
 		
-		<!-- MockMvc -->
-		<dependency>
-			<!--
-			https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.5.4</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- Webflux (Web Client) -->
 		<dependency>
 			<!--
@@ -115,21 +116,68 @@
 			<version>3.2.5</version>
 		</dependency>
 
-		<!-- JSON in java -->
-		<dependency>
-			<!-- https://mvnrepository.com/artifact/org.json/json -->
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20231013</version>
-		</dependency>
-		
 		<!-- mariaDB -->
 		<dependency>
-         <groupId>org.mariadb.jdbc</groupId>
-         <artifactId>mariadb-java-client</artifactId>
-         <version>3.0.6</version> <!-- Check for the latest version -->
-      </dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>3.0.6</version> <!-- Check for the latest version -->
+      	</dependency>
 		
+		<!-- JAXB API -->
+		<dependency>
+			<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    <version>2.3.1</version>
+		</dependency>
+
+		
+		<!-- Glassfish JAXB -->		
+		<dependency>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    <version>4.0.5</version>
+		</dependency>
+		
+		<!-- Actuator -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		
+		<!-- Batch -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-batch</artifactId>
+		</dependency>
+		
+		<!-- csv file -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-csv</artifactId>
+		    <version>1.12.0</version>
+		</dependency>
+		
+		<!-- json file -->
+<!--		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20240303</version>
+		</dependency>
+-->		
+		<!-- Spring Data JPA -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20211205</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

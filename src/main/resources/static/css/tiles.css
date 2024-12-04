@@ -1,0 +1,208 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+}
+/* .logo-section의 배경에 이미지 추가 */
+.logo-section {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: linear-gradient(rgba(255, 255, 255, 0.6),
+		rgba(255, 255, 255, 0.6)), url('/static/images/epl.png');
+	/* 배경 이미지와 더 투명한 반투명 색상 레이어 */
+	background-size: cover; /* 배경 이미지가 영역을 가득 채우도록 설정 */
+	background-position: center; /* 배경 이미지 중앙 정렬 */
+	width: 100%;
+	height: 150px; /* 높이는 적절히 설정 */
+	padding: 0 20px;
+	box-sizing: border-box;
+	color: black; /* 글씨 색을 그대로 유지 */
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	margin-right: auto; /* 로고를 왼쪽으로 밀어내기 */
+}
+
+.logo img {
+	height: 130px;
+	margin-left: 30px;
+}
+
+.logo h1 {
+	font-size: 25px;
+	margin-left: 30px;
+}
+
+.sub-title {
+	margin-left: auto; /* 오른쪽 끝으로 배치 */
+	margin-top: 70px;
+	font-size: 18px;
+	color: black;
+}
+
+#container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh; /* 화면 높이를 가득 채움 */
+	margin: 0;
+}
+/* 헤더 영역 */
+#container>div:first-child {
+	flex: 0 0 auto; /* 고정 높이로 설정 */
+}
+/* 본문 영역 */
+#content-wrapper {
+	display: flex;
+	flex: 1; /* 남은 공간을 차지 */
+}
+/* 사이드 영역 */
+#content-wrapper>#epl_side {
+	flex: 0 0 250px; /* 고정된 너비 설정 */
+}
+/* 본문 영역 */
+#content-wrapper>#epl_body {
+	flex: 1; /* 남은 공간 차지 */
+	padding: 50px; /* 내부 여백 */
+}
+
+.nav-menu {
+	display: flex;
+	justify-content: center;
+	background-color: #f8f8f8;
+	width: 100%;
+	border-top: 1px solid #ddd;
+	height: 60px; /* 높이를 키움 */
+}
+
+.nav-menu a {
+	padding: 20px 40px; /* 각 메뉴의 내부 여백을 늘림 */
+	text-decoration: none;
+	color: #333;
+	font-weight: bold;
+	font-size: 20px; /* 글씨 크기 키움 */
+	display: flex;
+	align-items: center; /* 수직 중앙 정렬 */
+	justify-content: center; /* 텍스트를 가운데 정렬 */
+}
+
+.nav-menu a.active {
+	background-color: #007bff;
+	color: #fff;
+	border-radius: 10px; /* 활성화된 메뉴의 테두리에 둥근 효과 추가 */
+}
+
+.breadcrumb {
+	font-size: 12px;
+	color: #f8f8f8;
+	background-color: #73A3FF;
+	height: 60px;
+	display: flex; /* Flexbox 활성화 */
+	align-items: center; /* 수직 중앙 정렬 */
+	justify-content: space-between; /* 왼쪽과 오른쪽으로 요소 정렬 */
+	padding: 0 20px; /* 전체 여백 조정 */
+	box-sizing: border-box; /* 패딩 포함 크기 계산 */
+}
+
+.breadcrumb .left {
+	font-size: 30px; /* 글씨 크기 조정 */
+	font-weight: bold; /* 강조 */
+	margin-left: 150px; /* 오른쪽으로 약간의 이동 */
+}
+
+.breadcrumb .right {
+	font-size: 15px; /* 기본 크기 유지 */
+	color: #f8f8f8; /* 기존 스타일 유지 */
+}
+
+/* 사이드바 스타일 */
+#sidebar-left {
+	background-color: #f8f9fa;
+	width: 250px;
+	padding: 20px;
+	border-right: 1px solid #ddd;
+	height: 1000px;
+	border-radius: 20px; /* 모서리 둥글게 만들기 */
+	margin-top: 50px;
+	margin-left: 50px;
+	/* 입체적인 효과를 위한 그림자 */
+	box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px
+		rgba(255, 255, 255, 0.3);
+	transition: box-shadow 0.3s ease-in-out; /* 마우스를 올렸을 때 부드럽게 그림자 효과 */
+}
+
+#sidebar-left .submenu {
+	list-style: none; /* 점을 없애기 위한 설정 */
+	padding: 0;
+	margin: 0;
+}
+
+#sidebar-left .submenu li {
+	margin: 30px 0; /* 상하 간격을 늘리기 위해 마진을 30px로 설정 */
+}
+
+/* 마우스를 올렸을 때 사이드바의 그림자 효과를 강화 */
+#sidebar-left:hover {
+	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px
+		rgba(255, 255, 255, 0.4);
+}
+
+/* 서브메뉴 스타일 */
+#sidebar-left .submenu li a {
+	text-decoration: none;
+	color: #333;
+	font-size: 20px;
+	display: block;
+	padding: 8px 12px;
+	text-align: center; /* 텍스트를 중앙 정렬 */
+	border-radius: 4px;
+	transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
+}
+#sidebar-left .submenu li a:hover {
+	background-color: #73A3FF;
+	color: white;
+}
+
+.submenu a.active {
+	background-color: #73A3FF; /* 파란색 배경 */
+	color: white !important; /* 흰색 글자 */
+	font-weight: bold;
+	text-decoration: none;
+}
+#sidebar-left .submenu li div {
+	text-decoration: none;
+	color: #333;
+	font-size: 20px;
+	display: block;
+	padding: 8px 12px;
+	text-align: center; /* 텍스트를 중앙 정렬 */
+	border-radius: 4px;
+	transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
+}
+#sidebar-left .submenu li div:hover {
+	background-color: #73A3FF;
+	color: white;
+}
+
+.submenu div.active {
+	background-color: #73A3FF; /* 파란색 배경 */
+	color: white !important; /* 흰색 글자 */
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.logo .title_img {
+	width: 70%;
+    height: auto;
+    margin-left: 5%;
+}
