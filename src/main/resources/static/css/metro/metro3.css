@@ -6,7 +6,7 @@
   margin-top: 40px;	 
 }
 .searchInput {
-  width: 50%; /* 입력창의 너비 */
+  width: 20%; /* 입력창의 너비 */
   height: 40px; /* 입력창의 높이 */
   padding: 0 15px; /* 내부 여백 */
   border: 2px solid #ccc; /* 입력창 테두리 */
@@ -44,34 +44,39 @@
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 호버 시 그림자 */
 }
 
-#startDate {
-  width: 110px; /* 날짜 입력창 너비 */
-  height: 40px; /* 날짜 입력창 높이 */
-  padding: 0 15px; /* 내부 여백 */
-  border: 2px solid #ccc; /* 테두리 색상 */
-  border-radius: 25px; /* 둥근 모서리 */
-  font-size: 16px; /* 텍스트 크기 */
-  outline: none; /* 포커스 시 기본 스타일 제거 */
-  
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 효과 */
+
+
+
+
+#result{
+	margin-top: 30px;
+	display: flex;                /* Flexbox 레이아웃 사용 */
+    flex-direction: column;      /* 자식 요소를 세로로 정렬 */
+    align-items: center;         /* 가로로 중앙 정렬 */
+    justify-content: center;     /* 세로로 중앙 정렬 (필요에 따라 조정 가능) */
+    width: 100%;
+}
+#resultLostItem{
+	width:100%;
+}
+.topic{
+	font-weight: bold;
+	font-size: 20px;
+}
+#resultLostItemData table{
+  width: 100%; /* 테이블을 부모 div의 너비에 꽉 차게 */
+  border-collapse: collapse; /* 테두리 중복 제거 */
+  margin-top: 10px; /* p 태그와 테이블 간 간격 */
 }
 
-/* 포커스 시 스타일 */
-#startDate:focus {
-  border-color: #73A3FF; /* 포커스 시 테두리 색상 */
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 포커스 시 그림자 */
+#resultLostItemData th, #resultLostItemData td{
+  border: 1px solid #ddd; /* 테두리 추가 */
+  padding: 8px; /* 내용 여백 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  font-size: 14px;
 }
 
-/* placeholder 스타일 (일부 브라우저에서만 적용됨) */
-#startDate::-webkit-input-placeholder {
-  color: #aaa; /* 플레이스홀더 색상 */
-  font-style: italic; /* 플레이스홀더 기울임 */
-}
-#startDate::-moz-placeholder {
-  color: #aaa; /* Firefox에서 플레이스홀더 색상 */
-  font-style: italic; /* Firefox에서 플레이스홀더 기울임 */
-}
-#startDate:-ms-input-placeholder {
-  color: #aaa; /* IE에서 플레이스홀더 색상 */
-  font-style: italic; /* IE에서 플레이스홀더 기울임 */
+#resultLostItemData th{
+  background-color: #f2f2f2; /* 헤더 배경색 */
+  font-weight: bold; /* 헤더 글씨 굵게 */
 }

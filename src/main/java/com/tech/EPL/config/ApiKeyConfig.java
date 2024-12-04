@@ -29,5 +29,8 @@ public class ApiKeyConfig {
 	
 	@Value("${seoul.mobility}")
 	private String seoulMobilityKey;
+	
+	@Value("${lostItem.metro}")
+	private String lostItemMetroKey;
   
 }
