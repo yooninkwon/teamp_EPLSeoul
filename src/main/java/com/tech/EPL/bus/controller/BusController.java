@@ -51,4 +51,16 @@ public class BusController {
 		return "epl/busNearby";
 	}	
 	
+	
+	@GetMapping("/bus3")
+	public String bus3(Model model) {
+		model.addAttribute("kakaoBus",apiKeyConfig.getKakaoBusKey());
+		model.addAttribute("googleBusKey",apiKeyConfig.getGoogleBusKey());
+	
+		
+		busStationService.execution(model);
+		
+		
+		return "epl/bus3";
+	}	
 }

@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="/static/css/bus/busnearby.css"> <!-- 외부 CSS 파일 -->
     <!-- Kakao Maps API SDK 로드 -->
   	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&libraries=services&autoload=false"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=${googleBusKey}&libraries=places" async defer></script>
+		
+	<script async
+    src="https://maps.googleapis.com/maps/api/js?key=${googleBusKey}&loading=async&libraries=places">
+	</script>
+	
+	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 
@@ -75,7 +80,8 @@
     
     
     <div id="map" ></div> <!-- 지도 영역 -->
-
+    <div id="googleMap" style="display:none;"></div> <!-- 구글 맵을 숨겨놓고 계산 후 표시 -->
+   
    <div id="searchBar" style="position: relative;">
     <input type="text" id="searchInput" placeholder="버스 정류장을 입력하세요.">
     <button id="searchButton">검색</button>
@@ -85,7 +91,8 @@
 	
 
    <div id="categoryInfoList"></div>
-   
+
+ 
     <script src="/static/js/bus/busnearby.js"></script>
 
 </body>
