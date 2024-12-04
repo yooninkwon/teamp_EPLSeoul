@@ -58,12 +58,23 @@
     </insert>
     
     <select id="restaurantList" resultType="com.tech.EPL.date.dto.DateRestaurantDto">
-   		SELECT STREET_ADDRESS, BUSINESS_NAME, BUSINESS_TYPE
+   		SELECT STREET_ADDRESS, BUSINESS_NAME, BUSINESS_TYPE, AREA_SIZE, PERMISSION_DATE
 		FROM DATE_RESTAURANT
-		WHERE STREET_ADDRESS LIKE CONCAT('%', #{distname}, '%')
+		WHERE STREET_ADDRESS LIKE CONCAT('%', #{distname}, '%') AND BUSINESS_TYPE = #{type}
 		LIMIT #{size} OFFSET #{offset}
     </select>
     
+    <select id="searchRestaurantList" resultType="com.tech.EPL.date.dto.DateRestaurantDto">
+	    SELECT STREET_ADDRESS, BUSINESS_NAME, BUSINESS_TYPE, AREA_SIZE, PERMISSION_DATE
+	    FROM DATE_RESTAURANT
+	    WHERE STREET_ADDRESS LIKE CONCAT('%', #{distname}, '%')
+	    <if test="st != null and searchKeyword != null">
+	        AND ${st} LIKE CONCAT('%', #{searchKeyword}, '%')
+	    </if>
+	    LIMIT #{size} OFFSET #{offset}
+	</select>
+	
+	
     
 
 </mapper>

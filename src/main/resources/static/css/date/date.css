@@ -263,6 +263,11 @@
 	height: 30px;
 }
 
+#searchSubmit:hover{
+	background-color :#007bff;
+	cursor: pointer;
+}
+
 .restaurantFilter{
 	width: 7%;
 	border-radius: 10px;
@@ -322,3 +327,25 @@
     cursor: pointer;
 }
 
+#listTable #sizeTag{
+	width: 7%; 
+	float: left;
+	background-color: blue;
+	text-align: center;
+	font: bold;
+	border-radius: 20px;
+	border: none;
+	color: white;
+	margin-right: 20px;
+}
+
+#listTable #newTag{
+	width: 7%; 
+	float: left;
+	background-color: lime;
+	text-align: center;
+	font: bold;
+	border-radius: 20px;
+	border: none;
+	color: white;
+}

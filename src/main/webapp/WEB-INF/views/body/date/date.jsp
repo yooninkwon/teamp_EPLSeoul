@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/static/css/tiles.css"> <!-- 외부 CSS 파일 -->
 <link rel="stylesheet" href="/static/css/date/date.css" />
+<script src="/static/js/date/date.js"></script>
 <title>date_body</title>
 </head>
 <body>
@@ -72,17 +73,16 @@
 	    <div class="SubFilter">
 	    	<select id="searchFilter">
 	    		<option value="가게명">가게명</option>
-	    		<option value="태그">태그</option>
 	    		<option value="주소">주소</option>
 	    	</select>
 	    	<input type="search" id="searchInput"/>
 	    	<input type="button" id="searchSubmit" value="검색" /> <br />
-	    	<input type="button" class="restaurantFilter" value="한식" />
-	    	<input type="button" class="restaurantFilter" value="양식" />
-	    	<input type="button" class="restaurantFilter" value="중식" />
-	    	<input type="button" class="restaurantFilter" value="일식" />
-	    	<input type="button" class="restaurantFilter" value="카페" />
-	    	<input type="button" class="restaurantFilter" value="기타" />
+	    	<input type="button" class="restaurantFilter" id="korean" value="한식" />
+	    	<input type="button" class="restaurantFilter" id="western" value="양식" />
+	    	<input type="button" class="restaurantFilter" id="chinese" value="중식" />
+	    	<input type="button" class="restaurantFilter" id="japanese"value="일식" />
+	    	<input type="button" class="restaurantFilter" id="cafe" value="까페" />
+	    	<input type="button" class="restaurantFilter" id="extra" value="기타" />
 	    </div>  
 	    <div class="listUp">
 	        <table id="listTable">
@@ -97,8 +97,7 @@
 	    </div>
 	</div>
 	
-	
 
-<script src="/static/js/date/date.js" ></script>
+
 </body>
 </html>
