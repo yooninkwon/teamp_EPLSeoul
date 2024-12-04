@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/css/bus/busnearby.css"> <!-- 외부 CSS 파일 -->
     <!-- Kakao Maps API SDK 로드 -->
   	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&libraries=services&autoload=false"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=${googleBusKey}&libraries=places" async defer></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 

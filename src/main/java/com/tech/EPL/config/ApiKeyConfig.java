@@ -30,4 +30,6 @@ public class ApiKeyConfig {
 	@Value("${seoul.mobility}")
 	private String seoulMobilityKey;
   
+	@Value("${google.bus}")
+	private String googleBusKey;
 }
