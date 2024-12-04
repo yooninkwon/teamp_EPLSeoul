@@ -149,34 +149,13 @@ function chart(buyingStat, rentStat, jeonseStat) {
 }
 
 $('input[name="avg"]').on('change', function() {
-
 		$('#grfe-chart').toggleClass('on off');
 		$('#rtfe-chart').toggleClass('on off');
-
-//	let checked = $('input[name="avg"]:checked').val();
-//	if (checked === 'grfe') {
-//		$('#grfe-chart').removeClass().addClass('on');
-//		$('#rtfe-chart').removeClass().addClass('off');
-//	} else {
-//		$('#grfe-chart').removeClass().addClass('off');
-//		$('#rtfe-chart').removeClass().addClass('on');
-//	}
 });
 
 $('input[name="seType"]').on('change', function() {
-	
 	let checked = $('input[name="seType"]:checked').val();
 	
-	$('#buying-container').removeClass().addClass('off');
-	$('#rent-container').removeClass().addClass('off');
-	$('#jeonse-container').removeClass().addClass('off');
-	
-	if (checked === 'buying') {
-		$('#buying-container').removeClass().addClass('on');
-	} else if(checked === 'rent') {
-		$('#rent-container').removeClass().addClass('on');
-	} else if(checked === 'jeonse') {
-		$('#jeonse-container').removeClass().addClass('on');
-	}
-	
+	$('#all-chart-div').children('.on').removeClass().addClass('off');
+	$(`#${checked}`).removeClass().addClass('on');
 });

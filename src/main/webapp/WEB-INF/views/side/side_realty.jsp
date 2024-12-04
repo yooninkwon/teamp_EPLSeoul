@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	    <ul class="submenu">
 	        <li><a href="/epl/realty1">연도별 실거래가 통계</a></li>
 	        <li><a href="/epl/realty2">자치구별 실거래가 통계</a></li>
-	        <li><a href="/epl/realty3">3</a></li>
+	        <li><a href="/epl/realty3">자치구 실거래가 랭킹</a></li>
 	        <li><a href="/epl/realty4">4</a></li>
 	        <li><a href="/epl/realty5">5</a></li>
 	        <li><a href="/epl/realty6">6</a></li>

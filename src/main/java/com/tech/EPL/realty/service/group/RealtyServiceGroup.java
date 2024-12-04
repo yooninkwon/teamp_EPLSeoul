@@ -14,6 +14,7 @@ import com.tech.EPL.realty.service.GuAvgData;
 import com.tech.EPL.realty.service.GuCodeService;
 import com.tech.EPL.realty.service.InsertDataAVG;
 import com.tech.EPL.realty.service.RealtyAvgData;
+import com.tech.EPL.realty.service.RankingData;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class RealtyServiceGroup {
 	private final RealtyAvgData realtyAvgData;
 	private final GuAvgData guAvgData;
+	private final RankingData rankingData;
 	private final DongCodeService dongCodeService;
 	private final GuCodeService guCodeService;
 	private final FileDBInsertService fileDBInsertService; 
@@ -34,6 +36,10 @@ public class RealtyServiceGroup {
 	public ResponseEntity<Map<String, Object>> getGuData(String type) {
 		guAvgData.setType(type);
 		return guAvgData.execution();
+	}
+	
+	public ResponseEntity<Map<String, Object>> getRankingData() {
+		return rankingData.execution();
 	}
 	
 	public void rentFileDBInsert(String fileName, String type) {
