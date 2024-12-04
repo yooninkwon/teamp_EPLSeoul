@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableCaching // 캐싱 활성화
-@EnableScheduling // 스케쥴링 어노테이션
+@EnableScheduling // 스케쥴링 활성화
 public class EPLSeoulConfiguration {
 
 }
