@@ -5,20 +5,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.tech.EPL.realty.service.group.RealtyServiceGroup;
-
-import lombok.RequiredArgsConstructor;
-
 @Controller
 @RequestMapping("/epl") // 추후 변경
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ELPRealtyController {
 	
-	private final RealtyServiceGroup serviceGroup;
+//	private final RealtyServiceGroup serviceGroup;
 		
 	@GetMapping("/realty1")
 	public String realty1(Model model) {
-		serviceGroup.getAvgData(model);
 		return "epl/realty1";
 	}
 		

@@ -21,15 +21,15 @@ class ELPRealtyControllerTest {
 	private RealtyAvgData testService;
 	
 	@Test
-	void test(Model model) {
-		String asd = realty1(model);
+	void test() {
+		String asd = realty1();
 		System.out.println(asd);
 	}
 	
 	@Test
 	@DisplayName("realty1 TEST")
-	public String realty1(Model model) {
-		testService.execution(model);
+	public String realty1() {
+		testService.execution();
 		return "epl/realty1";
 	}
 	
