@@ -1,0 +1,4 @@
+.mapImage {
+	transform-origin: top left;
+	transition: transform .3s;
+}
