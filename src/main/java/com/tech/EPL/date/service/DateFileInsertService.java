@@ -27,30 +27,31 @@ public class DateFileInsertService {
         ReadLineContext<DateRestaurantDto> context = new ReadLineContext<>(new DateRestaurantParser());
         List<DateRestaurantDto> restaurantDataList;
 
-        try {
-            // CSV 파일 읽기
-            restaurantDataList = context.readByLine(filename);
-            System.out.println("CSV 파일 파싱 완료");
-
-            // 병렬로 데이터 삽입
-            restaurantDataList.stream().parallel().forEach(data -> {
-                try {
-                	dateMapper.insertRestaurantData(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+//        try {
+//            // CSV 파일 읽기
+//            restaurantDataList = context.readByLine(filename);
+//            System.out.println("CSV 파일 파싱 완료");
+//
+//            // 병렬로 데이터 삽입
+//            restaurantDataList.stream().parallel().forEach(data -> {
+//                try {
+//                	dateMapper.insertRestaurantData(data);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    throw new RuntimeException(e);
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
 
         // 저장된 데이터 개수 반환
-        if (!Optional.ofNullable(restaurantDataList).isEmpty()) {
-            return restaurantDataList.size();
-        } else {
-            return 0;
-        }
+//        if (!Optional.ofNullable(restaurantDataList).isEmpty()) {
+//            return restaurantDataList.size();
+//        } else {
+//            return 0;
+//        }
+      return 0;  
     }
 }
