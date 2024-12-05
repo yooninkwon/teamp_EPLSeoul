@@ -1,33 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <meta charset="utf-8">
-    <title>네이버 지도 예제</title>
-    <script type="text/javascript" src="https://openapi.naver.com/openapi/maps.js?clientId=0ooec570bh"></script>
-    <style>
-        #map {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네이버 블로그</title>
 </head>
 <body>
-    <div id="map"></div>
-    <script type="text/javascript">
-        // 지도 객체 생성
-        var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5665, 126.9780), // 서울의 위도와 경도
-            zoom: 10
-        });
+    <h1>네이버 블로그 글</h1>
 
-        // 마커 추가
-        var marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.5665, 126.9780),
-            map: map
-        });
-    </script>
+<c:if test="${not empty blogPosts}">
+    <ul>
+        <c:forEach var="post" items="${blogPosts}">
+            <li>
+                <a href="${post.link}" target="_blank">${post.title}</a>
+                <p>${post.description}</p>
+
+                <!-- 본문에 포함된 첫 번째 이미지를 보여주기 -->
+                <c:if test="${not empty post.thumbnail}">
+                    <img src="${post.thumbnail}" alt="블로그 이미지">
+                </c:if>
+                <c:if test="${empty post.thumbnail}">
+                    <p>이미지를 찾을 수 없습니다.</p> <!-- 이미지가 없을 경우 처리 -->
+                </c:if>
+            </li>
+        </c:forEach>
+    </ul>
+</c:if>
+
+    <c:if test="${not empty error}">
+        <p style="color:red">${error}</p>
+    </c:if>
 </body>
 </html>

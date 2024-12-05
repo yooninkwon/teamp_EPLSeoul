@@ -92,6 +92,11 @@
 
    <div id="categoryInfoList"></div>
 
+	<!-- 블로그 글 목록을 표시할 영역 추가 -->
+	<div id="blogPostList">
+	    <!-- 블로그 글 목록이 여기에 동적으로 추가됩니다 -->
+	</div>
+
  
     <script src="/static/js/bus/busnearby.js"></script>
 
