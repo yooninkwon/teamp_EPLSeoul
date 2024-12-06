@@ -12,15 +12,6 @@
 </head>
 
 <body>
-	<script>
-		$(document).ready(function(){
-			let buyingStat = ${buyingStat };
-			let rentStat = ${rentStat };
-			let jeonseStat = ${jeonseStat };
-			
-			chart(buyingStat, rentStat, jeonseStat);
-		});
-	</script>
 
 	<h1>연도별 실거래가 통계 </h1>
 

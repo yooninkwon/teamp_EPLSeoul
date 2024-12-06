@@ -21,17 +21,25 @@ public class ELPRealtyRestController {
 		this.serviceGroup = serviceGroup;
 	}
 	
+	@GetMapping("years-data")
+	public ResponseEntity<Map<String, Object>> getYearsData() {
+		return serviceGroup.getYearsAvgData();
+	}
+	
 	@GetMapping("/gu-data")
-	public ResponseEntity<Map<String, Object>> fetchGuData(@RequestParam String type) {
+	public ResponseEntity<Map<String, Object>> getGuData(@RequestParam String type) {
 		return serviceGroup.getGuData(type);
 	}
 	
 	@GetMapping("/rank-data")
-	public ResponseEntity<Map<String, Object>> getTopData() {
+	public ResponseEntity<Map<String, Object>> getRankingData() {
 		return serviceGroup.getRankingData();	
 	}
 	
-
+	@GetMapping("/years-gu-data")
+	public ResponseEntity<Map<String, Object>> getYearsGuData(@RequestParam String type) {
+		return serviceGroup.getYearsGuData(type);
+	}
 	
 	// 파일업로드
 	@PostMapping("/rent-file")
