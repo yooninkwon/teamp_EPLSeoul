@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.tech.EPL.interfaces.ExecutionEntity;
+import com.tech.EPL.interfaces.ExecutionModelEntity;
 import com.tech.EPL.realty.mapper.RealtyMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @Service
 @RequiredArgsConstructor
-public class GuAvgData implements ExecutionEntity<Map<String, Object>> {
+public class GuAvgData implements ExecutionModelEntity<Map<String, Object>> {
 	
 	private final RealtyMapper realtyMapper;
 	

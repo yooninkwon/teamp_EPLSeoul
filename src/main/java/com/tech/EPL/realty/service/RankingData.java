@@ -7,14 +7,14 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.tech.EPL.interfaces.ExecutionEntity;
+import com.tech.EPL.interfaces.ExecutionModelEntity;
 import com.tech.EPL.realty.mapper.RealtyRankingMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class RankingData implements ExecutionEntity<Map<String, Object>> {
+public class RankingData implements ExecutionModelEntity<Map<String, Object>> {
 	
 	private final RealtyRankingMapper rankMapper;
 	

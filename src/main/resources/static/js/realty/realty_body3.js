@@ -43,15 +43,79 @@ $(document).ready(function() {
 	
 	function plateData(data) {
 		
-		let buyMax = makeBuyHtml(data.rank_buyMax);
-		let buyMin = makeBuyHtml(data.rank_buyMin);
-		let rentGrfeMax = makeGrfeHtml(data.rank_rentGrfeMax);
-		let rentGrfeMin = makeGrfeHtml(data.rank_rentGrfeMin);
-		let rentRtfeMax = makeRtfeHtml(data.rank_rentRtfeMax);
-		let rentRtfeMin = makeRtfeHtml(data.rank_rentRtfeMin);
-		let jeonseMax = makeGrfeHtml(data.rank_jeonseMax);
-		let jeonseMin = makeGrfeHtml(data.rank_jeonseMin);
-
+		
+		
+		console.log(data);
+		
+		console.log('data.rank_buyMax: ', data.rank_buyMax)
+		console.log('data.rank_buyMax[1].cgg_nm: ', data.rank_buyMax[1].cgg_nm)
+		
+		let buyMax = '';
+		let buyMin = '';
+		let rentGrfeMax = '';
+		let rentGrfeMin = '';
+		let rentRtfeMax = '';
+		let rentRtfeMin = '';
+		let jeonseMax = '';
+		let jeonseMin = '';
+		
+		for(let i = 0; i < 3; i++) {
+			buyMax += 
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_buyMax[i].cgg_nm}</td>
+				<td>${data.rank_buyMax[i].stdg_nm}</td>
+				<td>${data.rank_buyMax[i].bldg_usg}</td>
+				<td>${data.rank_buyMax[i].avg_thing_amt * 10000 + '원'}</td></tr>`;
+			buyMin +=
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_buyMin[i].cgg_nm}</td>
+				<td>${data.rank_buyMin[i].stdg_nm}</td>
+				<td>${data.rank_buyMin[i].bldg_usg}</td>
+				<td>${data.rank_buyMin[i].avg_thing_amt * 10000 + '원'}</td></tr>`;
+			rentGrfeMax +=
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_rentGrfeMax[i].cgg_nm}</td>
+				<td>${data.rank_rentGrfeMax[i].stdg_nm}</td>
+				<td>${data.rank_rentGrfeMax[i].bldg_usg}</td>
+				<td>${data.rank_rentGrfeMax[i].avg_grfe * 10000 + '원'}</td></tr>`;
+			rentGrfeMin +=
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_rentGrfeMin[i].cgg_nm}</td>
+				<td>${data.rank_rentGrfeMin[i].stdg_nm}</td>
+				<td>${data.rank_rentGrfeMin[i].bldg_usg}</td>
+				<td>${data.rank_rentGrfeMin[i].avg_grfe * 10000 + '원'}</td></tr>`;
+			rentRtfeMax += 
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_rentRtfeMax[i].cgg_nm}</td>
+				<td>${data.rank_rentRtfeMax[i].stdg_nm}</td>
+				<td>${data.rank_rentRtfeMax[i].bldg_usg}</td>
+				<td>${data.rank_rentRtfeMax[i].avg_rtfe * 10000 + '원'}</td></tr>`;
+			rentRtfeMin +=
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_rentRtfeMin[i].cgg_nm}</td>
+				<td>${data.rank_rentRtfeMin[i].stdg_nm}</td>
+				<td>${data.rank_rentRtfeMin[i].bldg_usg}</td>
+				<td>${data.rank_rentRtfeMin[i].avg_rtfe * 10000 + '원'}</td></tr>`;
+			jeonseMax += 
+				`<tr>
+				<td>${i + 1}</td><td>${data.rank_jeonseMax[i].cgg_nm}</td>
+				<td>${data.rank_jeonseMax[i].stdg_nm}</td>
+				<td>${data.rank_jeonseMax[i].bldg_usg}</td>
+				<td>${data.rank_jeonseMax[i].avg_grfe * 10000 + '원'}</td></tr>`;
+			jeonseMin += 
+				`<tr>
+				<td>${i + 1}</td>
+				<td>${data.rank_jeonseMin[i].cgg_nm}</td>
+				<td>${data.rank_jeonseMin[i].stdg_nm}</td>
+				<td>${data.rank_jeonseMin[i].bldg_usg}</td>
+				<td>${data.rank_jeonseMin[i].avg_grfe * 10000 + '원'}</td></tr>`;
+		}
 		
 		buyingRankMax.children().find('tbody').html(buyMax);
 		buyingRankMin.children().find('tbody').html(buyMin);
@@ -61,54 +125,6 @@ $(document).ready(function() {
 		rentRankRtfeMin.children().find('tbody').html(rentRtfeMin);
 		jeonseRankMax.children().find('tbody').html(jeonseMax);
 		jeonseRankMin.children().find('tbody').html(jeonseMin);
-	}
-	
-	function makeBuyHtml(data) {
-		let html;
-		
-		for(let i = 0; i < data.length; i++) {
-			html += 		
-				`<tr>
-				<td>${i + 1}</td>
-				<td>${data[i].cgg_nm}</td>
-				<td>${data[i].stdg_nm}</td>
-				<td>${data[i].bldg_usg}</td>
-				<td>${data[i].avg_thing_amt * 10000 + '원'}</td></tr>`;
-		}
-		
-		return html;
-	}
-
-	function makeGrfeHtml(data) {
-		let html;
-		
-		for(let i = 0; i < data.length; i++) {
-			html += 		
-				`<tr>
-				<td>${i + 1}</td>
-				<td>${data[i].cgg_nm}</td>
-				<td>${data[i].stdg_nm}</td>
-				<td>${data[i].bldg_usg}</td>
-				<td>${data[i].avg_grfe * 10000 + '원'}</td></tr>`;
-		}
-
-		return html;
-	}
-
-	function makeRtfeHtml(data) {
-		let html;
-		
-		for(let i = 0; i < data.length; i++) {
-			html += 		
-				`<tr>
-				<td>${i + 1}</td>
-				<td>${data[i].cgg_nm}</td>
-				<td>${data[i].stdg_nm}</td>
-				<td>${data[i].bldg_usg}</td>
-				<td>${data[i].avg_rtfe * 10000 + '원'}</td></tr>`;
-		}
-		
-		return html;
 	}
 	
 	$('input[name="tableType"]').on('change', function() {
