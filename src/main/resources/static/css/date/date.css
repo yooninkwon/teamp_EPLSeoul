@@ -1,21 +1,23 @@
 @charset "UTF-8";
 
 /* 사용 안하는 사이드바 */
-#epl_side{
+#epl_side {
 	display: none;
 }
 
 /* 데이트 탭 설명 세션 최초 1회 */
-.expContainer{
+.expContainer {
 	display: none;
 }
+
 .expContainer.active {
 	display: block;
 	width: 100%;
 	height: 800px;
 	background-color: gray;
 }
-#expSubmit{
+
+#expSubmit {
 	width: 20%;
 	height: 50px;
 	margin-top: 700px;
@@ -24,17 +26,17 @@
 }
 
 /* 서울 지도 */
-.seoulMap{
-	display: none;	
+.seoulMap {
+	display: none;
 }
 
-.seoulMap.active{
+.seoulMap.active {
 	display: block;
 	width: 100%;
 	height: 800px;
 }
 
-#seoulSvg{
+#seoulSvg {
 	width: 100%;
 	height: 700px;
 	transition: width 0.5s ease; /* 크기 변화를 부드럽게 */
@@ -42,20 +44,20 @@
 
 /* 사이드바 */
 .mapSide {
-    width: 40%;
-    height: 650px;
-    float: right;
-    transform: translateX(100%); /* 오른쪽으로 완전히 밀려남 */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* 애니메이션 설정 */
-    border: 1px solid black;
-    border-radius: 15px;
-    text-align: center;
+	width: 40%;
+	height: 650px;
+	float: right;
+	transform: translateX(100%); /* 오른쪽으로 완전히 밀려남 */
+	transition: opacity 0.5s ease, transform 0.5s ease; /* 애니메이션 설정 */
+	border: 1px solid black;
+	border-radius: 15px;
+	text-align: center;
 }
 
 .mapSide.active {
-    display: block; /* 활성화 시 표시 */
-    opacity: 1; /* 투명도 해제 */
-    transform: translateX(0); /* 원래 위치로 이동 */
+	display: block; /* 활성화 시 표시 */
+	opacity: 1; /* 투명도 해제 */
+	transform: translateX(0); /* 원래 위치로 이동 */
 }
 
 #districtImg {
@@ -85,14 +87,14 @@
 	margin-bottom: 0px;
 }
 
-.memoDiv{
+.memoDiv {
 	float: right;
 	width: 45%;
 	height: 250px;
 	margin-right: 20px;
 }
 
-#districtMemo{
+#districtMemo {
 	margin-top: 55px;
 	float: left;
 	font-size: 20px;
@@ -100,7 +102,7 @@
 	min-height: 120px;
 }
 
-.landmarkDiv{
+.landmarkDiv {
 	float: left;
 	width: 45%;
 	height: 250px;
@@ -108,7 +110,7 @@
 	text-align: left;
 }
 
-#landmark{
+#landmark {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font: bold;
@@ -116,7 +118,7 @@
 	margin-left: 10px;
 }
 
-#landmarkImg{
+#landmarkImg {
 	width: 100%;
 	height: 185px;
 	background-repeat: no-repeat;
@@ -126,7 +128,7 @@
 	border-radius: 10px;
 }
 
-#distSubmit{
+#distSubmit {
 	width: 90%;
 	height: 40px;
 	background-color: #73A3FF;
@@ -138,19 +140,19 @@
 	cursor: pointer;
 }
 
-#distSubmit:hover{
+#distSubmit:hover {
 	background-color: #007bff;
 }
 
 /* 데이트 취향선택 */
-.liking{
+.liking {
 	width: 60%;
 	height: 800px;
 	margin: 0 auto;
 	text-align: center;
 }
 
-#likeStatic{
+#likeStatic {
 	width: 40%;
 	background-color: #73A3FF;
 	float: left;
@@ -159,7 +161,7 @@
 	color: white;
 }
 
-#likeDynamic{
+#likeDynamic {
 	width: 40%;
 	background-color: #73A3FF;
 	float: right;
@@ -168,31 +170,31 @@
 	color: white;
 }
 
-#likeStatic:hover, #likeDynamic:hover{
+#likeStatic:hover, #likeDynamic:hover {
 	background-color: #007bff;
 	cursor: pointer;
 }
 
-.likeTop{
+.likeTop {
 	text-align: left;
 	padding-left: 40px;
 	padding-top: 20px;
 	height: 50%;
 }
 
-.likeBottom{
+.likeBottom {
 	text-align: left;;
 	padding-left: 40px;
 	height: 50%;
 }
 
 /* 장소 리스트업 */
-.filterDiv{
+.filterDiv {
 	margin: 0 auto;
 	width: 50%;
 }
 
-.filterButtonLeft{
+.filterButtonLeft {
 	width: 50%;
 	height: 50px;
 	float: left;
@@ -205,7 +207,7 @@
 	color: white;
 }
 
-.filterButtonRight{
+.filterButtonRight {
 	width: 50%;
 	height: 50px;
 	float: right;
@@ -218,15 +220,15 @@
 	color: white;
 }
 
-.filterButtonLeft:hover, .filterButtonRight:hover{
+.filterButtonLeft:hover, .filterButtonRight:hover {
 	background-color: #007bff;
 }
 
-.filterButtonLeft.active, .filterButtonRight.active{
+.filterButtonLeft.active, .filterButtonRight.active {
 	background-color: #007bff;
 }
 
-.SubFilter{
+.SubFilter {
 	margin: 0 auto;
 	margin-top: 50px;
 	height: 30px;
@@ -234,7 +236,7 @@
 	text-align: center;
 }
 
-#searchFilter{
+#searchFilter {
 	width: 10%;
 	font: bold;
 	font-size: 17px;
@@ -242,7 +244,7 @@
 	height: 100%;
 }
 
-#searchInput{
+#searchInput {
 	width: 20%;
 	font: bold;
 	font-size: 17px;
@@ -252,7 +254,7 @@
 	padding-left: 5px;
 }
 
-#searchSubmit{
+#searchSubmit {
 	width: 7%;
 	font-size: 17px;
 	border-radius: 10px;
@@ -263,12 +265,12 @@
 	height: 30px;
 }
 
-#searchSubmit:hover{
-	background-color :#007bff;
+#searchSubmit:hover {
+	background-color: #007bff;
 	cursor: pointer;
 }
 
-.restaurantFilter{
+.restaurantFilter {
 	width: 7%;
 	border-radius: 10px;
 	font: bold;
@@ -280,11 +282,11 @@
 	margin-top: 10px;
 }
 
-.restaurantFilter:hover{
-	background-color:  #007bff;
+.restaurantFilter:hover {
+	background-color: #007bff;
 }
 
-.listUp{
+.listUp {
 	width: 70%;
 	height: 600px;
 	margin: 0 auto;
@@ -293,42 +295,46 @@
 	text-align: center;
 }
 
+.listUp.active {
+	float: left;
+}
+
 .listUp::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+	display: none; /* Chrome, Safari, Opera */
 }
 
 #listTable {
-    border-collapse: separate;
-    border-spacing: 0 10px; /* 행 간격 */
-    width: 90%;
-    margin: 0 auto;
+	border-collapse: separate;
+	border-spacing: 0 10px; /* 행 간격 */
+	width: 90%;
+	margin: 0 auto;
 }
 
 #listTable tr {
 	border: 2px solid #73A3FF;
-    display: block;
-    border-radius: 20px; /* 라운드 처리 */
-    margin-bottom: 40px;
-    height: 80px;
-    font-size: 17px;
-    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+	display: block;
+	border-radius: 20px; /* 라운드 처리 */
+	margin-bottom: 40px;
+	height: 80px;
+	font-size: 17px;
+	transition: all 0.3s ease; /* 부드러운 전환 효과 */
 }
 
 #listTable td {
-    display: inline-block; /* td를 블록으로 전환 */
-    text-align: left;
+	display: inline-block; /* td를 블록으로 전환 */
+	text-align: left;
 	margin-top: 25px;
 }
 
 #listTable tr:hover {
-    transform: translateY(-5px); /* 약간 위로 튀어나오게 함 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
-    background-color: #f9f9f9; /* 배경색 변경 (선택사항) */
-    cursor: pointer;
+	transform: translateY(-5px); /* 약간 위로 튀어나오게 함 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+	background-color: #f9f9f9; /* 배경색 변경 (선택사항) */
+	cursor: pointer;
 }
 
-#listTable #sizeTag{
-	width: 7%; 
+#listTable #sizeTag {
+	width: 7%;
 	float: left;
 	background-color: blue;
 	text-align: center;
@@ -339,8 +345,8 @@
 	margin-right: 20px;
 }
 
-#listTable #newTag{
-	width: 7%; 
+#listTable #newTag {
+	width: 7%;
 	float: left;
 	background-color: lime;
 	text-align: center;
@@ -348,4 +354,106 @@
 	border-radius: 20px;
 	border: none;
 	color: white;
+}
+
+.restaurantSide {
+	float: right;
+	width: 25%;
+	height: 670px;
+	border-radius: 15px;
+	border: 2px solid #73A3FF;
+}
+
+#restaurantImg {
+	width: 100%;
+	height: 220px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	text-align: center;
+}
+
+#restaurantImg img {
+	height: 220px;
+	width: 100%;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+#restaurantInfo {
+	width: 100%;
+	height: 100px;
+	margin-bottom: 0px;
+}
+
+#restaurantSideName {
+	margin-top: 20px;
+	width: 90%;
+	font-size: 25px;
+	font: bold;
+	color: #73A3FF;
+	text-align: left;
+	padding-left: 10px;
+}
+
+#restaurantSideRate {
+	display: flex;
+	align-items: left;
+	padding-left: 10px;
+	font-size: 20px;
+}
+
+.star {
+	font-size: 25px;
+	color: #FFD700; /* 별 색상 (금색) */
+	display: inline-block;
+	margin: 0 2px;
+}
+
+/* 채워진 별 (금색) */
+.star.full {
+	color: #FFD700;
+}
+
+/* 빈 별 (회색) */
+.star.empty {
+	color: #ddd;
+}
+
+/* 반별 (금색으로 반만 채우기) */
+.star.half {
+	color: #ddd;
+	position: relative;
+}
+
+.star.half::after {
+	content: '\2605'; /* 별 문자 */
+	color: #FFD700; /* 반별은 회색 */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50%;
+	overflow: hidden;
+}
+
+#restaurantMap {
+	margin-top: 0px;
+	width: 100%;
+	height: 260px;
+}
+
+#restaurantSubmit {
+	width: 100%;
+	height: 70px;
+	background-color: #73A3FF;
+	color: white;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	border: 2px solid #73A3FF;
+}
+
+#restaurantSubmit:hover {
+	background-color: #007bff;
+	cursor: pointer;
 }
