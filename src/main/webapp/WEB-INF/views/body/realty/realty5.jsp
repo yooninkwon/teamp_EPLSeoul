@@ -14,7 +14,7 @@
 <body>
 	<h1> 연도별 자치구 인구수 통계 </h1>
 	
-	
+	<canvas id="jumin-chart"></canvas>
 	
 	<script src="/static/js/realty/realty_body5.js"></script>
 	<script src="/static/js/realty/realty_navbar.js"></script>
