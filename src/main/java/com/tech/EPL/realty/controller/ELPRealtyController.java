@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ELPRealtyController {
 	
 //	private final RealtyServiceGroup serviceGroup;
+	
+	@GetMapping("/realty0")
+	public String realty0(Model model) {
+		return "epl/realty0";
+	}
 		
 	@GetMapping("/realty1")
 	public String realty1(Model model) {

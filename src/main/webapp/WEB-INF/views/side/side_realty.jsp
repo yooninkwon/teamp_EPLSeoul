@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">
+	        <li><a href="/epl/realty0">INFORMATION</a></li>
 	        <li><a href="/epl/realty1">연도별 실거래가 통계</a></li>
 	        <li><a href="/epl/realty2">자치구별 실거래가 통계</a></li>
 	        <li><a href="/epl/realty3">자치구 실거래가 랭킹</a></li>

@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta charset="UTF-8">
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/Realty/on_off.css" />

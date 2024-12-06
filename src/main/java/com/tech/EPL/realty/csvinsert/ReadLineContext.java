@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 import com.tech.EPL.date.dto.DateRestaurantDto;
 import com.tech.EPL.interfaces.Parser;
 
-// 5617057
 public class ReadLineContext<T> {
 
     private static final int BATCH_SIZE = 1000;
