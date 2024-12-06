@@ -37,8 +37,8 @@ public class ELPRealtyRestController {
 	}
 	
 	@GetMapping("/years-gu-data")
-	public ResponseEntity<Map<String, Object>> getYearsGuData(@RequestParam String type) {
-		return serviceGroup.getYearsGuData(type);
+	public ResponseEntity<Map<String, Object>> getYearsGuData() {
+		return serviceGroup.getYearsGuData();
 	}
 	
 	// 파일업로드

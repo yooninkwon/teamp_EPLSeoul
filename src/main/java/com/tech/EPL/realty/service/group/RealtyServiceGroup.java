@@ -44,8 +44,7 @@ public class RealtyServiceGroup {
 		return rankingData.execution();
 	}
 	
-	public ResponseEntity<Map<String, Object>> getYearsGuData(String type) {
-		yearsGuData.setType(type);
+	public ResponseEntity<Map<String, Object>> getYearsGuData() {
 		return yearsGuData.execution();
 	}
 	

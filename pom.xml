@@ -38,20 +38,10 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
-		<!-- test (JUnit) -->
+		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<!-- MockMvc -->
-		<dependency>
-			<!--
-			https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.5.4</version>
 			<scope>test</scope>
 		</dependency>
 		
@@ -160,22 +150,16 @@
 		</dependency>
 		
 		<!-- json file -->
-<!--		<dependency>
+		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20240303</version>
 		</dependency>
--->		
+		
 		<!-- Spring Data JPA -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20211205</version>
 		</dependency>
 
 	</dependencies>
