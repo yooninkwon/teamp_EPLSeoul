@@ -2,8 +2,8 @@ import csv
 import os
 
 
-input_directory = 'C:\\team Albamon\EPL_Seoul 자료\부동산 실거래가 정보 모음\월세_실거래가_년도별_엑셀\파이썬작업하는곳' 
-output_directory = 'C:\\team Albamon\EPL_Seoul 자료\부동산 실거래가 정보 모음\월세_실거래가_년도별_엑셀\파이썬작업끝난곳'  
+input_directory = 'C:\\team Albamon\EPL_Seoul 자료' 
+output_directory = 'C:\\team Albamon\EPL_Seoul 자료'  
 
 
 for filename in os.listdir(input_directory):

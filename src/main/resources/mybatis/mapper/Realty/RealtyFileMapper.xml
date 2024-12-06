@@ -130,4 +130,24 @@
 		SELECT COUNT(*) FROM `EPL_SEOUL`.`REALTY_BUYING`
 	</select>
 	
+	<insert id="juminFileInsert" parameterType="list">
+		INSERT INTO `EPL_SEOUL`.`REALTY_JUMIN`
+			(
+			`GU`,
+			`YEAR`,
+			`JUMIN`,
+			`MYUNJUK`,
+			`MILDO`
+			)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.gu},
+			#{item.year},
+			#{item.jumin},
+			#{item.myunjuk},
+			#{item.mildo}
+			)
+		</foreach>
+	</insert>
 </mapper>

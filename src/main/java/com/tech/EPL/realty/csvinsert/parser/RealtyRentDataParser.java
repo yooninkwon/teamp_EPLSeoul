@@ -14,7 +14,7 @@ public class RealtyRentDataParser implements Parser<RealtyRentData>{
 //		}
 		RealtyRentData rentFileData = new RealtyRentData();
 		
-		rentFileData.setRcpt_yr(splitted[0]);
+		rentFileData.setRcpt_yr(splitted[0].replace("\"", ""));
 		rentFileData.setCgg_cd(splitted[1]);
 		rentFileData.setCgg_nm(splitted[2]);
 		rentFileData.setStdg_cd(splitted[3]);

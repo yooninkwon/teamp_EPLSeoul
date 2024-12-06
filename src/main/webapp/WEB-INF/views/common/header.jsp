@@ -72,7 +72,7 @@ function updateBreadcrumb(link) {
     const submenuPageName = activeSubmenuLink ? activeSubmenuLink.textContent.toUpperCase() : '';
 
     // breadcrumbLeft에는 nav-menu 또는 submenu의 이름을 반영
-    breadcrumbLeft.textContent = pageName || submenuPageName;
+    breadcrumbLeft.textContent = submenuPageName;
 
     // breadcrumbRight에는 상위 메뉴와 현재 경로를 포함한 경로 설정
     breadcrumbRight.textContent = `EPL 서울 > \${pageName} > \${submenuPageName}`;
