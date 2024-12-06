@@ -18,13 +18,19 @@
 #box {
 	display: flex; /* 가로 정렬 */
 	  align-items: center; /* 수직 중앙 정렬 */
-  justify-content: center; /* 가운데 정렬 (선택 사항) */
+  justify-content: space-between; /* 두 div 간격 유지 */
 	width: 100%;
 	align-items: flex-start; /* 상단 맞춤 */
-	gap: 50px;
+	gap: 30px;
 }
 
 #inputBox {
+	width: 100%;
+	display: flex; /* Flexbox 활성화 */
+	flex-direction: column; /* 세로 정렬 */
+	gap: 10px; /* 각 요소 사이 간격 */
+}
+#searchBox {
 	width: 100%;
 	display: flex; /* Flexbox 활성화 */
 	flex-direction: row; /* 세로 정렬 */
@@ -32,7 +38,7 @@
 }
 
 .searchInput {
-	width: 250px; /* 입력창의 너비 */
+	width: 200px; /* 입력창의 너비 */
 	height: 40px; /* 입력창의 높이 */
 	padding: 0 15px; /* 내부 여백 */
 	border: 2px solid #ccc; /* 입력창 테두리 */
@@ -68,4 +74,171 @@
 .searchBtn:hover {
   background-color: #73A3FF; /* 호버 시 배경색 변경 */
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* 호버 시 그림자 */
+}
+
+#resultBox {
+	margin-top: 40px;
+	width: 100%;
+	display: flex; /* Flexbox 활성화 */
+	flex-direction: column; /* 세로 정렬 */
+	gap: 10px; /* 각 요소 사이 간격 */
+}
+
+#directionBox {
+    width: 100%;
+    display: flex; /* Flexbox 활성화 */
+    flex-direction: row; /* 가로 정렬 */
+    justify-content: center; /* 가로축 가운데 정렬 */
+    align-items: center; /* 세로축 가운데 정렬 */
+}
+
+/* 1호선 */
+.S1호선역 {
+    border: 2px solid #0052A4; /* 1호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L1호선라인 {
+    background-color: #0052A4; /* 1호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 2호선 */
+.S2호선역 {
+    border: 2px solid #00A84D; /* 2호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L2호선라인 {
+    background-color: #00A84D; /* 2호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 3호선 */
+.S3호선역 {
+    border: 2px solid #EF7C1C; /* 3호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L3호선라인 {
+    background-color: #EF7C1C; /* 3호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 4호선 */
+.S4호선역 {
+    border: 2px solid #00A5DE; /* 4호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L4호선라인 {
+    background-color: #00A5DE; /* 4호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 5호선 */
+.S5호선역 {
+    border: 2px solid #996CAC; /* 5호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L5호선라인 {
+    background-color: #996CAC; /* 5호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 6호선 */
+.S6호선역 {
+    border: 2px solid #CD7C2F; /* 6호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L6호선라인 {
+    background-color: #CD7C2F; /* 6호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 7호선 */
+.S7호선역 {
+    border: 2px solid #747F00; /* 7호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L7호선라인 {
+    background-color: #747F00; /* 7호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 8호선 */
+.S8호선역 {
+    border: 2px solid #E6186C; /* 8호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L8호선라인 {
+    background-color: #E6186C; /* 8호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+/* 9호선 */
+.S9호선역 {
+    border: 2px solid #BDB092; /* 9호선의 색으로 경계선 설정 */
+    color: black; /* 텍스트 색상 검은색 */
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 12px; /* 글자 크기 키우기 */
+}
+
+.L9호선라인 {
+    background-color: #BDB092; /* 9호선 라인의 배경 색상 */
+    color: white;
+    padding: 10px 20px;
+    width: 50px; /* 라인 넓이 증가 */
+}
+
+#directionDataBox{
+	margin-top: 20px;
+		display: flex; /* Flexbox 활성화 */
+	flex-direction: column; /* 세로 정렬 */
+	gap:10px;
 }

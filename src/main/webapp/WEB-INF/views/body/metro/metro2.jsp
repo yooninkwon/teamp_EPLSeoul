@@ -18,7 +18,7 @@
 <title>metro_body</title>
 
 </head>
-<h1> 지하철 길안내 </h1>
+<h1> 지하철 길찾기 </h1>
 
 <body>
 	<div id="box">
@@ -26,9 +26,17 @@
 	 		<object class="mapImage" alt="서울지하철노선도" data="/static/data/metro/mapimage.svg" id="mapObject"></object>
 	    </div>    
 	    <div id="inputBox">
-	    	<span>출발지 <input class="searchInput" id="departure" type="text" placeholder="지하철역명을 입력하세요"/> 역</span> 
-	    	<span>도착지 <input class="searchInput" id="destination" type="text" placeholder="ex)서울" /> 역</span>
-	    	 <button class="searchBtn">검색</button>
+	    	<div id="searchBox">
+	    		<span>출발지 <input class="searchInput" id="departure" type="text" placeholder="지하철역명을 입력하세요"/> 역</span> 
+	    		<span>도착지 <input class="searchInput" id="destination" type="text" placeholder="ex)서울" /> 역</span>
+	    		<button class="searchBtn">검색</button>
+	    	</div>
+	    	<div id="resultBox">
+	    		<div id="directionBox">
+	    		</div>
+				<div id="directionDataBox">
+				</div>	    		 
+	    	</div>
 	    </div>
     </div>
 </body>

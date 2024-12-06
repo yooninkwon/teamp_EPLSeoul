@@ -63,14 +63,17 @@ $(document).ready(function() {
 	   document.getElementById('departure').blur();  // departure 입력 필드에서 포커스 제거
 	   document.getElementById('destination').blur();  // destination 입력 필드에서 포커스 제거
 
-		
 		let departure = document.getElementById('departure').value;
 		let destination = document.getElementById('destination').value;
-		if(destination == '서울'){
-			destination = '서울역';
-		}
+		
+		
+	   	
+		
 		if(departure == '서울'){
 			departure = '서울역';
+		}
+		if(destination == '서울'){
+			destination = '서울역';
 		}
 
 
@@ -117,6 +120,70 @@ $(document).ready(function() {
 		} else {
 			console.error("mapImage not found.");
 		}
+		
+		
+		$.ajax({
+			url : 'metro/direction',
+			method : 'GET',
+			data : {departure, destination},
+			success : function(data) {
+				$('#directionBox').empty(); // 기존 결과를 지움
+				$('#directionDataBox').empty(); // 기존 결과를 지움
+				
+				let pathList = data.direction.pathList;
+				let direction = null;
+				if (pathList.length == 1) {
+				    direction = 
+				        '<span class="S' + pathList[0].routeNm + '역">' + pathList[0].fname + '(' + pathList[0].routeNm + ')</span>' +
+				        '<span class="L' + pathList[0].routeNm + '라인"></span>' +
+				        '<span class="S' + pathList[0].routeNm + '역">' + pathList[0].tname + '</span>';
+				    
+				    $('#directionBox').append(direction);
+				} else {
+				    direction = 
+				        '<span class="S' + pathList[0].routeNm + '역">' + pathList[0].fname + '(' + pathList[0].routeNm + ')</span>' +
+				        '<span class="L' + pathList[0].routeNm + '라인"></span>';
+				    
+				    pathList.forEach((path, index) => {
+				        if (index > 0) {  // 첫 번째 역은 이미 추가했으므로
+				            direction +=
+				                '<span class="S' + path.routeNm + '역">' + path.fname + '(' + path.routeNm + ')</span>' +
+				                '<span class="L' + path.routeNm + '라인"></span>' ;
+				        }
+						if (index === pathList.length - 1) {
+							direction +=	
+				                '<span class="S' + path.routeNm + '역">' + path.tname + '</span>';
+						}
+				    });
+
+				    $('#directionBox').append(direction);
+					
+				}
+					
+				let directionData =
+						'<span class="directionDataTime">소요시간 : '+data.direction.time+'분</span>'+
+						'<span class="directionDataDistance">노선길이 : 약 '+(data.direction.distance/1000)+'km</span>';
+						
+						$('#directionDataBox').append(directionData);
+				
+				
+				   
+				},
+			error: function(xhr, status, error) {
+				console.error('에러 발생:', error); // 에러 처리
+				$('#directionBox').empty(); // 기존 결과를 지움
+				direction = '경로를 찾을 수 없습니다.'
+				$('#directionBox').append(direction);
+				$('#directionDataBox').empty(); // 기존 결과를 지움
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
 
 	});
 
