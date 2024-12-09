@@ -108,6 +108,10 @@
 				<input type="button" id="restaurantSubmit" value="경유지에 추가하기">
 			</div>
 		</div>
+		<div class="activityDiv">
+			dfsdf
+		</div>
+
 
 	</div>
 

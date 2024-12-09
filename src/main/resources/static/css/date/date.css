@@ -457,3 +457,10 @@
 	background-color: #007bff;
 	cursor: pointer;
 }
+
+.activityDiv{
+	width: 100%;
+	margin-top: 50px;
+	background-color: gray;
+	height: 700px;
+}

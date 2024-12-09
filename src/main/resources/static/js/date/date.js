@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		restaurantSideName: document.getElementById("restaurantSideName"),
 		restaurantSideRate: document.getElementById("restaurantSideRate"),
 		restaurantMap : document.getElementById("restaurantMap"),
+		activityContainer: document.querySelector(".activityDiv"),
     };
 
     let currentPage = 0;
@@ -30,11 +31,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     let hasMoreData = true;
     let selectedDistrict = "";
     let districtName = "";
-    let activeFilterButton = null;
+    let likeType = "";
+	let activity  = [];
+	let activeFilterButton = null;
     let selectFilter = "한식";
     let searchType = '';
     let searchKeyword = '';
     let googleApiKey = ''; // API 키 저장 변수
+	
 	
 	// 초기 상태 설정
 	await initState(); // initState를 async로 호출
@@ -49,9 +53,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        elements.liking,
 	        elements.localList,
 	        elements.restaurantSide,
+	        elements.activityContainer,
 	    ], false);
+
 	    await fetchGoogleApi(); // Google API 키 가져오기
-		loadGoogleMapsScript(googleApiKey);
+	    await loadGoogleMapsScript(); // Google Maps 스크립트 로드
 	}
 
 	// Google API 키 가져오는 함수
@@ -138,6 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	elements.filterButtonLeft.addEventListener("click", () => {
 		toggleFilter("left")
 		toggleDisplay([elements.restaurantContainer], true);
+		toggleDisplay([elements.activityContainer], false);
 
 	});
 
@@ -145,6 +152,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	elements.filterButtonRight.addEventListener("click", () => {
 		toggleFilter("right")
 		toggleDisplay([elements.restaurantContainer], false);
+		toggleDisplay([elements.activityContainer], true);
 	});
 
 	// 스크롤 이벤트로 데이터 추가 로드
@@ -180,16 +188,114 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	// 좋아요 선택 처리 함수
 	function handleLikeSelection(type) {
-		likeType = type;
-		toggleDisplay([elements.liking], false);
-		toggleDisplay([elements.localList], true);
+	    likeType = type;
+	    toggleDisplay([elements.liking], false);
+	    toggleDisplay([elements.localList], true);
 
-		currentPage = 0;
-		hasMoreData = true;
-		elements.listTableBody.innerHTML = "";
-		loadMoreRestaurants(selectFilter);
+	    let activity = [];
+	    if (likeType === "static") {
+	        activity = ["산책로", "서점", "공원", "영화관"];
+	    } else if (likeType === "dynamic") {
+	        activity = ["체험", "보드게임", "공방", "방탈출"];
+	    }
+
+	    if (districtName) {
+	        renderActivityMap(activity, districtName); // 행정구 및 카테고리로 지도 렌더링
+	    } else {
+	        console.error("선택된 행정구가 없습니다.");
+	    }
+
+	    currentPage = 0;
+	    hasMoreData = true;
+	    elements.listTableBody.innerHTML = "";
+	    loadMoreRestaurants(selectFilter);
 	}
 
+	// 구청 주소 알아오기
+	async function getDistrictCenter(districtName) {
+	    try {
+	        const response = await fetch(`/epl/date/google-api/place?input=${encodeURIComponent(districtName + " 구청")}`);
+	        const data = await response.json();
+
+	        if (data.candidates && data.candidates.length > 0) {
+	            console.log("구청 위치 검색 결과:", data.candidates[0].geometry.location);
+	            return data.candidates[0].geometry.location; // { lat, lng }
+	        } else {
+	            console.error(`구청 위치를 찾을 수 없습니다: ${districtName}`);
+	            return null;
+	        }
+	    } catch (error) {
+	        console.error("구청 검색 중 오류 발생:", error);
+	        return null;
+	    }
+	}
+
+	// 활동 지도 불러오기
+	async function renderActivityMap(categories, districtName) {
+	    const mapContainer = elements.activityContainer;
+	    const districtCenter = await getDistrictCenter(districtName);
+
+	    const map = new google.maps.Map(mapContainer, {
+	        center: districtCenter,
+	        zoom: 15,
+	    });
+
+	    const service = new google.maps.places.PlacesService(map);
+	    categories.forEach((category) => {
+	        searchCategoryAndAddMarkers(map, service, category, districtCenter);
+	    });
+	}
+
+	// 구글맵 카테고리 검색, 마커 추가
+	function searchCategoryAndAddMarkers(map, service, category, districtCenter) {
+	    service.nearbySearch(
+	        {
+	            location: districtCenter,
+	            radius: 5000, // 검색 반경 (단위: 미터)
+	            keyword: category, // 검색 키워드
+	        },
+	        (results, status) => {
+	            if (status === google.maps.places.PlacesServiceStatus.OK) {
+	                results.forEach((place) => {
+	                    if (place.geometry && place.geometry.location) {
+	                        addMarker(map, place);
+	                    }
+	                });
+	            } else {
+	                console.error(`카테고리 '${category}'에 대한 Places API 요청 실패: ${status}`);
+	            }
+	        }
+	    );
+	}
+
+	// 마커 추가
+	function addMarker(map, place) {
+	    const marker = new google.maps.Marker({
+	        position: place.geometry.location,
+	        map: map,
+	        title: place.name,
+	    });
+
+	    // 정보창 추가
+	    const infoWindow = new google.maps.InfoWindow({
+	        content: `
+	            <div>
+	                <h3>${place.name}</h3>
+	                <p>${place.vicinity || "주소 정보 없음"}</p>
+	            </div>
+	        `,
+	    });
+
+	    // 마커 클릭 이벤트
+	    marker.addListener("click", () => {
+	        infoWindow.open(map, marker);
+	    });
+	}
+
+
+
+
+	
 	// 필터 토글 처리 함수
 	function toggleFilter(side) {
 		elements.filterButtonLeft.classList.toggle("active", side === "left");
@@ -376,14 +482,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	        // 스크립트를 동적으로 추가
 	        const script = document.createElement("script");
-	        script.src = `https://maps.googleapis.com/maps/api/js?key=${googleApiKey}`;
+	        script.src = `https://maps.googleapis.com/maps/api/js?key=${googleApiKey}&libraries=places`;
 	        script.defer = true;
 
-	        // 스크립트 로드 완료 시 호출
-	        script.onload = resolve;
+	        script.onload = () => {
+	            console.log("Google Maps API 로드 성공");
+	            resolve();
+	        };
 
-	        // 스크립트 로드 실패 시 호출
-	        script.onerror = () => reject(new Error("Google Maps 스크립트를 로드하는 중 오류가 발생했습니다."));
+	        script.onerror = () => reject(new Error("Google Maps API 로드 실패"));
 
 	        document.head.appendChild(script);
 	    });
