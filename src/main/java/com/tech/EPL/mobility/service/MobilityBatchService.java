@@ -33,7 +33,6 @@ public class MobilityBatchService {
         
         // 유효성 확인
         File directory = new File(filePath);
-        System.out.println(directory);
         if (!directory.exists() || !directory.isDirectory()) {
             throw new IllegalArgumentException("폴더 경로가 잘못되었습니다: " + filePath);
         }
@@ -49,10 +48,14 @@ public class MobilityBatchService {
             throw new IllegalArgumentException("해당 폴더에 적합한 " + fileType + " 파일이 없습니다: " + filePath);
         }
         
+        String fileName = files[0].getName();
+        System.out.println(fileName + " 데이터 저장 실행");
+        
         // 파라미터 전달
     	JobParameters jobParameters = new JobParametersBuilder()
     			.addString("fileType", fileType)
     	        .addString("filePath", filePath)
+    	        .addString("fileName", fileName)
     	        .addLong("executionTime", System.currentTimeMillis()) // 고유 실행 ID
     	        .toJobParameters();
     	

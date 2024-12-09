@@ -37,4 +37,7 @@ public class ApiKeyConfig {
   
 	@Value("${google.bus}")
 	private String googleBusKey;
+	
+	@Value("${google.date}")
+	private String googleDateKey;
 }
