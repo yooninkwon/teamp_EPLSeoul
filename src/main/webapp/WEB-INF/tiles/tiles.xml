@@ -26,7 +26,12 @@
 	</definition>
 
 
-
+	<!-- main -->
+	<definition name="epl" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/main/main.jsp" />
+<!-- 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_metro.jsp" /> -->
+	</definition>
+	
 	<!-- metro -->
 	<definition name="epl/metro1" extends="epl_baselayout">
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/metro/metro1.jsp" />

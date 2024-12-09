@@ -1,4 +1,4 @@
-package com.tech.EPL.controller;
+package com.tech.EPL.config;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
