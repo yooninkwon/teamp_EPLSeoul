@@ -15,7 +15,7 @@ public class ApiKeyConfig {
 	private String seoulMetroKey;
 
 	@Value("${open.realty}")
-	private String openRealtyKey;
+	private String openRealtyKey;	
 	
 	@Value("${open.bus}")
 	private String openBus;
@@ -37,7 +37,16 @@ public class ApiKeyConfig {
   
 	@Value("${google.bus}")
 	private String googleBusKey;
+
+	@Value("${tmap.bus}")
+	private String tmapBusKey;
 	
+	@Value("${naver.client.bus}")
+	private String naverClientBus;
+	
+	@Value("${naver.secret.bus}")
+	private String naverSecretBus;
+  
 	@Value("${google.date}")
 	private String googleDateKey;
 }

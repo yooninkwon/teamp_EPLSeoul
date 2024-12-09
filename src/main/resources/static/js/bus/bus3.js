@@ -288,8 +288,6 @@ kakao.maps.load(function() {
 							});
 
 							kakao.maps.event.addListener(marker, 'click', function() {
-								// 마커 클릭 시 블로그 리스트 업데이트
-								fetchAndUpdateBlogPosts(place.place_name);
 								closeCategoryInfoWindows();
 								infoWindow.open(map, marker);
 								categoryInfoWindows.push(infoWindow);
@@ -328,20 +326,6 @@ kakao.maps.load(function() {
 	}
 
 
-	
-	// 공통 함수: 블로그 데이터를 가져와 업데이트
-	function fetchAndUpdateBlogPosts(placeName) {
-	    fetch('/epl/getBlogPostsByPlace?place=' + encodeURIComponent(placeName))
-	        .then(response => response.json())
-	        .then(data => {
-	            // 블로그 리스트를 업데이트
-	            updateBlogPosts(data);
-	        })
-	        .catch(error => {
-	            console.error('블로그 데이터를 가져오는 데 실패했습니다:', error);
-	        });
-	}
-	
 
 	// 카테고리 정보 리스트에 장소 추가
 	function addToCategoryInfoList(place) {
@@ -371,14 +355,11 @@ kakao.maps.load(function() {
 		});
 
 
+
 		// 클릭 이벤트로 지도 중심 이동 및 정보창 열기
-		placeDiv.addEventListener('click', function() {		
+		placeDiv.addEventListener('click', function() {
 			var position = new kakao.maps.LatLng(place.y, place.x);
 
-			
-			// 블로그 데이터를 가져와 업데이트
-			 fetchAndUpdateBlogPosts(place.place_name);
-			
 			// 지도 중심 이동
 			map.setCenter(position);
 
@@ -395,7 +376,6 @@ kakao.maps.load(function() {
 			if (targetMarker) {
 				// 해당 마커에 대해 클릭 이벤트 강제로 트리거
 				kakao.maps.event.trigger(targetMarker, 'click');
-						
 			} else {
 				console.log("마커를 찾을 수 없습니다.");
 			}
@@ -412,29 +392,17 @@ kakao.maps.load(function() {
 				behavior: 'smooth', // 부드럽게 스크롤
 				block: 'center' // div가 화면 중앙에 오도록 위치 설정
 			});
-					
 		
 		});
 
 		listContainer.appendChild(placeDiv);
 	}
 
-	function updateBlogPosts(blogPosts) {
-	    // 기존 블로그 리스트를 클리어
-	    var blogListContainer = document.getElementById('blogPostList');
-	    blogListContainer.innerHTML = '';
+	
+	
+	
+	
 
-	    // 새로운 블로그 리스트로 업데이트
-	    blogPosts.forEach(post => {
-	        var listItem = document.createElement('li');
-	        listItem.innerHTML = `
-	            <a href="${post.link}" target="_blank">${post.title}</a>
-	            <p>${post.description}</p>
-	        `;
-	        blogListContainer.appendChild(listItem);
-	    });
-
-}
 	// 카테고리 정보 리스트 초기화
 	function clearCategoryInfoList() {
 		var listContainer = document.getElementById('categoryInfoList');
