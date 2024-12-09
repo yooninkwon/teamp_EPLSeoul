@@ -2,14 +2,20 @@
  * 
  */
 $(document).ready(function() {
-	
-	const juminChart = $('#jumin-chart')
-	
+
+	const juminChartSeoul = $('#jumin-chart-seoul')
+	const juminChartGu = $('#jumin-chart-gu')
+
 	const labels = [
+		'2007', '2008', '2009', '2010',
 		'2011', '2012', '2013', '2014',
 		'2015', '2016', '2017', '2018',
 		'2019', '2020', '2021', '2022',
-		'2023', '2024'];
+		'2023'];
+
+	const seoul = [
+		'서울시'
+	];
 
 	const guNames = [
 		'강남구', '강동구', '강북구', '강서구', '관악구',
@@ -20,7 +26,7 @@ $(document).ready(function() {
 	];
 
 	const dataArray = [];
-	
+
 	const backgroundColors = [
 		'rgb(231, 76, 60)',   // 부드러운 빨강
 		'rgb(52, 152, 219)',  // 차분한 파랑
@@ -48,7 +54,7 @@ $(document).ready(function() {
 		'rgb(255, 178, 102)', // 따뜻한 밀크티 색
 		'rgb(89, 98, 117)'    // 톤 다운된 다크 블루
 	];
-	
+
 	const options = {
 		responsive: true,
 		plugins: {
@@ -66,7 +72,7 @@ $(document).ready(function() {
 			}
 		}
 	}
-	
+
 	loadData();
 
 	function loadData() {
@@ -76,39 +82,65 @@ $(document).ready(function() {
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`HTTP error. status: ${response.status}`);
-			}
-			return response.json();
-		})
-		.then(data => {
-			spliceData(data);
-		})
-		.catch(error => {
-			console.error(error)
-		});
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(`HTTP error. status: ${response.status}`);
+				}
+				return response.json();
+			})
+			.then(data => {
+				spliceData(data);
+			})
+			.catch(error => {
+				console.error(error)
+			});
 	}
 
 	function spliceData(data) {
 		for (let i = 0; i < 26; i++) {
 			dataArray.push(data.splice(0, 17));
 		}
-		createChart(juminChart, dataArray);
+		console.log(dataArray);
+		createChartSeoul(juminChartSeoul, dataArray);
+		createChartGu(juminChartGu, dataArray);
 	}
-	
-	function createChart(context) {
+
+	function createChartSeoul(context, dataArray) {
 		return new Chart(context, {
 			type: 'line',
 			data: {
 				labels: labels,
-				datasets: createDatasets()
+				datasets: createDatasetsSeoul(dataArray)
 			},
 			options: options
 		});
 	}
-	
-	function createDatasets() {
+
+	function createChartGu(context, dataArray) {
+		return new Chart(context, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: createDatasetsGu(dataArray)
+			},
+			options: options
+		});
+	}
+
+	function createDatasetsSeoul(dataArray) {
+		return seoul.map((name, index) => ({
+			label: name,
+			data: getJuminData(dataArray[index]),
+			backgroundColor: '#73A3FF',
+			borderColor: '#735588',
+			borderWidth: 2,
+			tension: 0.4,
+			spanGaps: true,
+			fill: false
+		}));
+	}
+
+	function createDatasetsGu(dataArray) {
 		return guNames.map((name, index) => ({
 			label: name,
 			data: getJuminData(dataArray[index + 1]),
@@ -120,14 +152,19 @@ $(document).ready(function() {
 			fill: false
 		}));
 	}
-	
+
 	function getJuminData(juminData) {
 		const data = [];
-		
-		for(let i = 0; i < 17; i++) {
+
+		for (let i = 0; i < 17; i++) {
 			data.push(juminData[i].jumin);
 		}
 		return data;
 	}
+	
+	$('input[name="chart-type"]').on('change', function() {
+		$('#seoul-chart-container').toggleClass('on off');
+		$('#gu-chart-container').toggleClass('on off');	
+	});
 
 });

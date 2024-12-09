@@ -12,9 +12,28 @@
 </head>
 
 <body>
-	<h1> 연도별 자치구 인구수 통계 </h1>
+	<h1> 연도별 서울시 인구수 통계 (2007 - 2023) </h1>
 	
-	<canvas id="jumin-chart"></canvas>
+		
+	 <label for="seoul">
+		  <input type="radio" name="chart-type" id="seoul" value="seoul-chart-container" checked />
+		  서울시 종합 
+	 </label>
+	 
+	 <label for="gu">
+		  <input type="radio" name="chart-type" id="gu" value="jumin-chart-container" />
+		  자치구 	  
+	 </label>
+	
+	<!--  -->
+	<div id="all-chart-container">
+		<div id="seoul-chart-container" class="on">
+			<canvas id="jumin-chart-seoul"></canvas>
+		</div>
+		<div id="gu-chart-container" class="off">
+			<canvas id="jumin-chart-gu"></canvas>
+		</div>
+	</div>
 	
 	<script src="/static/js/realty/realty_body5.js"></script>
 	<script src="/static/js/realty/realty_navbar.js"></script>

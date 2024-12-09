@@ -124,15 +124,15 @@
 				<h3>아파트 전세 보증금 평균</h3>
 				<canvas id="gu-up-down-jeonse-apt"></canvas>
 			</div>
-			<div id="jeonse-single-container" class="on">
+			<div id="jeonse-single-container" class="off">
 				<h3>단독다가구 전세 보증금 평균</h3>
 				<canvas id="gu-up-down-jeonse-single"></canvas>
 			</div>
-			<div id="jeonse-multi-container" class="on">
+			<div id="jeonse-multi-container" class="off">
 				<h3>연립다세대 전세 보증금 평균</h3>
 				<canvas id="gu-up-down-jeonse-multi"></canvas>
 			</div>
-			<div id="jeonse-office-container" class="on">
+			<div id="jeonse-office-container" class="off">
 				<h3>오피스텔 전세 보증금 평균</h3>
 				<canvas id="gu-up-down-jeonse-office"></canvas>
 			</div>

@@ -108,6 +108,10 @@
 		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty6.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
 	</definition>
+	<definition name="epl/realty7" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/realty/realty7.jsp" />
+		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_realty.jsp" />
+	</definition>
 	
 	
 </tiles-definitions>
