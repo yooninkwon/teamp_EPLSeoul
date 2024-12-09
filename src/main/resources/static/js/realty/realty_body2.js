@@ -70,8 +70,6 @@ $(document).ready(function() {
 
 	input_living_se.on('change', function() {
 		let linvingSe = $('input[name="living-se"]:checked').val();
-		console.log(linvingSe)
-		console.log(linvingSe2)
 		changeLiveSeDivClass(linvingSe);
 	});
 	

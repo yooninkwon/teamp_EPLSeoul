@@ -29,7 +29,8 @@ public class DateFileInsertService {
 
         try {
             // CSV 파일 읽기
-            restaurantDataList = context.readByLine(filename);
+            restaurantDataList = null;
+            		//context.readByLine(filename);
             System.out.println("CSV 파일 파싱 완료");
 
             // 병렬로 데이터 삽입
