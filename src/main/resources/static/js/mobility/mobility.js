@@ -1,18 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
-
+document.addEventListener('DOMContentLoaded', async function() {
 	// 지도 생성하기
 	var mapContainer = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 	var mapOption = { //지도를 생성할 때 필요한 기본 옵션
 		center: new kakao.maps.LatLng(37.5658, 126.9769), //지도의 중심좌표. 위도(latitude), 경도(longitude)
 		level: 3 //지도의 레벨(확대, 축소 정도)
-	};
+	}
 	
 	var map = new kakao.maps.Map(mapContainer, mapOption); //지도 생성 및 객체 리턴
-	
+	map.setZoomable(false); // 확대, 축소 변경 불가
+
 	// geolocation(현재 위치정보)으로 중심좌표 생성하기
 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
 	if (navigator.geolocation) {
-	    
 	    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
 	    navigator.geolocation.getCurrentPosition(function(position) {
 	        
@@ -23,10 +22,77 @@ document.addEventListener('DOMContentLoaded', function() {
 	        
 	        // 지도의 중심좌표를 교체합니다
 	        map.setCenter(locPosition);
-	            
-	      });
+	    });
 	}
+	
+	// SBD(Stations by district) 데이터 가져오기
+    const sbdDatas = await fetch('/epl/mobility/data/sbdDatas')
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error fetching sbdDatas:', error);
+            return [];
+        });
 
+    // guSelect 옵션 추가
+    const guList = [...new Set(sbdDatas.map(item => item.gu))]; // 중복 제거
+    guList.forEach(gu => {
+        const option = document.createElement('option');
+        option.value = gu;
+        option.textContent = gu;
+        document.getElementById('guSelect').appendChild(option);
+    });
+
+    // gu 선택값으로 dongSelect 옵션 추가
+    document.getElementById('guSelect').addEventListener('change', function () {
+        const selectedGu = this.value;
+        document.getElementById('dongSelect').innerHTML = '<option value="">동 선택</option>'; // 초기화
+        document.getElementById('stationSelect').innerHTML = ''; // 초기화
+
+        if (!selectedGu) return;
+
+        const dongList = [...new Set(sbdDatas
+            .filter(item => item.gu === selectedGu)
+            .map(item => item.dong))];
+		
+        dongList.forEach(dong => {
+            const option = document.createElement('option');
+            option.value = dong;
+            option.textContent = dong;
+            document.getElementById('dongSelect').appendChild(option);
+        });
+    });
+
+    // dong 선택값으로 stationSelect 옵션 추가
+    document.getElementById('dongSelect').addEventListener('change', function () {
+        const selectedGu = document.getElementById('guSelect').value;
+        const selectedDong = this.value;
+        document.getElementById('stationSelect').innerHTML = ''; // 초기화
+
+        if (!selectedDong) return;
+
+        const stationList = sbdDatas
+			.filter(item => item.gu === selectedGu && item.dong === selectedDong);
+			
+        stationList.forEach(station => {
+            const btn = document.createElement('button');
+            btn.textContent = station.name;
+            btn.dataset.lat = station.lat;
+            btn.dataset.lot = station.lot;
+            btn.className = 'station-item';
+            document.getElementById('stationSelect').appendChild(btn);
+        });
+
+        // 각 station 클릭 이벤트: 좌표값으로 지도 변경
+        document.querySelectorAll('.station-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const lat = parseFloat(this.dataset.lat);
+                const lot = parseFloat(this.dataset.lot);
+				var locPosition = new kakao.maps.LatLng(lat, lot);
+		        map.setCenter(locPosition);
+            });
+        });
+    });
+	
 	// 자전거도로 정보 보기
 	document.getElementById('chkBicycle').addEventListener('change',function(){
 	    // 현재 체크박스 상태 확인

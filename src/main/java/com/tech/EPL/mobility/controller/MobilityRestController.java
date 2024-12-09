@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tech.EPL.config.ApiKeyConfig;
+import com.tech.EPL.mobility.dto.MobilityProcessedData;
+import com.tech.EPL.mobility.repository.MobilityJpaRepository;
 import com.tech.EPL.mobility.service.MobilityBatchService;
 import com.tech.EPL.mobility.service.MobilitySeoulAPIService;
 
@@ -24,22 +26,21 @@ public class MobilityRestController {
 	private final CacheManager cacheManager;
 	private final String seoulApiKey;
     private final MobilitySeoulAPIService mobilitySeoulAPIService;
+    private final MobilityJpaRepository jpaRepository;
     
     // 단일 생성자 주입(@Autowired 생략)
     public MobilityRestController(MobilityBatchService mobilityBatchService,
     		CacheManager cacheManager,
     		ApiKeyConfig apiKeyConfig,
-    		MobilitySeoulAPIService mobilitySeoulAPIService) {
+    		MobilitySeoulAPIService mobilitySeoulAPIService,
+    		MobilityJpaRepository jpaRepository) {
     	this.mobilityBatchService = mobilityBatchService;
     	this.cacheManager = cacheManager;
         this.seoulApiKey = apiKeyConfig.getSeoulMobilityKey();
         this.mobilitySeoulAPIService = mobilitySeoulAPIService;
+        this.jpaRepository = jpaRepository;
     }
     
-    
-    
-    
-    // REST API 트리거
     // Batch Job : 데이터 가공 및 저장
     @GetMapping("/runBatch/{fileType}")
     public void runBatch(@PathVariable String fileType) throws Exception {
@@ -57,14 +58,15 @@ public class MobilityRestController {
     	System.out.println("캐시를 비웠습니다.");
     }
     
-    
-    
-    
-    // 데이터 호출 매서드
     // 서울 열린데이터광장 API
     @GetMapping("apiSeoul")
     public List<String> getSeoulAPIData(@RequestParam String service) throws IOException {
-    	List<String> response = mobilitySeoulAPIService.fetchSeoulAPIData(seoulApiKey, service);
-        return response;
+        return mobilitySeoulAPIService.fetchSeoulAPIData(seoulApiKey, service);
+    }
+    
+    // MOBILITY_SBD 데이터
+    @GetMapping("sbdDatas")
+    public List<MobilityProcessedData> getSbdData() {
+    	return jpaRepository.findAll();
     }
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/static/css/mobility.css">
+<link rel="stylesheet" href="/static/css/mobility/mobility.css">
 <title>mobility_body</title>
 </head>
 <body>
@@ -14,20 +14,14 @@
 <div class="stationContainer">
 	<div>
 		<span>가까운 역 찾기</span>
-		<select>
-			<option>구
-			<option>구옵션1
-			<option>구옵션2
+		<select id="guSelect">
+			<option value="">구 선택</option>
 		</select>
-		<select>
-			<option>동
-			<option>동옵션1
-			<option>동옵션2
+		<select id="dongSelect">
+			<option value="">동 선택</option>
 		</select>
 	</div>
-	<div>
-		
-	</div>
+	<div id="stationSelect"></div>
 </div>
 
 <input type="checkbox" id="chkBicycle" /> 자전거도로 정보 보기
@@ -38,6 +32,6 @@
 <div id="map"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiJsKey }&libraries=services"></script>
-<script src="/static/js/mobility.js"></script>
+<script src="/static/js/mobility/mobility.js"></script>
 </body>
 </html>
