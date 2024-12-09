@@ -159,13 +159,13 @@
 		    <version>1.12.0</version>
 		</dependency>
 		
-		<!-- json file -->
-<!--		<dependency>
+		<!-- json file
+		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20240303</version>
-		</dependency>
--->		
+		</dependency> -->
+		
 		<!-- Spring Data JPA -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -177,9 +177,7 @@
 		    <artifactId>json</artifactId>
 		    <version>20211205</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
