@@ -16,7 +16,6 @@ public class ApiKeyConfig {
 
 	@Value("${open.realty}")
 	private String openRealtyKey;	
-
 	
 	@Value("${open.bus}")
 	private String openBus;
@@ -35,4 +34,14 @@ public class ApiKeyConfig {
 
 	@Value("${tmap.bus}")
 	private String tmapBusKey;
+	
+	@Value("${naver.client.bus}")
+	private String naverClientBus;
+	
+	@Value("${naver.secret.bus}")
+	private String naverSecretBus;
+
+
+
+
 }

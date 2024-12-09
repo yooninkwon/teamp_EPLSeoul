@@ -13,5 +13,5 @@ public class BlogPost {
     private String title;
     private String link;
     private String description;
-    private String thumbnail; // 대표 이미지 URL 추가
+   
 }
