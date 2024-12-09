@@ -13,22 +13,22 @@ public class ELPRealtyController {
 //	private final RealtyServiceGroup serviceGroup;
 	
 	@GetMapping("/realty0")
-	public String realty0(Model model) {
+	public String realty0() {
 		return "epl/realty0";
 	}
 		
 	@GetMapping("/realty1")
-	public String realty1(Model model) {
+	public String realty1() {
 		return "epl/realty1";
 	}
 		
 	@GetMapping("/realty2")
-	public String realty2(Model model) {
+	public String realty2() {
 		return "epl/realty2";
 	}
 	
 	@GetMapping("/realty3")
-	public String realty3(Model model) {
+	public String realty3() {
 		return "epl/realty3";
 	}
 	
@@ -38,13 +38,18 @@ public class ELPRealtyController {
 	}
 	
 	@GetMapping("/realty5")
-	public String realty5(Model model) {
+	public String realty5() {
 		return "epl/realty5";
 	}
 	
 	@GetMapping("/realty6")
-	public String realty6(Model model) {
+	public String realty6() {
 		return "epl/realty6";
+	}	
+	
+	@GetMapping("/realty7")
+	public String realty7() {
+		return "epl/realty7";
 	}	
 }
 

@@ -13,8 +13,6 @@ public class RealtyJuminDataParser implements Parser<RealtyJuminData> {
 		juminData.setGu(splitted[0].replace("\"", ""));
 		juminData.setYear(Integer.parseInt(splitted[1]));
 		juminData.setJumin(Integer.parseInt(splitted[2]));
-		juminData.setMyunjuk(Integer.parseInt(splitted[3]));
-		juminData.setMildo(Integer.parseInt(splitted[4].replace("\"", "")));
 		
 		return juminData;
 	}

@@ -7,6 +7,4 @@ public class RealtyJuminData {
 	private String gu;
 	private int year;
 	private int jumin;
-	private int myunjuk;
-	private int mildo;
 }
