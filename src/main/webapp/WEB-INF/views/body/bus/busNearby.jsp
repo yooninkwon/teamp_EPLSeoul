@@ -107,16 +107,15 @@
 	</div>
 
 
-	<div id="categoryInfoList"></div>
+	<div id="categoryInfoList">
+	  <div id="emptyMessage" class="empty-message">정류장과 카테고리를 선택해주세요.</div>
+	
+	</div>
 
 	<h1>블로그 리뷰</h1>
 	<ul id="blogPostList">
 		<!-- 블로그 리스트가 동적으로 여기에 추가됨 -->
 	</ul>
-
-
-
-
 
 
 	<script src="/static/js/bus/busnearby.js"></script>

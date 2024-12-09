@@ -82,6 +82,7 @@ kakao.maps.load(function() {
 
 		currentPosition = position;  // 선택된 위치 저장
 
+		resetBlogPosts();
 		clearMarkers();  // 기존 마커 초기화
 		clearCategoryMarkers();
 		closeCategoryInfoWindows();
@@ -229,6 +230,7 @@ kakao.maps.load(function() {
 		var placesService = new kakao.maps.services.Places();
 		var bounds = map.getBounds();
 
+		resetBlogPosts();
 		clearCategoryMarkers();
 		closeCategoryInfoWindows(); // 카테고리 정보창 닫기
 		clearCategoryInfoList(); // 카테고리 정보 리스트 초기화
@@ -347,6 +349,13 @@ kakao.maps.load(function() {
 	function addToCategoryInfoList(place) {
 		var listContainer = document.getElementById('categoryInfoList');
 
+		// 빈 메시지 숨기기
+		var emptyMessage = document.getElementById('emptyMessage');
+		if (emptyMessage) {
+		    emptyMessage.style.display = 'none';
+		}
+		
+		
 		var placeDiv = document.createElement('div');
 		placeDiv.className = 'category-info-item';
 		placeDiv.dataset.placeId = place.id; // 각 div에 고유 ID를 설정하여 나중에 식별할 수 있게 함
@@ -469,5 +478,22 @@ kakao.maps.load(function() {
 		}
 	}
 
+	// 공통 함수: 블로그 데이터를 초기화
+	function resetBlogPosts() {
+	    // 1. 블로그 데이터를 null로 설정 (필요시 데이터 초기화)
+	    let blogPosts = null;
+
+	    // 2. 블로그 리스트를 비워서 초기화
+	    var blogListContainer = document.getElementById('blogPostList');
+	    blogListContainer.innerHTML = '';  // 기존 블로그 리스트 제거
+
+	    // 3. 블로그 데이터가 없다면 "데이터 없음" 메시지 추가 (선택 사항)
+	    var noDataMessage = document.createElement('p');
+	    noDataMessage.textContent = '블로그 데이터가 없습니다.';
+	    blogListContainer.appendChild(noDataMessage);
+
+	    console.log('블로그 데이터가 초기화되었습니다.');
+	}
+	
 
 });
