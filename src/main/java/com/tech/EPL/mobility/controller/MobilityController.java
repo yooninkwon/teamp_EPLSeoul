@@ -12,17 +12,17 @@ import com.tech.EPL.config.ApiKeyConfig;
 public class MobilityController {
 	
 	// 필드 선언
-	private final String kakaoApiKey;
+	private final String kakaoApiJsKey;
     
     // 단일 생성자 주입(@Autowired 생략)
     public MobilityController(ApiKeyConfig apiKeyConfig) {
-        this.kakaoApiKey = apiKeyConfig.getKakaoMobilityKey();
+        this.kakaoApiJsKey = apiKeyConfig.getKakaoMobilityJsKey();
     }
     
 	@GetMapping("")
 	public String mobilityMain(Model model) {
 		
-		model.addAttribute("kakaoApiKey", kakaoApiKey);
+		model.addAttribute("kakaoApiJsKey", kakaoApiJsKey);
 		
 		return "epl/mobility";
 	}

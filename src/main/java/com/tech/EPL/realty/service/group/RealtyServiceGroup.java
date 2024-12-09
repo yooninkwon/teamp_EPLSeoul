@@ -1,11 +1,13 @@
 package com.tech.EPL.realty.service.group;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.tech.EPL.realty.dto.RealtyJuminData;
 import com.tech.EPL.realty.enums.DongName;
 import com.tech.EPL.realty.enums.GuName;
 import com.tech.EPL.realty.service.DongCodeService;
@@ -13,7 +15,10 @@ import com.tech.EPL.realty.service.FileDBInsertService;
 import com.tech.EPL.realty.service.GuAvgData;
 import com.tech.EPL.realty.service.GuCodeService;
 import com.tech.EPL.realty.service.InsertDataAVG;
+import com.tech.EPL.realty.service.JuminDataService;
 import com.tech.EPL.realty.service.RealtyAvgData;
+import com.tech.EPL.realty.service.YearsGuData;
+import com.tech.EPL.realty.service.RankingData;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,19 +27,34 @@ import lombok.RequiredArgsConstructor;
 public class RealtyServiceGroup {
 	private final RealtyAvgData realtyAvgData;
 	private final GuAvgData guAvgData;
+	private final RankingData rankingData;
 	private final DongCodeService dongCodeService;
 	private final GuCodeService guCodeService;
 	private final FileDBInsertService fileDBInsertService; 
 	private final InsertDataAVG insertDataAVG;
+	private final YearsGuData yearsGuData;
+	private final JuminDataService juminDataService;
 	
-	public void getAvgData(Model model) {
-		realtyAvgData.execution(model);
+	public ResponseEntity<Map<String, Object>> getYearsAvgData() {
+		return realtyAvgData.execution();
 	}
 	
 	public ResponseEntity<Map<String, Object>> getGuData(String type) {
 		guAvgData.setType(type);
 		return guAvgData.execution();
 	}
+	
+	public ResponseEntity<Map<String, Object>> getRankingData() {
+		return rankingData.execution();
+	}
+	
+	public ResponseEntity<Map<String, Object>> getYearsGuData() {
+		return yearsGuData.execution();
+	}
+
+	public ResponseEntity<ArrayList<RealtyJuminData>> getJuminData() {
+		return juminDataService.execution();
+	}	
 	
 	public void rentFileDBInsert(String fileName, String type) {
 		fileDBInsertService.insertFileData(fileName, type);
@@ -62,5 +82,4 @@ public class RealtyServiceGroup {
 	public GuName searchGuName(String name) {
 		return guCodeService.findByGuName(name);
 	}
-	
 }

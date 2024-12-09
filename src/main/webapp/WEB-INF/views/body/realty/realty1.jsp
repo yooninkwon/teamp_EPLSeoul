@@ -12,60 +12,52 @@
 </head>
 
 <body>
-	<script>
-		$(document).ready(function(){
-			let buyingStat = ${buyingStat };
-			let rentStat = ${rentStat };
-			let jeonseStat = ${jeonseStat };
-			
-			chart(buyingStat, rentStat, jeonseStat);
-		});
-	</script>
 
 	<h1>연도별 실거래가 통계 </h1>
 
 	<label for="buying">
-		<input type="radio" name="seType" id="buying" value="buying" checked />
+		<input type="radio" name="seType" id="buying" value="buying-container" checked />
 		매매 평균 
 	</label>
 	<label for="rent">
-		<input type="radio" name="seType" id="rent" value="rent" />
+		<input type="radio" name="seType" id="rent" value="rent-container" />
 		월세 평균 
 	</label>
 	<label for="jeonse">
-		<input type="radio" name="seType" id="jeonse" value="jeonse" />
+		<input type="radio" name="seType" id="jeonse" value="jeonse-container" />
 		전세 보증금 평균  
 	</label>
 	
-	<!--  -->
-	<div id="buying-container" class="on">
-		<canvas id="chart-buying"></canvas>
-	</div>
-	
-	<!--  -->
-	<div id="rent-container" class="off">
-		<label for="rtfe">
-			<input type="radio" name="avg" id="rtfe" value="rtfe" checked />
-			월세 통계 
-		</label>
-		<label for="grfe">
-			<input type="radio" name="avg" id="grfe" value="grfe" />
-			보증금 통계 
-		</label>
+	<div id="all-chart-div">
+		<!--  -->
+		<div id="buying-container" class="on">
+			<canvas id="chart-buying"></canvas>
+		</div>
 		
-		<div id="rtfe-chart" class="on">
-			<canvas id="chart-rent-rtfe"></canvas>
+		<!--  -->
+		<div id="rent-container" class="off">
+			<label for="rtfe">
+				<input type="radio" name="avg" id="rtfe" value="rtfe-chart" checked />
+				월세 통계 
+			</label>
+			<label for="grfe">
+				<input type="radio" name="avg" id="grfe" value="grfe-chart" />
+				보증금 통계 
+			</label>
+			
+			<div id="rtfe-chart" class="on">
+				<canvas id="chart-rent-rtfe"></canvas>
+			</div>
+			<div id="grfe-chart" class="off">
+				<canvas id="chart-rent-grfe"></canvas>	
+			</div>
 		</div>
-		<div id="grfe-chart" class="off">
-			<canvas id="chart-rent-grfe"></canvas>	
+		
+		<!--  -->
+		<div id="jeonse-container" class="off">
+				<canvas id="chart-jeonse"></canvas>	
 		</div>
 	</div>
-	
-	<!--  -->
-	<div id="jeonse-container" class="off">
-			<canvas id="chart-jeonse"></canvas>	
-	</div>
-	
 	<script src="/static/js/realty/realty_body1.js"></script>
 	<script src="/static/js/realty/realty_navbar.js"></script>
 </body>

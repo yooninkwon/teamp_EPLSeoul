@@ -62,15 +62,17 @@ public class MetroRestController {
 	
 	//metro3 분실물 습득물 정보 가져오기 (api url연결)
 	@GetMapping("/lostFound")
-	public List<Map> lostFound(@RequestParam String dateValue,
-			@RequestParam String searchValue,  Model model){
+	public List<Map> lostFound(@RequestParam String stationValue,
+			@RequestParam String lostItemValue,  Model model){
 		
-		model.addAttribute("dateValue",dateValue);
-		model.addAttribute("searchValue",searchValue);
+		model.addAttribute("stationValue",stationValue);
+		model.addAttribute("lostItemValue",lostItemValue);
 		model.addAttribute("apiKeyConfig", apiKeyConfig);
 		lostFoundService.execution(model);
 		
-		return null;
+		List<Map> data = (List<Map>) model.getAttribute("data");
+		
+		return data;
 	}
 	
 	//metro4 지하철역 통계 정보

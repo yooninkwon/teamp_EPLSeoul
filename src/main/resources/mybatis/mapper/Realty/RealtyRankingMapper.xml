@@ -1,0 +1,117 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.tech.EPL.realty.mapper.RealtyRankingMapper">
+	
+			
+<!-- 매매 -->
+	<select id="getBuyingRankingMax" resultType="com.tech.EPL.realty.dto.RankingBuyingData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_THING_AMT 
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_THING_AMT DESC
+		LIMIT 3
+	</select>
+	<select id="getBuyingRankingMin" resultType="com.tech.EPL.realty.dto.RankingBuyingData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_THING_AMT 
+		FROM 
+			EPL_SEOUL.REALTY_BUYING_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_THING_AMT 
+		LIMIT 3
+	</select>
+	
+<!-- 월세 -->
+	<select id="getRentRankingGrfeMax" resultType="com.tech.EPL.realty.dto.RankingGrfeData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_GRFE 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_GRFE DESC
+		LIMIT 3
+	</select>
+	<select id="getRentRankingGrfeMin" resultType="com.tech.EPL.realty.dto.RankingGrfeData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_GRFE 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_GRFE
+		LIMIT 3
+	</select>
+	<select id="getRentRankingRtfeMax" resultType="com.tech.EPL.realty.dto.RankingRentRtfeData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_RTFE 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_RTFE DESC
+		LIMIT 3
+	</select>
+	<select id="getRentRankingRtfeMin" resultType="com.tech.EPL.realty.dto.RankingRentRtfeData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_RTFE 
+		FROM 
+			EPL_SEOUL.REALTY_RENT_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_RTFE
+		LIMIT 3
+	</select>
+	
+<!-- 전세 -->
+	<select id="getJeonseRankingMax" resultType="com.tech.EPL.realty.dto.RankingGrfeData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_GRFE 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_GRFE DESC
+		LIMIT 3
+	</select>
+	<select id="getJeonseRankingMin" resultType="com.tech.EPL.realty.dto.RankingGrfeData">
+		SELECT 
+			CGG_NM, STDG_NM, BLDG_USG, AVG_GRFE 
+		FROM 
+			EPL_SEOUL.REALTY_JEONSE_AVG
+		WHERE 
+			RCPT_YR > '2020'
+		GROUP BY 
+			STDG_NM
+		ORDER BY 
+			AVG_GRFE
+		LIMIT 3
+	</select>
+</mapper>

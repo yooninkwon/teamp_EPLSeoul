@@ -1,6 +1,7 @@
 package com.tech.EPL.realty.csvinsert.parser;
 
 import com.tech.EPL.interfaces.Parser;
+
 import com.tech.EPL.realty.dto.RealtyBuyData;
 
 public class RealtyBuyDataParser implements Parser<RealtyBuyData> {
@@ -10,7 +11,7 @@ public class RealtyBuyDataParser implements Parser<RealtyBuyData> {
 		String[] splitted = str.split("\",\"");
 		RealtyBuyData buyFileData = new RealtyBuyData();
 		
-		buyFileData.setRcpt_yr(splitted[0]);
+		buyFileData.setRcpt_yr(splitted[0].replace("\"", ""));
 		buyFileData.setCgg_cd(splitted[1]);
 		buyFileData.setCgg_nm(splitted[2]);
 		buyFileData.setStdg_cd(splitted[3]);

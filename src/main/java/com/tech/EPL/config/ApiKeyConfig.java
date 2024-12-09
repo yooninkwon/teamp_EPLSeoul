@@ -20,14 +20,20 @@ public class ApiKeyConfig {
 	@Value("${open.bus}")
 	private String openBus;
 
-	@Value("${kakao.monility}")
-	private String kakaoMobilityKey;
+	@Value("${kakao.monility.js}")
+	private String kakaoMobilityJsKey;
+	
+	@Value("${kakao.monility.rest}")
+	private String kakaoMobilityRestKey;
 	
 	@Value("${kakao.bus}")
 	private String kakaoBusKey;
 	
 	@Value("${seoul.mobility}")
 	private String seoulMobilityKey;
+	
+	@Value("${lostItem.metro}")
+	private String lostItemMetroKey;
   
 	@Value("${google.bus}")
 	private String googleBusKey;
@@ -40,8 +46,7 @@ public class ApiKeyConfig {
 	
 	@Value("${naver.secret.bus}")
 	private String naverSecretBus;
-
-
-
-
+  
+	@Value("${google.date}")
+	private String googleDateKey;
 }

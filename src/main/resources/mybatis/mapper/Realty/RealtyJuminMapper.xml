@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.tech.EPL.realty.mapper.RealtyJuminMapper">
+	<select id="getJuminData" resultType="com.tech.EPL.realty.dto.RealtyJuminData">
+		SELECT 
+			* 
+		FROM 
+			EPL_SEOUL.REALTY_JUMIN
+		ORDER BY 
+			GU, YEAR
+	</select>
+</mapper>
