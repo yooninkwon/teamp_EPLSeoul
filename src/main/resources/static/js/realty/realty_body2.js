@@ -7,55 +7,54 @@ $(document).ready(function() {
 	let chartType = 'avg';
 	let typeLabel = '아파트';
 	
-	let charts = [];
+	const charts = [];
 	
-	let buying_container = $('#buying-container');
-	let rent_rtfe_container = $('#rent-rtfe-container');
-	let rent_grfe_container = $('#rent-grfe-container');
-	let jeonse_container = $('#jeonse-container');
+	const all_chart_container = $('#all-chart-container');
 	
-	let chart_gu_buying_avg = $('#chart-gu-buying-avg');
-	let chart_gu_buying_max = $('#chart-gu-buying-max');
-	let chart_gu_buying_min = $('#chart-gu-buying-min');
+	const chart_gu_buying_avg = $('#chart-gu-buying-avg');
+	const chart_gu_buying_max = $('#chart-gu-buying-max');
+	const chart_gu_buying_min = $('#chart-gu-buying-min');
 	
-	let chart_gu_rent_rtfe_avg = $('#chart-gu-rent-rtfe-avg');
-	let chart_gu_rent_rtfe_max = $('#chart-gu-rent-rtfe-max');
-	let chart_gu_rent_rtfe_min = $('#chart-gu-rent-rtfe-min');
+	const chart_gu_rent_rtfe_avg = $('#chart-gu-rent-rtfe-avg');
+	const chart_gu_rent_rtfe_max = $('#chart-gu-rent-rtfe-max');
+	const chart_gu_rent_rtfe_min = $('#chart-gu-rent-rtfe-min');
 	
-	let chart_gu_rent_grfe_avg = $('#chart-gu-rent-grfe-avg');
-	let chart_gu_rent_grfe_max = $('#chart-gu-rent-grfe-max');
-	let chart_gu_rent_grfe_min = $('#chart-gu-rent-grfe-min');
+	const chart_gu_rent_grfe_avg = $('#chart-gu-rent-grfe-avg');
+	const chart_gu_rent_grfe_max = $('#chart-gu-rent-grfe-max');
+	const chart_gu_rent_grfe_min = $('#chart-gu-rent-grfe-min');
 	
-	let chart_gu_jeonse_avg = $('#chart-gu-jeonse-avg');
-	let chart_gu_jeonse_max = $('#chart-gu-jeonse-max');
-	let chart_gu_jeonse_min = $('#chart-gu-jeonse-min');
+	const chart_gu_jeonse_avg = $('#chart-gu-jeonse-avg');
+	const chart_gu_jeonse_max = $('#chart-gu-jeonse-max');
+	const chart_gu_jeonse_min = $('#chart-gu-jeonse-min');
 	
-	let buy_avg_div = $('#buy-avg-div');
-	let buy_max_div = $('#buy-max-div');
-	let buy_min_div = $('#buy-min-div');
+	const buy_avg_div = $('#buy-avg-div');
+	const buy_max_div = $('#buy-max-div');
+	const buy_min_div = $('#buy-min-div');
 
-	let rent_rtfe_avg_div = $('#rent-rtfe-avg-div');
-	let rent_rtfe_max_div = $('#rent-rtfe-max-div');
-	let rent_rtfe_min_div = $('#rent-rtfe-min-div');
+	const rent_rtfe_avg_div = $('#rent-rtfe-avg-div');
+	const rent_rtfe_max_div = $('#rent-rtfe-max-div');
+	const rent_rtfe_min_div = $('#rent-rtfe-min-div');
 		
-	let rent_grfe_avg_div = $('#rent-grfe-avg-div');
-	let rent_grfe_max_div = $('#rent-grfe-max-div');
-	let rent_grfe_min_div = $('#rent-grfe-min-div');
+	const rent_grfe_avg_div = $('#rent-grfe-avg-div');
+	const rent_grfe_max_div = $('#rent-grfe-max-div');
+	const rent_grfe_min_div = $('#rent-grfe-min-div');
 		
-	let jeonse_avg_div = $('#jeonse-avg-div');
-	let jeonse_max_div = $('#jeonse-max-div');
-	let jeonse_min_div = $('#jeonse-min-div');
-
-	let beforeLiveSeChecked = buying_container;
+	const jeonse_avg_div = $('#jeonse-avg-div');
+	const jeonse_max_div = $('#jeonse-max-div');
+	const jeonse_min_div = $('#jeonse-min-div');
+	
+	const input_chart_type = $('input[name="chart-type"]');
+	const input_avg = $('input[name="avg"]');
+	const input_living_se = $('input[name="living-se"]');
 	
 	loadData(type);
 	
-	$('input[name="chart-type"]').on('change', function() {
+	input_chart_type.on('change', function() {
 		chartType = $('input[name="chart-type"]:checked').val();
 		changeChartTypeDiv(chartType);
 	});
 	
-	$('input[name="avg"]').on('change', function() {
+	input_avg.on('change', function() {
 		type = $('input[name="avg"]:checked').val();
 		if (type === 'apt') {
 			typeLabel = '아파트';
@@ -69,14 +68,16 @@ $(document).ready(function() {
 		loadData(type);
 	});
 
-	$('input[name="living-se"]').on('change', function() {
+	input_living_se.on('change', function() {
 		let linvingSe = $('input[name="living-se"]:checked').val();
+		console.log(linvingSe)
+		console.log(linvingSe2)
 		changeLiveSeDivClass(linvingSe);
 	});
 	
 	function changeChartTypeDiv(chartType) {
 		
-		$('#all-chart-container').children().children('.on').removeClass().addClass('off');
+		all_chart_container.children().children('.on').removeClass().addClass('off');
 		
 		if(chartType === 'avg') {
 			buy_avg_div.removeClass().addClass('on');
@@ -97,7 +98,7 @@ $(document).ready(function() {
 	}
 	
 	function changeLiveSeDivClass(livingSe) {
-		$('#all-chart-container').children('.on').removeClass().addClass('off');
+		all_chart_container.children('.on').removeClass().addClass('off');
 		$(`#${livingSe}`).removeClass().addClass('on');
 	}
 	
@@ -237,8 +238,6 @@ $(document).ready(function() {
 
 		// // // // // //
 		
-console.log(data.guAvgRent);
-		//.map(item => item.avg_grfe)
 		let chartBuild_guRent_grfe_avg = new Chart(chart_gu_rent_grfe_avg, {
 			type: 'bar',
 			data: {
@@ -309,12 +308,5 @@ console.log(data.guAvgRent);
 		charts.push(chartBuild_guJeonse_max);
 		charts.push(chartBuild_guJeonse_min);
 		
-	}
-
-	function pageScroll(y) {
-		window.scrollTo({
-			top: y,
-			behavior: 'smooth'
-		});
 	}
 });

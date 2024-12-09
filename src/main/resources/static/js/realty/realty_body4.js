@@ -45,7 +45,11 @@ $(document).ready(function() {
 	const div_office_rent_grfe = $('#rent-grfe-office-container');
 	const div_office_rent_rtfe = $('#rent-rtfe-office-container');
 	const div_office_jeonse = $('#jeonse-office-container');
-
+	
+	const all_chart_container = $('#all-chart-container');
+	const input_living_se = $('input[name="living-se"]');
+	const input_rent_se = $('input[name="rent-se"]');
+	const input_bldg_usg = $('input[name="bldg-usg"]');
 
 	const charts = [];
 
@@ -279,10 +283,10 @@ $(document).ready(function() {
 	}
 
 
-	$('input[name="bldg-usg"]').on('change', function() {
+	input_bldg_usg.on('change', function() {
 		checked = $('input[name="bldg-usg"]:checked').val();
-		$('#all-chart-container').children().children('.on').removeClass().addClass('off');
-		$('#all-chart-container').children().children().children('.on').removeClass().addClass('off');
+		all_chart_container.children().children('.on').removeClass().addClass('off');
+		all_chart_container.children().children().children('.on').removeClass().addClass('off');
 		$('input[name="rent-se"]:input[value="rent-grfe-container"]').prop('checked', true);
 		if (checked === 'apt') {
 			div_rent_grfe.removeClass().addClass('on');
@@ -312,14 +316,14 @@ $(document).ready(function() {
 
 	});
 
-	$('input[name="living-se"]').on('change', function() {
+	input_living_se.on('change', function() {
 		checked = $('input[name="living-se"]:checked').val();
-		$('#all-chart-container').children('.on').removeClass().addClass('off');
+		all_chart_container.children('.on').removeClass().addClass('off');
 
 		$(`#${checked}`).removeClass().addClass('on');
 	});
 
-	$('input[name="rent-se"]').on('change', function() {
+	input_rent_se.on('change', function() {
 
 		div_rent_grfe.toggleClass('on off');
 		div_rent_rtfe.toggleClass('on off');
