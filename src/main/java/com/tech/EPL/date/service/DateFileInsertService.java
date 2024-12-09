@@ -41,7 +41,7 @@ public class DateFileInsertService {
                     throw new RuntimeException(e);
                 }
             });
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

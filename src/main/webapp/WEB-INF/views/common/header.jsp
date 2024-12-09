@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '/epl/bus': '/epl/bus/', // 버스 길찾기
         '/epl/metro': '/epl/metro1', // 지하철 첫 메뉴
         '/epl/mobility': '/epl/mobility/', // 워크 & 모빌리티 첫 메뉴
-        '/epl/date': '/epl/date/submenu1', // 데이트 첫 메뉴
+        '/epl/date': '/epl/date/', // 데이트 첫 메뉴
         '/epl/realty1': '/epl/realty1/submenu1', // 부동산 첫 메뉴
     };
 
@@ -72,7 +72,7 @@ function updateBreadcrumb(link) {
     const submenuPageName = activeSubmenuLink ? activeSubmenuLink.textContent.toUpperCase() : '';
 
     // breadcrumbLeft에는 nav-menu 또는 submenu의 이름을 반영
-    breadcrumbLeft.textContent = pageName || submenuPageName;
+    breadcrumbLeft.textContent = submenuPageName;
 
     // breadcrumbRight에는 상위 메뉴와 현재 경로를 포함한 경로 설정
     breadcrumbRight.textContent = `EPL 서울 > \${pageName} > \${submenuPageName}`;
