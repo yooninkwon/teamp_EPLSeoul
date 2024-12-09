@@ -40,8 +40,10 @@ public class FileDBInsertService {
                 rentDataContext.readByLine(filename, this::insertRentBatch);
             } else if("매매".equals(type)) {
                 buyDataContext.readByLine(filename, this::insertBuyBatch);
-            } else {
+            } else if ("주민".equals(type)){
             	juminDataContext.readByLine(filename, this::insertJuminBatch);
+            } else {
+                throw new IllegalArgumentException("type이 올바르지 않음 : " + type);
             }
         } catch (IOException e) {
             e.printStackTrace();

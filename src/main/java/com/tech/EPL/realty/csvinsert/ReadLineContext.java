@@ -53,8 +53,8 @@ public class ReadLineContext<T> {
         System.out.println(i + " 회 작업 완료");
     }
 
-	public List<DateRestaurantDto> readByLine(String filename) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public List<DateRestaurantDto> readByLine(String filename) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
