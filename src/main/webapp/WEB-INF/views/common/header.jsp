@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '/epl/metro': '/epl/metro1', // 지하철 첫 메뉴
         '/epl/mobility': '/epl/mobility/', // 워크 & 모빌리티 첫 메뉴
         '/epl/date': '/epl/date/', // 데이트 첫 메뉴
-        '/epl/realty1': '/epl/realty1/submenu1', // 부동산 첫 메뉴
+        '/epl/realty1': '/epl/realty1', // 부동산 첫 메뉴
     };
 
     // nav-menu 클릭 이벤트 추가
@@ -86,8 +86,8 @@ function updateBreadcrumb(link) {
 	       <div class="logo-section">
 	           <!-- 로고와 제목 -->
 	           <div class="logo">
-	               <a href="/"><img src="/static/images/logo.png" alt="Logo"></a>
-	               <div><a href="/"><img class="title_img" src="/static/images/EatPlayLoveSeoul.png" alt="Eat, Play, Love Seoul" /></a></div>
+	               <a href="/epl"><img src="/static/images/logo.png" alt="Logo"></a>
+	               <div><a href="/epl"><img class="title_img" src="/static/images/EatPlayLoveSeoul.png" alt="Eat, Play, Love Seoul" /></a></div>
 	           </div>
 	           <!-- 오른쪽 끝 제목 -->
 	           <div class="sub-title">서울의 모든 것</div>
