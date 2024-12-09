@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	    if (likeType === "static") {
 	        activity = ["산책로", "서점", "공원", "영화관"];
 	    } else if (likeType === "dynamic") {
-	        activity = ["체험", "보드게임", "공방", "방탈출"];
+	        activity = ["체험", "보드게임", "공방", "방탈출","오락실"];
 	    }
 
 	    if (districtName) {
