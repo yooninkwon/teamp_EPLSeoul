@@ -30,7 +30,7 @@ class InsertDataAVGTest {
 	@Test
 	@DisplayName("부동산 실거래 데이터 전체 테이블 이용한 평균 테이블 데이터 삽입 테스트")
 	void insertAvgTest() {
-		insertDataAVG.execution(null);
+		insertDataAVG.execution();
 
 		for (GuName guName : GuName.values()) {
 			for (BuildingUseName buildingUse : BuildingUseName.values()) {

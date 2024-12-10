@@ -20,13 +20,13 @@ import com.tech.EPL.realty.dto.YearsStatGuJeonse;
 import com.tech.EPL.realty.dto.YearsStatGuRent;
 import com.tech.EPL.realty.mapper.RealtyYearsMapper;
 
-class YearsGuDataTest {
+class YearsGuUpDownDataTest {
 
 	@Mock
 	private RealtyYearsMapper yearsMapper;
 
 	@InjectMocks
-	private YearsGuData yearsGuData;
+	private YearsGuUpDownData yearsGuData;
 
 	private YearsStatGuBuying yearsStatGuBuyingApt;
 	private YearsStatGuBuying yearsStatGuBuyingSingle;
