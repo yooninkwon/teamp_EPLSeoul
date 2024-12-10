@@ -209,11 +209,8 @@ public class MobilityBatchConfig {
         JSONArray documents = jsonResponse.getJSONArray("documents");
         JSONObject districtInfo = documents.getJSONObject(0);
         
-        String region2DepthName = districtInfo.getString("region_2depth_name");
-        String[] regionParts = region2DepthName.split(" ", 2); // 공백을 기준으로 나눔
-
-        String si = regionParts.length > 1 ? regionParts[0] : "서울시"; // 나눠지면 첫 번째 단어가 시
-        String gu = regionParts.length > 1 ? regionParts[1] : region2DepthName; // 나눠지면 두 번째 단어가 구
+        String si = districtInfo.getString("region_1depth_name");
+        String gu = districtInfo.getString("region_2depth_name");
         String dong = districtInfo.getString("region_3depth_name");
         
         return new String[]{si, gu, dong};
@@ -223,9 +220,11 @@ public class MobilityBatchConfig {
     public ItemWriter<MobilityProcessedData> databaseWriter(MobilityJpaRepository jspRepository) { // JpaRepository 자동 주입
         return entitys -> {
             for (MobilityProcessedData entity : entitys) {
-                if (!jspRepository.existsByName(entity.getName())) { // 이름 기준 중복 확인
-                	jspRepository.save(entity); // 중복되지 않은 경우 저장(CRUD 메서드)
-                }
+            	if ("서울특별시".equals(entity.getSi())) {
+            		if (!jspRepository.existsByName(entity.getName())) { // 이름 기준 중복 확인
+            			jspRepository.save(entity); // 중복되지 않은 경우 저장(CRUD 메서드)
+            		}
+            	}
             }
         };
     }

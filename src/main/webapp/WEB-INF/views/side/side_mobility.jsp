@@ -20,19 +20,21 @@
 <script src="/static/js/mobility.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const submenuLinks = document.querySelectorAll('.submenu a');
-    const currentPath = window.location.pathname; // 현재 URL 경로 가져오기
+	const menuItems = document.querySelectorAll('.submenu div');
 
-    // 모든 링크에서 active 클래스 제거
-    submenuLinks.forEach(link => {
-        link.classList.remove('active');
-    });
+    // 모든 메뉴에서 active 클래스 제거
+    function clearActiveClass() {
+        menuItems.forEach(item => {
+            item.classList.remove('active');
+        });
+    }
 
-    // 현재 경로에 맞는 링크에만 active 클래스 추가
-    submenuLinks.forEach(link => {
-        if (currentPath.startsWith(link.getAttribute('href'))) {
-            link.classList.add('active');
-        }
+    // 클릭한 메뉴에만 active 클래스 추가
+    menuItems.forEach(item => {
+        item.addEventListener('click', function () {
+            clearActiveClass();
+            this.classList.add('active');
+        });
     });
     
  	// 따릉이 대여소 정보 호출
