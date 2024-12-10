@@ -10,18 +10,13 @@ import org.springframework.stereotype.Service;
 import com.tech.EPL.interfaces.ExecutionEntity;
 import com.tech.EPL.realty.mapper.RealtyMapper;
 
-//@Slf4j
 @Service
 public class RealtyAvgData implements ExecutionEntity<Map<String, Object>> {
 	
 	private final RealtyMapper realtyMapper;
-//	private final ObjectMapper mapper;
 	
-	public RealtyAvgData(RealtyMapper realtyMapper // ,
-//			ObjectMapper mapper
-			) {
+	public RealtyAvgData(RealtyMapper realtyMapper) {
 		this.realtyMapper = realtyMapper;
-//		this.mapper = mapper;
 	}
 	
 	@Override
@@ -38,11 +33,6 @@ public class RealtyAvgData implements ExecutionEntity<Map<String, Object>> {
 	
 	private <T> void addModelMethod(Map<String, Object> dataMap, String keyName, ArrayList<T> list) {
 		dataMap.put(keyName, list);
-//		try {
-//			dataMap.put(keyName, mapper.writeValueAsString(list));
-//		} catch (JsonProcessingException e) {
-//			log.error("Json Processing Exception", e);
-//		}
 	}
 	
 }

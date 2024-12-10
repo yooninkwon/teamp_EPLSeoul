@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.tech.EPL.date.dto.DateRestaurantDto;
 import com.tech.EPL.interfaces.Parser;
 
 public class ReadLineContext<T> {
