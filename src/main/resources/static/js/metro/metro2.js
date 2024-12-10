@@ -65,20 +65,13 @@ $(document).ready(function() {
 
 		let departure = document.getElementById('departure').value;
 		let destination = document.getElementById('destination').value;
-		
-		
-	   	
-		
+
 		if(departure == '서울'){
 			departure = '서울역';
 		}
 		if(destination == '서울'){
 			destination = '서울역';
 		}
-
-
-		
-		
 		
 		$.ajax({
 			url : 'metro/direction',
@@ -166,8 +159,7 @@ $(document).ready(function() {
 							text.setAttribute('style', '');
 							text.textContent = text.textContent.replace('(출발)', '');
 							text.textContent = text.textContent.replace('(도착)', '');
-							text.textContent = text.textContent.replace('(경유)', '');
-							text.setAttribute('style', 'opacity: 0 !important;');
+							text.setAttribute('style', 'opacity: 0.2 !important;');
 							const stationName = text.textContent.trim(); // 역 이름 가져오기
 
 
@@ -185,8 +177,7 @@ $(document).ready(function() {
 							}							// 경유지 스타일
 						   else if (data.goMap.includes(stationName)) {
 								text.setAttribute('style', '');
-  						        text.textContent = stationName + "(경유)";
-								text.setAttribute('style', 'fill: black !important; font-size: 5px !important; font-weight: bold !important;');
+								text.setAttribute('style', 'fill: black !important; font-size: 6px !important; font-weight: bold !important;');
 						   }
 						});
 					} else {
@@ -195,13 +186,6 @@ $(document).ready(function() {
 				} else {
 					console.error("mapImage not found.");
 				}				
-				
-				
-				
-				
-				
-				
-				   
 				},
 			error: function(xhr, status, error) {
 				console.error('에러 발생:', error); // 에러 처리
