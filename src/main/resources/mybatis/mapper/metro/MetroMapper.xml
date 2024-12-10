@@ -88,6 +88,19 @@
 		LIMIT 1
 	</select>
 	
+	<select id="stationGoMap" 
+	resultType="com.tech.EPL.metro.dto.StationGoMapDto">
+		SELECT
+			SGO
+		FROM
+			METRO_GOMAP
+		WHERE
+			SNOW = #{reDeparture}
+		AND
+			SNEXT = #{reDestination}
+		LIMIT 1
+	</select>
+	
 	
 	
 

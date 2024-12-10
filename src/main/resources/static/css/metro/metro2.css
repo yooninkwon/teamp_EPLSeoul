@@ -35,6 +35,7 @@
 	display: flex; /* Flexbox 활성화 */
 	flex-direction: row; /* 세로 정렬 */
 	gap: 10px; /* 각 요소 사이 간격 */
+	
 }
 
 .searchInput {
@@ -77,7 +78,7 @@
 }
 
 #resultBox {
-	margin-top: 40px;
+	margin-top: 60px;
 	width: 100%;
 	display: flex; /* Flexbox 활성화 */
 	flex-direction: column; /* 세로 정렬 */
@@ -237,8 +238,26 @@
 }
 
 #directionDataBox{
-	margin-top: 20px;
+	margin-top: 30px;
 		display: flex; /* Flexbox 활성화 */
 	flex-direction: column; /* 세로 정렬 */
 	gap:10px;
+}
+#arrivalBox{
+	margin-top: 30px;
+}
+.topic{
+	
+	font-weight: bold;
+	font-size: 20px;
+}
+.before1 {
+    color: #FFA500;
+    font-weight: bold;
+    font-size: 25px;
+}
+.before2 {
+    color: #00FF00;
+    font-weight: bold;
+    font-size: 25px;
 }

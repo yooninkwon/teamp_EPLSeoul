@@ -35,7 +35,9 @@
 	    		<div id="directionBox">
 	    		</div>
 				<div id="directionDataBox">
-				</div>	    		 
+				</div>	    
+				<div id="arrivalBox">
+				</div>		 
 	    	</div>
 	    </div>
     </div>

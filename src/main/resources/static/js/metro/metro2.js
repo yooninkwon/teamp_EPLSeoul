@@ -77,49 +77,7 @@ $(document).ready(function() {
 		}
 
 
-		// mapImage 요소 찾기
-		let mapImage = document.querySelector('.mapImage');
-				mapImage.style.transform = 'scale(' + 1 + ') translateX(' + 0 + 'px) translateY(' + 0 + 'px)';
-		if (mapImage) {
-			console.log("mapImage found:", mapImage);
-
-			// object 태그 내의 SVG 문서 접근
-			let svgDoc = mapImage.contentDocument;
-			if (svgDoc) {
-				console.log("SVG document loaded successfully");
-
-				// <text> 요소들 찾기
-				const textElements = svgDoc.querySelectorAll('text');
-				console.log("Text elements found:", textElements);
-
-				// 출발지와 도착지에 해당하는 역 찾기 및 하이라이트 적용
-				textElements.forEach(text => {
-
-					// 기존 스타일을 제거 (색상, 두껍게, 크기 등)
-					text.setAttribute('style', '');
-					text.textContent = text.textContent.replace(' (출발)', '');
-					text.textContent = text.textContent.replace(' (도착)', '');
-
-					const stationName = text.textContent.trim(); // 역 이름 가져오기
-
-
-
-					if (stationName === departure) {
-						text.textContent = stationName + " (출발)"; // (출발) 추가
-						text.setAttribute('style', 'fill: red !important; font-size: 10px !important; font-weight: bold !important;');
-					}
-					// 도착지에 해당하면 색상 변경
-					else if (stationName === destination) {
-						text.textContent = stationName + " (도착)"; // (도착) 추가
-						text.setAttribute('style', 'fill: blue !important; font-size: 10px !important; font-weight: bold !important;');
-					}
-				});
-			} else {
-				console.error("SVG document is not loaded.");
-			}
-		} else {
-			console.error("mapImage not found.");
-		}
+		
 		
 		
 		$.ajax({
@@ -129,6 +87,7 @@ $(document).ready(function() {
 			success : function(data) {
 				$('#directionBox').empty(); // 기존 결과를 지움
 				$('#directionDataBox').empty(); // 기존 결과를 지움
+				$('#arrivalBox').empty(); // 기존 결과를 지움
 				
 				let pathList = data.direction.pathList;
 				let direction = null;
@@ -161,10 +120,85 @@ $(document).ready(function() {
 				}
 					
 				let directionData =
-						'<span class="directionDataTime">소요시간 : '+data.direction.time+'분</span>'+
-						'<span class="directionDataDistance">노선길이 : 약 '+(data.direction.distance/1000)+'km</span>';
-						
-						$('#directionDataBox').append(directionData);
+					'<span class="directionDataTime">소요시간 : '+data.direction.time+'분</span>'+
+					'<span class="directionDataDistance">노선길이 : 약 '+(data.direction.distance/1000)+'km</span>';
+				
+				directionData +='<span class="stationList">상세안내 : ';	
+				data.goMap.forEach((list, index) => {
+					if (index === data.goMap.length - 1) {
+					    // 마지막 항목은 '-'를 추가하지 않음
+					    directionData += list;
+					} else {
+					    directionData += list + ' - ';
+					}
+					});
+				directionData += '</span>'	
+											
+				$('#directionDataBox').append(directionData);
+				
+				let arrivalData =
+					'<p class="topic"><'+pathList[0].fname+' 실시간 열차 안내></p>'
+					+'이번열차 : <span class="before1">'+data.next[0].trainLineNm +' / '+data.next[0].arvlMsg2+'</span></br>'
+					+'다음열차 : <span class="before2">'+data.next[1].trainLineNm +' / '+data.next[1].arvlMsg2+'</span>';
+					
+				$('#arrivalBox').append(arrivalData);
+				
+				
+				// mapImage 요소 찾기
+				let mapImage = document.querySelector('.mapImage');
+						mapImage.style.transform = 'scale(' + 1 + ') translateX(' + 0 + 'px) translateY(' + 0 + 'px)';
+				if (mapImage) {
+					console.log("mapImage found:", mapImage);
+
+					// object 태그 내의 SVG 문서 접근
+					let svgDoc = mapImage.contentDocument;
+					if (svgDoc) {
+						console.log("SVG document loaded successfully");
+
+						// <text> 요소들 찾기
+						const textElements = svgDoc.querySelectorAll('text');
+						console.log("Text elements found:", textElements);
+
+						// 출발지와 도착지에 해당하는 역 찾기 및 하이라이트 적용
+						textElements.forEach(text => {
+
+							// 기존 스타일을 제거 (색상, 두껍게, 크기 등)
+							text.setAttribute('style', '');
+							text.textContent = text.textContent.replace('(출발)', '');
+							text.textContent = text.textContent.replace('(도착)', '');
+							text.textContent = text.textContent.replace('(경유)', '');
+							text.setAttribute('style', 'opacity: 0 !important;');
+							const stationName = text.textContent.trim(); // 역 이름 가져오기
+
+
+
+							if (stationName === data.goMap[0]) {
+								text.setAttribute('style', '');
+								text.textContent = stationName + "(출발)"; // (출발) 추가
+								text.setAttribute('style', 'fill: red !important; font-size: 7px !important; font-weight: bold !important;');
+							}
+							// 도착지에 해당하면 색상 변경
+							else if (stationName === data.goMap[data.goMap.length-1]) {
+								text.setAttribute('style', '');
+								text.textContent = stationName + "(도착)"; // (도착) 추가
+								text.setAttribute('style', 'fill: blue !important; font-size: 7px !important; font-weight: bold !important;');
+							}							// 경유지 스타일
+						   else if (data.goMap.includes(stationName)) {
+								text.setAttribute('style', '');
+  						        text.textContent = stationName + "(경유)";
+								text.setAttribute('style', 'fill: black !important; font-size: 5px !important; font-weight: bold !important;');
+						   }
+						});
+					} else {
+						console.error("SVG document is not loaded.");
+					}
+				} else {
+					console.error("mapImage not found.");
+				}				
+				
+				
+				
+				
 				
 				
 				   
