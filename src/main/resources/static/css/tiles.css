@@ -179,27 +179,6 @@ body {
 	font-weight: bold;
 	text-decoration: none;
 }
-#sidebar-left .submenu li div {
-	text-decoration: none;
-	color: #333;
-	font-size: 20px;
-	display: block;
-	padding: 8px 12px;
-	text-align: center; /* 텍스트를 중앙 정렬 */
-	border-radius: 4px;
-	transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
-}
-#sidebar-left .submenu li div:hover {
-	background-color: #73A3FF;
-	color: white;
-}
-
-.submenu div.active {
-	background-color: #73A3FF; /* 파란색 배경 */
-	color: white !important; /* 흰색 글자 */
-	font-weight: bold;
-	text-decoration: none;
-}
 
 .logo .title_img {
 	width: 70%;

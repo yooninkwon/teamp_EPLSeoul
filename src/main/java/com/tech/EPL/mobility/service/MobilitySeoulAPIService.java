@@ -17,12 +17,17 @@ public class MobilitySeoulAPIService {
 	
 	 // Spring Cache로 캐싱 : 캐시를 service 값에 따라 분리
 	 @Cacheable(value = "seoulAPIData", key = "#service")
-	 // 서울시 따릉이대여소 마스터 정보(bikeStationMaster) : 서울시 따릉이대여소에 대한 대여소 ID, 역 주소, 좌표 정보
+	 // 서울시 공공자전거(따릉이) 실시간 대여정보(bikeList) : 대여소별 실시간 자전거 대여가능 건수, 거치율, 대여소 위치정보
 	 // 서울시 전동킥보드 주차구역 현황(parkingKickboard) : 서울시 예산으로 설치한 전동킥보드 주차구역에 대한 순번, 구명, 주소, 상세위치, 거치대 유무, 거치대 크기 정보
 	 public List<String> fetchSeoulAPIData(String apiKey, String service) throws IOException {
 		// 호출한 전체 데이터를 담을 배열
 		 List<String> allData = new ArrayList<>();
 		
+		// rentBikeStatus를 bikeList로 변경
+		if ("rentBikeStatus".equals(service)) {
+			service = "bikeList";
+		}
+			
 		int pageSize = 1000; // API의 최대 요청 크기
 		int start = 1;
 		
