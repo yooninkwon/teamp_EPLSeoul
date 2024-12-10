@@ -359,14 +359,14 @@
 .restaurantSide {
 	float: right;
 	width: 25%;
-	height: 670px;
+	height: 700px;
 	border-radius: 15px;
 	border: 2px solid #73A3FF;
 }
 
 #restaurantImg {
 	width: 100%;
-	height: 220px;
+	height: 250px;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
 	background-repeat: no-repeat;
@@ -375,7 +375,7 @@
 }
 
 #restaurantImg img {
-	height: 220px;
+	height: 250px;
 	width: 100%;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
@@ -458,9 +458,56 @@
 	cursor: pointer;
 }
 
-.activityDiv{
+#activityMap{
 	width: 100%;
 	margin-top: 50px;
-	background-color: gray;
 	height: 700px;
+	float: left;
+}
+
+#activitySide{
+	float: right;
+	margin-top: 50px;
+	width: 25%;
+	height: 700px;
+	border-radius: 15px;
+	border: 2px solid #73A3FF;
+}
+
+#activityImg{
+	width: 100%;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	background-color: gray;
+	height: 300px;
+}
+
+#activityImg img{
+	height: 300px;
+}
+
+#activitySideName {
+	margin-top: 20px;
+	width: 90%;
+	font-size: 25px;
+	font: bold;
+	color: #73A3FF;
+	text-align: left;
+	padding-left: 10px;
+}
+
+
+#activitySubmit {
+	width: 100%;
+	height: 70px;
+	background-color: #73A3FF;
+	color: white;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	border: 2px solid #73A3FF;
+}
+
+#activitySubmit:hover {
+	background-color: #007bff;
+	cursor: pointer;
 }

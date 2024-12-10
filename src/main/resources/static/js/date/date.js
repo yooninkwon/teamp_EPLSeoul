@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 		restaurantSideRate: document.getElementById("restaurantSideRate"),
 		restaurantMap : document.getElementById("restaurantMap"),
 		activityContainer: document.querySelector(".activityDiv"),
+		activitySide: document.getElementById("activitySide"),
+		activityImg: document.getElementById("activityImg"),
+		activityName: document.getElementById("activityName"),
     };
 
     let currentPage = 0;
@@ -38,6 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let searchType = '';
     let searchKeyword = '';
     let googleApiKey = ''; // API 키 저장 변수
+	let mapContainer = document.getElementById("activityMap");
+	let lastClickedMarker = null; // 마지막으로 클릭된 마커 추적 변수
 	
 	
 	// 초기 상태 설정
@@ -54,6 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        elements.localList,
 	        elements.restaurantSide,
 	        elements.activityContainer,
+			elements.activitySide,
 	    ], false);
 
 	    await fetchGoogleApi(); // Google API 키 가져오기
@@ -194,9 +200,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	    let activity = [];
 	    if (likeType === "static") {
-	        activity = ["산책로", "서점", "공원", "영화관"];
+	        activity = ["산책로", "서점", "공원", "영화관", "사진관", "전시회", "박물관", "피시방"];
 	    } else if (likeType === "dynamic") {
-	        activity = ["체험", "보드게임", "공방", "방탈출","오락실"];
+	        activity = ["체험관", "보드게임", "공방", "방탈출", "오락실", "아쿠아리움", "낚시카페"];
 	    }
 
 	    if (districtName) {
@@ -232,7 +238,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	// 활동 지도 불러오기
 	async function renderActivityMap(categories, districtName) {
-	    const mapContainer = elements.activityContainer;
+	    
 	    const districtCenter = await getDistrictCenter(districtName);
 
 	    const map = new google.maps.Map(mapContainer, {
@@ -269,31 +275,85 @@ document.addEventListener("DOMContentLoaded", async () => {
 	}
 
 	// 마커 추가
-	function addMarker(map, place) {
+	async function addMarker(map, place) {
+	    const defaultIcon = {
+	        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+	        labelOrigin: new google.maps.Point(30, 10),
+	        scaledSize: new google.maps.Size(32, 32), // 기본 크기
+	    };
+
+	    const clickedIcon = {
+	        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+	        labelOrigin: new google.maps.Point(40, 10),
+	        scaledSize: new google.maps.Size(48, 48), // 클릭 시 크기
+	    };
+
 	    const marker = new google.maps.Marker({
 	        position: place.geometry.location,
 	        map: map,
 	        title: place.name,
+	        icon: defaultIcon,
 	    });
 
-	    // 정보창 추가
-	    const infoWindow = new google.maps.InfoWindow({
-	        content: `
-	            <div>
-	                <h3>${place.name}</h3>
-	                <p>${place.vicinity || "주소 정보 없음"}</p>
-	            </div>
-	        `,
-	    });
+	    marker.addListener("click", async () => {
+	        // 이전 클릭된 마커 기본 크기로 되돌리기
+	        if (lastClickedMarker && lastClickedMarker !== marker) {
+	            lastClickedMarker.setIcon(defaultIcon);
+	        }
+	        marker.setIcon(clickedIcon);
+	        map.setCenter(marker.getPosition());
+	        lastClickedMarker = marker;
 
-	    // 마커 클릭 이벤트
-	    marker.addListener("click", () => {
-	        infoWindow.open(map, marker);
+			// 사진 및 웹사이트 정보 로드
+		    const { photoUrl, website } = await fetchPlaceDetails(place.place_id);
+			console.log(website);
+	        if (photoUrl) {
+	            elements.activityImg.innerHTML = `<img src="${photoUrl}" style="width:100%;">`;
+	        } else {
+	            elements.activityImg.innerHTML = "이미지를 불러올 수 없습니다.";
+	        }
+			
+			// 웹사이트 표시
+		    if (website) {
+		        document.getElementById('websiteContainer').innerHTML = `<a href="${website}" target="_blank">웹사이트 방문</a>`;
+		    } else {
+		        document.getElementById('websiteContainer').innerHTML = "등록된 웹사이트가 없습니다.";
+		    }
+
+	        // UI 업데이트
+	        toggleDisplay([elements.activitySide], true);
+	        mapContainer.style.width = "70%";
+			elements.activityName.innerHTML = `<p id="activitySideName">${place.name}</p>`;
 	    });
 	}
+	
+	async function fetchPlaceDetails(placeId) {
+	    try {
+	        const response = await fetch(`/epl/date/place/details?place_id=${placeId}`);
+	        if (!response.ok) {
+	            throw new Error(`HTTP 오류 상태: ${response.status}`);
+	        }
 
+	        const data = await response.json();
+			console.log(data);
+	        // 사진 URL 생성
+/*	        let photoUrl = null;
+	        if (data && data.photos && data.photos.length > 0) {
+	            const photoReference = data.photos[0].photo_reference;
+	            photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${googleApiKey}`;
+	        }*/
 
+	        // 웹사이트 정보 추출
+	       // let website = data.website || null;
+			//console.log(website);
+	        return { photoUrl: data.photoUrl, website: data.website };
+	    } catch (error) {
+	        console.error("세부정보 로드 중 오류 발생:", error);
+	        return { photoUrl: null, website: null };
+	    }
+	}
 
+	
 
 	
 	// 필터 토글 처리 함수
@@ -301,8 +361,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 		elements.filterButtonLeft.classList.toggle("active", side === "left");
 		elements.filterButtonRight.classList.toggle("active", side === "right");
 	}
-
-
 
 	// 지역 정보 가져오기 함수
 	async function fetchDistrictInfo(districtName) {
@@ -315,7 +373,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 			alert("구 정보를 가져오는 중 문제가 발생했습니다.");
 		}
 	}
-
 
 	// 지역 정보 업데이트 함수
 	function updateDistrictInfo(data) {
