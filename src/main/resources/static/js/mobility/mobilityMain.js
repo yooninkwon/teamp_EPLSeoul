@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 	}
 	
 	var map = new kakao.maps.Map(mapContainer, mapOption); //지도 생성 및 객체 리턴
-	map.setZoomable(false); // 확대, 축소 변경 불가
 
 	// geolocation(현재 위치정보)으로 중심좌표 생성하기
 	// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
@@ -24,6 +23,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 	        map.setCenter(locPosition);
 	    });
 	}
+		
+	// 자전거도로 정보 보기
+	document.getElementById('chkBicycle').addEventListener('change',function(){
+	    // 현재 체크박스 상태 확인
+	    var isChecked = this.checked;
+
+	    // 지도 타입을 제거합니다
+	    map.removeOverlayMapTypeId(kakao.maps.MapTypeId.BICYCLE);
+
+	    // 체크박스가 체크된 경우 지도 타입 추가
+	    if (isChecked) {
+	          map.addOverlayMapTypeId(kakao.maps.MapTypeId.BICYCLE);
+	    }
+	});
 	
 	// SBD(Stations by district) 데이터 가져오기
     const sbdDatas = await fetch('/epl/mobility/data/sbdDatas')
@@ -92,19 +105,19 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
         });
     });
-	
-	// 자전거도로 정보 보기
-	document.getElementById('chkBicycle').addEventListener('change',function(){
-	    // 현재 체크박스 상태 확인
-	    var isChecked = this.checked;
-	
-	    // 지도 타입을 제거합니다
-	    map.removeOverlayMapTypeId(kakao.maps.MapTypeId.BICYCLE);
-	
-	    // 체크박스가 체크된 경우 지도 타입 추가
-	    if (isChecked) {
-	          map.addOverlayMapTypeId(kakao.maps.MapTypeId.BICYCLE);
-	    }
+		
+	// 따릉이 대여소 정보 호출
+	document.getElementById('fetchBikeData').addEventListener('click', function () {
+		document.getElementById('bikeInfo').style.display = "block";
+		document.getElementById('kickboardInfo').style.display = "none";
+		fetchAndDisplayData('/static/images/mobility/marker_bike.png', 'rentBikeStatus', false);
+	});
+
+	// 전동킥보드 주차구역 정보 호출
+	document.getElementById('fetchKickboardData').addEventListener('click', function () {
+		document.getElementById('kickboardInfo').style.display = "block";
+		document.getElementById('bikeInfo').style.display = "none";
+		fetchAndDisplayData('/static/images/mobility/marker_kickboard.png', 'parkingKickboard', true);
 	});
 	
 	// 생성된 마커 객체 배열
@@ -117,7 +130,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 	}
 	
 	// 마커를 생성하는 공통 함수
-	function createMarker(position, imageSrc) {
+	function createMarker(service, position, imageSrc) {
 		// 마커 이미지를 생성합니다
 	    const imageSize = new kakao.maps.Size(35, 35);
 	    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -132,8 +145,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 	    markers.push(marker); // 생성된 마커를 배열에 추가합니다
 		
-		// 인포윈도우를 생성합니다
-		var iwContent = `<div style="padding:5px;">${position.addr1} ${position.addr2}</div>`; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		// service별 인포윈도우를 생성합니다
+		var iwContent; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		if (service === 'parkingKickboard') {
+			iwContent = `<div style="padding:5px;">${position.addr}</div>`;
+		}else if (service === 'rentBikeStatus') {
+			iwContent = `<div style="padding:5px;">${position.name}</div>`;
+		}
 		var infowindow = new kakao.maps.InfoWindow({
 		    content : iwContent
 		});
@@ -147,21 +165,27 @@ document.addEventListener('DOMContentLoaded', async function() {
 		kakao.maps.event.addListener(marker, 'mouseout', function() {
 		    infowindow.close();
 		});
-		
-		// 마커에 클릭이벤트를 등록합니다
+
+		// service별 마커에 클릭이벤트를 등록합니다
 		kakao.maps.event.addListener(marker, 'click', function() {
-		    var message = `클릭한 장소 주소는 ${position.addr1} ${position.addr2} 입니다`;
-		    var resultDiv = document.getElementById('result'); 
-		    resultDiv.innerHTML = message;  
+			if (service === 'parkingKickboard') {
+				document.getElementById('stationAddr').innerHTML = `${position.addr}`;
+				document.getElementById('stationAvailable').innerHTML = `${position.stand}`;
+				document.getElementById('stationRackCnt').innerHTML = `${position.standCnt}`;
+			}else if (service === 'rentBikeStatus') {
+				document.getElementById('stationName').innerHTML = `${position.name}`;
+				document.getElementById('stationTotRackCnt').innerHTML = `${position.totrackCtn}`;
+				document.getElementById('stationParkingCnt').innerHTML = `${position.parkingCtn}`;
+				document.getElementById('stationAbleRackCnt').innerHTML = `${position.ableRackCtn}`;
+			} 
 		});
 	}
 	
-	// 데이터를 호출하는 공통 함수(js코드 모듈화를 위해 글로벌 등록)
-	window.fetchAndDisplayData = function (imageSrc, service, useGeocoder = false) {
+	// 데이터를 호출하는 공통 함수
+	function fetchAndDisplayData (imageSrc, service, useGeocoder) {
 		clearMarkers(); // 기존 마커 제거
 		var totalData = 0; // 총 station 개수를 저장하는 변수
 		const geocoder = useGeocoder ? new kakao.maps.services.Geocoder() : null; // 주소-좌표 변환 객체 생성
-		
 	    fetch(`/epl/mobility/data/apiSeoul?service=${service}`) // 서버에 데이터 요청
 	        .then(response => response.json()) // JSON 문자열을 JS 객체로 변환
 	        .then(data => { // 서버에서 받은 데이터를 활용
@@ -176,21 +200,24 @@ document.addEventListener('DOMContentLoaded', async function() {
 	                        geocoder.addressSearch(station.PSTN, (result, status) => {
 	                            if (status === kakao.maps.services.Status.OK) {
 	                                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-									createMarker({
-	                                    addr1: station.PSTN,
-	                                    addr2: station.DTL_PSTN,
-	                                    latlng: coords,
-	                                }, imageSrc);
+									createMarker(service,
+										{addr: station.PSTN + station.DTL_PSTN,
+	                                    stand: station.STAND_YN,
+										standCnt: station.STAND_SIZE,
+	                                    latlng: coords},
+										imageSrc);
 	                            }
 	                        });
 	                    });
 	                } else { // 위도와 경도가 제공되는 경우(따릉이 정보)
 						stations.forEach(station => {
-	                        createMarker({
-	                            addr1: station.ADDR1,
-	                            addr2: station.ADDR2,
-	                            latlng: new kakao.maps.LatLng(station.LAT, station.LOT),
-	                        }, imageSrc);
+	                        createMarker(service,
+								{name: station.stationName,
+	                            totrackCtn: station.rackTotCnt,
+	                            parkingCtn: station.parkingBikeTotCnt,
+	                            ableRackCtn: station.rackTotCnt - station.parkingBikeTotCnt,
+	                            latlng: new kakao.maps.LatLng(station.stationLatitude, station.stationLongitude)},
+								imageSrc);
 	                    });
 	                }
 		        });

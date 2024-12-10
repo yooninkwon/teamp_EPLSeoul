@@ -7,46 +7,33 @@
 <meta charset="UTF-8">
 <title>Tiles Side</title>
 </head>
-<body>
-    <div id="sidebar-left">
-	    <ul class="submenu">
-	        <li><div id="fetchBikeData">따릉이</div></li>
-	        <li><div id="fetchScooterData">전동킥보드</div></li>
-	        <li><hr></li>
-	        <li>안전주의!</li>
-	    </ul>
-    </div>
-
-<script src="/static/js/mobility.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-	const menuItems = document.querySelectorAll('.submenu div');
+    const submenuLinks = document.querySelectorAll('.submenu a');
+    const currentPath = window.location.pathname; // 현재 URL 경로 가져오기
 
-    // 모든 메뉴에서 active 클래스 제거
-    function clearActiveClass() {
-        menuItems.forEach(item => {
-            item.classList.remove('active');
-        });
-    }
-
-    // 클릭한 메뉴에만 active 클래스 추가
-    menuItems.forEach(item => {
-        item.addEventListener('click', function () {
-            clearActiveClass();
-            this.classList.add('active');
-        });
+    // 모든 링크에서 active 클래스 제거
+    submenuLinks.forEach(link => {
+        link.classList.remove('active');
     });
-    
- 	// 따릉이 대여소 정보 호출
-	document.getElementById('fetchBikeData').addEventListener('click', function () {
-		fetchAndDisplayData('/static/images/mobility/marker_bike.png', 'bikeStationMaster');
-	});
-	
-	// 전동킥보드 주차구역 정보 호출
-	document.getElementById('fetchScooterData').addEventListener('click', function () {
-		fetchAndDisplayData('/static/images/mobility/marker_kickboard.png', 'parkingKickboard', true);
-	});
+
+    // 현재 경로에 맞는 링크에만 active 클래스 추가
+    submenuLinks.forEach(link => {
+        if (currentPath.startsWith(link.getAttribute('href'))) {
+            link.classList.add('active');
+        }
+    });
 });
 </script>
+</head>
+<body>
+    <div id="sidebar-left">
+	    <ul class="submenu">	        
+	        <li><a href="/epl/mobility">따릉이/킥보드 찾기</a></li>
+	        <li><a href="#"></a></li>
+	        <li><a href="#"></a></li>
+	        <li><a href="#"></a></li>
+	    </ul>
+    </div>
 </body>
 </html>
