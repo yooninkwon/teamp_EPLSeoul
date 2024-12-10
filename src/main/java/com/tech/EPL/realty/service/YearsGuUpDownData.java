@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class YearsGuData implements ExecutionEntity<Map<String, Object>> {
+public class YearsGuUpDownData implements ExecutionEntity<Map<String, Object>> {
 
 	private final RealtyYearsMapper yearsMapper;
 

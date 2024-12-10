@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.tech.EPL.realty.dto.RealtyJuminData;
-import com.tech.EPL.realty.service.group.RealtyServiceGroup;
+import com.tech.EPL.realty.service.group.RealtyServiceGroupMain;
 
 @WebMvcTest(ELPRealtyRestController.class)
 public class EPLRealtyRestControllerTest {
@@ -29,7 +29,7 @@ public class EPLRealtyRestControllerTest {
 	MockMvc mockMvc;
 	
 	@MockBean
-	private RealtyServiceGroup serviceGroup;
+	private RealtyServiceGroupMain serviceGroup;
 	
 	@Test
 	@DisplayName("realty1 - 연간 실거래가 통계 test")
@@ -77,13 +77,13 @@ public class EPLRealtyRestControllerTest {
 	@DisplayName("realty4 - 자치구별 연간 실거래가 등락 test")
 	void testGetYearsGuData() throws Exception {
 		Map<String, Object> mockResponse = Map.of("Seoul", 500);
-		when(serviceGroup.getYearsGuData()).thenReturn(ResponseEntity.ok(mockResponse));
+		when(serviceGroup.getYearsGuUpDownData()).thenReturn(ResponseEntity.ok(mockResponse));
 		
 		mockMvc.perform(get("/epl/years-gu-data"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.Seoul", is(500)));
 		
-		verify(serviceGroup, times(1)).getYearsGuData();
+		verify(serviceGroup, times(1)).getYearsGuUpDownData();
 	}
 	
 	@Test

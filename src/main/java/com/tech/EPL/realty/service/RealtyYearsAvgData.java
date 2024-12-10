@@ -11,11 +11,11 @@ import com.tech.EPL.interfaces.ExecutionEntity;
 import com.tech.EPL.realty.mapper.RealtyMapper;
 
 @Service
-public class RealtyAvgData implements ExecutionEntity<Map<String, Object>> {
+public class RealtyYearsAvgData implements ExecutionEntity<Map<String, Object>> {
 	
 	private final RealtyMapper realtyMapper;
 	
-	public RealtyAvgData(RealtyMapper realtyMapper) {
+	public RealtyYearsAvgData(RealtyMapper realtyMapper) {
 		this.realtyMapper = realtyMapper;
 	}
 	

@@ -22,13 +22,13 @@ import com.tech.EPL.realty.dto.YearsStatJeonse;
 import com.tech.EPL.realty.dto.YearsStatRent;
 import com.tech.EPL.realty.mapper.RealtyMapper;
 
-class RealtyAvgDataTest {
+class RealtyYearsAvgDataTest {
 
 	@Mock
 	private RealtyMapper realtyMapper;
 	
 	@InjectMocks
-	private RealtyAvgData realtyAvgData;
+	private RealtyYearsAvgData realtyAvgData;
 	
 	private YearsStatBuying yearsStatBuying;
 	private YearsStatRent yearsStatRent;

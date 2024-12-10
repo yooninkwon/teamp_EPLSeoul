@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tech.EPL.realty.dto.RealtyJuminData;
-import com.tech.EPL.realty.service.group.RealtyServiceGroup;
+import com.tech.EPL.realty.service.group.RealtyServiceGroupMain;
 
 @RestController
 @RequestMapping("/epl") 
 public class ELPRealtyRestController {
 	
-	private final RealtyServiceGroup serviceGroup;
+	private final RealtyServiceGroupMain serviceGroup;
 	
-	public ELPRealtyRestController(RealtyServiceGroup serviceGroup) {
+	public ELPRealtyRestController(RealtyServiceGroupMain serviceGroup) {
 		this.serviceGroup = serviceGroup;
 	}
 	
@@ -40,7 +40,7 @@ public class ELPRealtyRestController {
 	
 	@GetMapping("/years-gu-data")
 	public ResponseEntity<Map<String, Object>> getYearsGuData() {
-		return serviceGroup.getYearsGuData();
+		return serviceGroup.getYearsGuUpDownData();
 	}
 	
 	@GetMapping("/jumin-data")

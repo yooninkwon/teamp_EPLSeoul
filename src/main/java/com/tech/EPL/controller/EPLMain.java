@@ -11,4 +11,9 @@ public class EPLMain {
 		return "epl";
 	}
 	
+	@GetMapping("/")
+	public String slashToMainPage() {
+		return "epl";
+	}
+	
 }
