@@ -48,6 +48,8 @@ public class BusController {
 		// 기존 API 키 및 기타 서비스 호출
 		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
 		model.addAttribute("googleBusKey", apiKeyConfig.getGoogleBusKey());
+		model.addAttribute("tmapBusKey", apiKeyConfig.getTmapBusKey());
+		
 		busStationService.execution(model);
 
 		return "epl/busNearby";

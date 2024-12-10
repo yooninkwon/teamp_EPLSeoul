@@ -10,7 +10,8 @@
 <!-- 외부 CSS 파일 -->
 <link rel="stylesheet" href="/static/css/bus/busnearby.css">
 <!-- 외부 CSS 파일 -->
-<!-- Kakao Maps API SDK 로드 -->
+
+<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${tmapBusKey}"></script>
 <script
 	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&libraries=services&autoload=false"></script>
 
@@ -27,6 +28,7 @@
 </head>
 
 <script>
+	
 	var busStations = [];
 	<c:forEach var="station" items="${busStations}">
 	busStations.push({
@@ -36,10 +38,16 @@
 	// 숫자 값은 그대로 사용
 	});
 	</c:forEach>
+
+	
+	
 </script>
 
 <body>
 	<h1 style="text-align: center;">정류장 주변 시설</h1>
+
+ 	<button id="drawLineButton">보행 경로</button>
+ 	<p id="result"></p>
 
 	<div id="category-buttons">
 		<button class="category-btn" data-category="FD6">

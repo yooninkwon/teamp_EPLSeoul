@@ -5,7 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>simpleMap</title>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <!-- Tmap API -->
 <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${tmapBusKey}"></script>
@@ -57,6 +56,15 @@
         }
     }
 
+    // 서울역과 경복궁의 좌표 설정
+    var seoulStation = new kakao.maps.LatLng(37.556195, 126.970797);  // 서울역 좌표
+    var gyeongbokgung = new kakao.maps.LatLng(37.579617, 126.977041); // 경복궁 좌표
+
+    // 길찾기 버튼 클릭 시 경로를 그리는 함수
+    function findRoute() {
+        requestRoute(seoulStation, gyeongbokgung);
+    }
+
     // 경로 탐색 요청 함수 (Tmap API)
     function requestRoute(startCoordinate, endCoordinate) {
         var startX = startCoordinate.getLng();
@@ -85,9 +93,18 @@
             success: function(response) {
                 var resultData = response.features;
 
-                // 카카오 맵에 경로를 그리기 위한 Polyline 객체 생성
+                // 소요 시간 및 거리 계산
+                var totalTime = 0;  // 초 단위
+                var totalDistance = 0;  // m 단위
+
                 var kakaoPath = [];
                 for (var i in resultData) {
+                    var properties = resultData[i].properties;
+                    if (properties && properties.totalTime) {
+                        totalTime = properties.totalTime;  // 소요 시간 (초)
+                        totalDistance = properties.totalDistance;  // 거리 (m)
+                    }
+
                     var geometry = resultData[i].geometry;
                     if (geometry.type == "LineString") {
                         for (var j in geometry.coordinates) {
@@ -98,27 +115,25 @@
                             var convertChange = new Tmapv2.LatLng(
                                 convertPoint._lat,
                                 convertPoint._lng);
-                            
-                            // 카카오맵 좌표 형식으로 변환하여 배열에 추가
+                                  
                             kakaoPath.push(new kakao.maps.LatLng(convertChange.lat(), convertChange.lng()));
                         }
                     }
                 }
 
-                // 카카오 맵에 경로 추가
+                // 경로를 그리는 Polyline
                 var polyline = new kakao.maps.Polyline({
-                    path: kakaoPath,  // 카카오 맵에 그릴 경로
-                    strokeWeight: 6,  // 선의 두께
-                    strokeColor: '#FF0000',  // 선의 색
-                    strokeOpacity: 0.7,  // 선의 투명도
-                    strokeStyle: 'solid'  // 선 스타일
+                    path: kakaoPath,
+                    strokeWeight: 6,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.7,
+                    strokeStyle: 'solid'
                 });
-
-                // 카카오 맵에 경로 추가
                 polyline.setMap(kakaoMap);
-
-                // 카카오 맵에서 그린 경로 배열에 추가
                 resultdrawArr.push(polyline);
+
+                // 소요 시간과 거리 표시
+                displayRouteInfo(totalTime, totalDistance);
             },
             error: function(request, status, error) {
                 console.log("code:" + request.status + "\n"
@@ -126,6 +141,19 @@
                         + "error:" + error);
             }
         });
+    }
+
+    // 소요 시간과 거리를 표시하는 함수
+    function displayRouteInfo(time, distance) {
+        var resultElement = document.getElementById('result');
+        var minutes = Math.floor(time / 60);  // 초를 분으로 변환
+        var seconds = time % 60;  // 남은 초
+        var kilometers = (distance / 1000).toFixed(2);  // m를 km로 변환
+
+        resultElement.innerHTML = `
+            <b>소요 시간:</b> ${minutes}분 ${seconds}초<br>
+            <b>총 거리:</b> ${kilometers} km
+        `;
     }
 
     // 페이지가 로드되면 KakaoMap 초기화
@@ -136,10 +164,11 @@
 </head>
 <body onload="initKakaoMap();">
    
-    <!-- 190430 기존 지도를 모두 이미지 처리 위해 주석 처리 S -->
+    <!-- 지도와 버튼 추가 -->
     <div id="map_wrap" class="map_wrap3">
         <div id="map_div" style="width: 100%; height: 400px;"></div>
     </div>
+    <button onclick="findRoute()">서울역 -> 경복궁 경로 찾기</button>
     <div class="map_act_btn_wrap clear_box"></div>
     <p id="result"></p>
     <br />
