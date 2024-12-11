@@ -65,7 +65,7 @@
         requestRoute(seoulStation, gyeongbokgung);
     }
 
-    // 경로 탐색 요청 함수 (Tmap API)
+ // 경로 탐색 요청 함수 (Tmap API)
     function requestRoute(startCoordinate, endCoordinate) {
         var startX = startCoordinate.getLng();
         var startY = startCoordinate.getLat();
@@ -74,6 +74,34 @@
 
         var headers = {};
         headers["appKey"] = "${tmapBusKey}";
+
+        // 출발지 마커
+        var startMarkerImage = new kakao.maps.MarkerImage(
+            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png',
+            new kakao.maps.Size(40, 40) // 이미지 크기 설정
+        );
+        var startMarker = new kakao.maps.Marker({
+            position: startCoordinate,
+            map: kakaoMap,
+            title: "출발지",
+            image: startMarkerImage // 출발지 마커 이미지 설정
+        });
+
+        // 도착지 마커
+        var endMarkerImage = new kakao.maps.MarkerImage(
+            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
+            new kakao.maps.Size(40, 40) // 이미지 크기 설정
+        );
+        var endMarker = new kakao.maps.Marker({
+            position: endCoordinate,
+            map: kakaoMap,
+            title: "도착지",
+            image: endMarkerImage // 도착지 마커 이미지 설정
+        });
+
+        // 기존 마커 삭제를 위한 배열에 저장
+        resultdrawArr.push(startMarker);
+        resultdrawArr.push(endMarker);
 
         $.ajax({
             method: "POST",
@@ -115,7 +143,7 @@
                             var convertChange = new Tmapv2.LatLng(
                                 convertPoint._lat,
                                 convertPoint._lng);
-                                  
+
                             kakaoPath.push(new kakao.maps.LatLng(convertChange.lat(), convertChange.lng()));
                         }
                     }
