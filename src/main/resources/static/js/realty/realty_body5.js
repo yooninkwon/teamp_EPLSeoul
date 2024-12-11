@@ -104,7 +104,6 @@ $(document).ready(function() {
 		for (let i = 0; i < 26; i++) {
 			dataArray.push(data.splice(0, 17));
 		}
-		console.log(dataArray);
 		createChartSeoul(juminChartSeoul, dataArray);
 		createChartGu(juminChartGu, dataArray);
 	}

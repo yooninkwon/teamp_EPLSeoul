@@ -59,6 +59,5 @@
 		</div>
 	</div>
 	<script src="/static/js/realty/realty_body1.js"></script>
-	<script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>
