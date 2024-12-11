@@ -32,12 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">
+	        <li><a href="/epl/realty0">INFORMATION</a></li>
 	        <li><a href="/epl/realty1">연도별 실거래가 통계</a></li>
 	        <li><a href="/epl/realty2">자치구별 실거래가 통계</a></li>
 	        <li><a href="/epl/realty3">자치구 실거래가 랭킹</a></li>
-	        <li><a href="/epl/realty4">4</a></li>
-	        <li><a href="/epl/realty5">5</a></li>
+	        <li><a href="/epl/realty4">자치구 연도별 실거래가 등락 추이</a></li>
+	        <li><a href="/epl/realty5">연도별 서울시 인구수</a></li>
 	        <li><a href="/epl/realty6">6</a></li>
+	        <li><a href="/epl/realty7">7</a></li>
 	    </ul>
     </div>
 </body>

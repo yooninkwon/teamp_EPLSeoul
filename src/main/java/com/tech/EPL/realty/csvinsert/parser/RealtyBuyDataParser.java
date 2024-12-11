@@ -8,10 +8,15 @@ public class RealtyBuyDataParser implements Parser<RealtyBuyData> {
 
 	@Override
 	public RealtyBuyData parse(String str) {
+		
+        if (str.startsWith("\ufeff")) {
+            str = str.substring(1);
+        }
+		
 		String[] splitted = str.split("\",\"");
 		RealtyBuyData buyFileData = new RealtyBuyData();
 		
-		buyFileData.setRcpt_yr(splitted[0]);
+		buyFileData.setRcpt_yr(splitted[0].replace("\"", ""));
 		buyFileData.setCgg_cd(splitted[1]);
 		buyFileData.setCgg_nm(splitted[2]);
 		buyFileData.setStdg_cd(splitted[3]);
@@ -31,7 +36,7 @@ public class RealtyBuyDataParser implements Parser<RealtyBuyData> {
 		buyFileData.setArch_yr(splitted[17]);
 		buyFileData.setBldg_usg(splitted[18]);
 		buyFileData.setDclr_se(splitted[19]);
-		buyFileData.setOpbiz_restagnt_sgg_nm(splitted[20]);
+		buyFileData.setOpbiz_restagnt_sgg_nm(splitted[20].replace("\"", ""));
 		
 		return buyFileData;
 	}

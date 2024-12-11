@@ -7,14 +7,15 @@ public class RealtyRentDataParser implements Parser<RealtyRentData>{
 
 	@Override
 	public RealtyRentData parse(String str) {
+		
+        if (str.startsWith("\ufeff")) {
+            str = str.substring(1);
+        }
+        
 		String[] splitted = str.split("\",\"");
-//		String[] splitted = str.split(",");
-//		for(String asd : splitted) {
-//			System.out.println(asd+", ");			
-//		}
 		RealtyRentData rentFileData = new RealtyRentData();
 		
-		rentFileData.setRcpt_yr(splitted[0]);
+		rentFileData.setRcpt_yr(splitted[0].replace("\"", ""));
 		rentFileData.setCgg_cd(splitted[1]);
 		rentFileData.setCgg_nm(splitted[2]);
 		rentFileData.setStdg_cd(splitted[3]);
@@ -36,7 +37,7 @@ public class RealtyRentDataParser implements Parser<RealtyRentData>{
 		rentFileData.setNew_updt_yn(splitted[19]);
 		rentFileData.setCtrt_updt_use_yn(splitted[20]);
 		rentFileData.setBfr_grfe(splitted[21]);
-		rentFileData.setBfr_rtfe(splitted[22]);
+		rentFileData.setBfr_rtfe(splitted[22].replace("\"", ""));
 		
 		
 		return rentFileData;

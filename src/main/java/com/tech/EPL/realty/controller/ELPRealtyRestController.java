@@ -1,5 +1,6 @@
 package com.tech.EPL.realty.controller;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -9,35 +10,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tech.EPL.realty.service.group.RealtyServiceGroup;
+import com.tech.EPL.realty.dto.RealtyJuminData;
+import com.tech.EPL.realty.service.group.RealtyServiceGroupMain;
 
 @RestController
 @RequestMapping("/epl") 
 public class ELPRealtyRestController {
 	
-	private final RealtyServiceGroup serviceGroup;
+	private final RealtyServiceGroupMain serviceGroup;
 	
-	public ELPRealtyRestController(RealtyServiceGroup serviceGroup) {
+	public ELPRealtyRestController(RealtyServiceGroupMain serviceGroup) {
 		this.serviceGroup = serviceGroup;
 	}
 	
+	@GetMapping("years-data")
+	public ResponseEntity<Map<String, Object>> getYearsData() {
+		return serviceGroup.getYearsAvgData();
+	}
+	
 	@GetMapping("/gu-data")
-	public ResponseEntity<Map<String, Object>> fetchGuData(@RequestParam String type) {
+	public ResponseEntity<Map<String, Object>> getGuData(@RequestParam String type) {
 		return serviceGroup.getGuData(type);
 	}
 	
 	@GetMapping("/rank-data")
-	public ResponseEntity<Map<String, Object>> getTopData() {
+	public ResponseEntity<Map<String, Object>> getRankingData() {
 		return serviceGroup.getRankingData();	
 	}
 	
-
+	@GetMapping("/years-gu-data")
+	public ResponseEntity<Map<String, Object>> getYearsGuData() {
+		return serviceGroup.getYearsGuUpDownData();
+	}
+	
+	@GetMapping("/jumin-data")
+	public ResponseEntity<ArrayList<RealtyJuminData>> getJuminData() {
+		return serviceGroup.getJuminData();
+	}
 	
 	// 파일업로드
-	@PostMapping("/rent-file")
-	public void rentFileData(@RequestParam String fileName,
+	@GetMapping("/rent-file")
+	public void rentFileData( // @RequestParam String fileName,
 			@RequestParam String type) {
-//		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\부동산 실거래가 정보 모음\\월세_실거래가_년도별_엑셀\\파이썬작업끝난곳\\월세_실거래가_종합_문자_py.csv";
+		String fileName = "C:\\team Albamon\\EPL_Seoul 자료\\인구밀도자료\\연도별 자치구 인구수_py.csv";
 //		String type = "전월세";
 //		serviceGroup.rentFileDBInsert(fileName, type);
 		serviceGroup.rentFileDBInsert(fileName, type);

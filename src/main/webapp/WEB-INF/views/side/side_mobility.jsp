@@ -7,17 +7,6 @@
 <meta charset="UTF-8">
 <title>Tiles Side</title>
 </head>
-<body>
-    <div id="sidebar-left">
-	    <ul class="submenu">
-	        <li><div id="fetchBikeData">따릉이</div></li>
-	        <li><div id="fetchScooterData">전동킥보드</div></li>
-	        <li><hr></li>
-	        <li>안전주의!</li>
-	    </ul>
-    </div>
-
-<script src="/static/js/mobility.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const submenuLinks = document.querySelectorAll('.submenu a');
@@ -34,17 +23,17 @@ document.addEventListener('DOMContentLoaded', function () {
             link.classList.add('active');
         }
     });
-    
- 	// 따릉이 대여소 정보 호출
-	document.getElementById('fetchBikeData').addEventListener('click', function () {
-		fetchAndDisplayData('/static/images/mobility/marker_bike.png', 'bikeStationMaster');
-	});
-	
-	// 전동킥보드 주차구역 정보 호출
-	document.getElementById('fetchScooterData').addEventListener('click', function () {
-		fetchAndDisplayData('/static/images/mobility/marker_kickboard.png', 'parkingKickboard', true);
-	});
 });
 </script>
+</head>
+<body>
+    <div id="sidebar-left">
+	    <ul class="submenu">	        
+	        <li><a href="/epl/mobility">따릉이/킥보드 찾기</a></li>
+	        <li><a href="#"></a></li>
+	        <li><a href="#"></a></li>
+	        <li><a href="#"></a></li>
+	    </ul>
+    </div>
 </body>
 </html>

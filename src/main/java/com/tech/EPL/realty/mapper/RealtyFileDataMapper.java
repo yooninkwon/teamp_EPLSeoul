@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.tech.EPL.realty.dto.RealtyBuyData;
+import com.tech.EPL.realty.dto.RealtyJuminData;
 import com.tech.EPL.realty.dto.RealtyRentData;
 
 @Mapper
@@ -20,4 +21,6 @@ public interface RealtyFileDataMapper {
 	int buyingDeleteAll();
 
 	int getBuyingCount();
+
+	void juminFileInsert(List<RealtyJuminData> dataList);
 }

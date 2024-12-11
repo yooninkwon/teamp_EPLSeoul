@@ -38,20 +38,10 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
-		<!-- test (JUnit) -->
+		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<!-- MockMvc -->
-		<dependency>
-			<!--
-			https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.5.4</version>
 			<scope>test</scope>
 		</dependency>
 		
@@ -160,26 +150,40 @@
 		</dependency>
 		
 		<!-- json file -->
-<!--		<dependency>
+		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20240303</version>
 		</dependency>
--->		
+		
 		<!-- Spring Data JPA -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+	    <!-- Jackson JSON 변환 의존성 -->
+	    <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	    </dependency>
+
+	    <!-- HttpClient 라이브러리 -->
+	    <dependency>
+	        <groupId>org.apache.httpcomponents</groupId>
+	        <artifactId>httpclient</artifactId>
+	        <version>4.5.13</version>
+	    </dependency>
+
+
 		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20211205</version>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.15.4</version>
 		</dependency>
 
-	</dependencies>
 
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>

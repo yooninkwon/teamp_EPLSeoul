@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 import com.tech.EPL.interfaces.Parser;
 
-// 5617057
 public class ReadLineContext<T> {
 
     private static final int BATCH_SIZE = 1000;
@@ -52,4 +51,9 @@ public class ReadLineContext<T> {
 
         System.out.println(i + " 회 작업 완료");
     }
+
+//	public List<DateRestaurantDto> readByLine(String filename) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

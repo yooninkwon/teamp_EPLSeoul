@@ -21,9 +21,7 @@ public class MobilityController {
     
 	@GetMapping("")
 	public String mobilityMain(Model model) {
-		
 		model.addAttribute("kakaoApiJsKey", kakaoApiJsKey);
-		
 		return "epl/mobility";
 	}
 }

@@ -1,9 +1,8 @@
 package com.tech.EPL.realty.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import com.tech.EPL.interfaces.ExecutionModel;
+import com.tech.EPL.interfaces.Execution;
 import com.tech.EPL.realty.enums.BuildingUseName;
 import com.tech.EPL.realty.enums.GuName;
 import com.tech.EPL.realty.mapper.RealtyAvgMapper;
@@ -12,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class InsertDataAVG implements ExecutionModel {
+public class InsertDataAVG implements Execution {
 
 	private final RealtyAvgMapper avgMapper;
 
 	@Override
-	public void execution(Model model) {
+	public void execution() {
 		
 		int i = 0;
 
