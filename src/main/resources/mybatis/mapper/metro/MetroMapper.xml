@@ -77,6 +77,30 @@
 		ORDER BY YEAR DESC
 	</select>
 	
+	<select id="stationFindXY" 
+	resultType="com.tech.EPL.metro.dto.StationFindXYDto">
+		SELECT
+			X, Y
+		FROM
+			METRO_STATIONXYCODE
+		WHERE
+			STATION = #{station}
+		LIMIT 1
+	</select>
+	
+	<select id="stationGoMap" 
+	resultType="com.tech.EPL.metro.dto.StationGoMapDto">
+		SELECT
+			SGO
+		FROM
+			METRO_GOMAP
+		WHERE
+			SNOW = #{reDeparture}
+		AND
+			SNEXT = #{reDestination}
+		LIMIT 1
+	</select>
+	
 	
 	
 

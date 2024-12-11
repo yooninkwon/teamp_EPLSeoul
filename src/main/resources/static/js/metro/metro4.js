@@ -528,13 +528,13 @@ $(document).ready(function() {
 			                    {
 			                        label: '일요일/상',
 			                        data: sunUp,
-			                        borderColor: 'rgb(34, 193, 195)',
+			                        borderColor: 'rgb(128, 0, 128)',
 			                        fill: false
 			                    },
 			                    {
 			                        label: '일요일/하',
 			                        data: sunDo,
-			                        borderColor: 'rgb(255, 99, 71)',
+			                        borderColor: 'rgb(255, 255, 0)',
 			                        fill: false
 			                    },
 			                ]
