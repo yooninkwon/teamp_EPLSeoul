@@ -48,6 +48,8 @@ public class BusController {
 		// 기존 API 키 및 기타 서비스 호출
 		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
 		model.addAttribute("googleBusKey", apiKeyConfig.getGoogleBusKey());
+		model.addAttribute("tmapBusKey", apiKeyConfig.getTmapBusKey());
+		
 		busStationService.execution(model);
 
 		return "epl/busNearby";
@@ -64,25 +66,11 @@ public class BusController {
 	
 	@GetMapping("/bus3")
 	public String busBlogList(Model model) {
-		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
-		model.addAttribute("googleBusKey", apiKeyConfig.getGoogleBusKey());
+		
 		model.addAttribute("tmapBusKey", apiKeyConfig.getTmapBusKey());
+		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
+	
 
-		busStationService.execution(model);
-
-		try {
-			String query = "포비브라이트광화문점"; // 예: "네이버 블로그"
-			int display = 10; // 가져올 글의 개수
-
-			// 블로그 글 가져오기
-			List<BlogPost> blogPosts = naverBlogService.getBlogPosts(query, display);
-
-			// 블로그 글을 모델에 추가
-			model.addAttribute("blogPosts", blogPosts);
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("error", "블로그 데이터를 가져오는 데 실패했습니다.");
-		}
 
 		return "epl/bus3";
 	}
