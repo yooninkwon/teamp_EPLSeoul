@@ -203,6 +203,5 @@
 	
 	
 <script src="/static/js/realty/realty_body3.js"></script>
-<script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>
