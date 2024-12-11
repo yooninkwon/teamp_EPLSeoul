@@ -12,14 +12,7 @@
 </head>
 
 <body>
-	<script>
-// 		$(document).ready(function(){
-// 			let jeonseStat = ${jeonseStat };
-			
-// 			chart(jeonseStat);
-// 		});
-	</script>
-	<h1> 자치구 실거래가 랭킹 </h1>
+	<h1> 자치구 실거래가 랭킹 (전체 데이터 평균치) </h1>
 
 	<label for="buying-max">
 		<input type="radio" name="tableType" id="buying-max" value="buying-rank-max" checked />
