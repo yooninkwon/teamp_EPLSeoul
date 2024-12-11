@@ -121,7 +121,8 @@ public class DateRestController {
 	        // Google Places Details API 호출
 	        String detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json" +
 	                            "?place_id=" + placeId +
-	                            "&fields=website,photos" +
+	                            "&fields=website,photos,rating,user_ratings_total,formatted_address" +
+	                            "&language=ko" + // 한글 설정 추가
 	                            "&key=" + apiKeyConfig.getGoogleDateKey();
 
 	        RestTemplate restTemplate = new RestTemplate();
@@ -132,7 +133,9 @@ public class DateRestController {
 	        JsonNode root = objectMapper.readTree(response.getBody());
 	        JsonNode result = root.path("result");
 	        JsonNode photos = result.path("photos");
+	        JsonNode addressNode = result.path("formatted_address");
 	        String website = result.path("website").asText(null);
+	        String formattedAddress = addressNode.asText(null); // 주소가 없을 경우 null 반환
 	        System.out.println(website);
 
 	        String photoUrl = null;
@@ -148,11 +151,18 @@ public class DateRestController {
 	                       "&photoreference=" + photoReference +
 	                       "&key=" + apiKeyConfig.getGoogleDateKey();
 	        }
+	        
+	     // 별점 및 리뷰 개수
+	        double rating = result.path("rating").asDouble(0.0); // 기본값 0.0
+	        int userRatingsTotal = result.path("user_ratings_total").asInt(0); // 기본값 0
 
 	        // 반환할 데이터 생성
 	        Map<String, Object> resultMap = new HashMap<>();
 	        resultMap.put("photoUrl", photoUrl);
 	        resultMap.put("website", website);
+	        resultMap.put("rating", rating);
+	        resultMap.put("userRatingsTotal", userRatingsTotal);
+	        resultMap.put("formattedAddress", formattedAddress);
 
 	        return ResponseEntity.ok(resultMap); // 데이터 반환
 

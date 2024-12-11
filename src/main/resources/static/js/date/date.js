@@ -200,9 +200,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	    let activity = [];
 	    if (likeType === "static") {
-	        activity = ["산책로", "서점", "공원", "영화관", "사진관", "전시회", "박물관", "피시방"];
+	        activity = ["산책로", "서점", "공원", "영화관", "사진관", "전시회", "박물관", "피시방", "미술관", "관광 명소"];
 	    } else if (likeType === "dynamic") {
-	        activity = ["체험관", "보드게임", "공방", "방탈출", "오락실", "아쿠아리움", "낚시카페"];
+	        activity = ["체험관", "보드게임", "공방", "방탈출", "오락실", "아쿠아리움", "낚시카페", "테마파크", "전망대", "VR카페", "관광 명소"];
 	    }
 
 	    if (districtName) {
@@ -264,7 +264,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	            if (status === google.maps.places.PlacesServiceStatus.OK) {
 	                results.forEach((place) => {
 	                    if (place.geometry && place.geometry.location) {
-	                        addMarker(map, place);
+	                        addMarker(map, place, category);
+							console.log(category);
 	                    }
 	                });
 	            } else {
@@ -275,7 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	}
 
 	// 마커 추가
-	async function addMarker(map, place) {
+	async function addMarker(map, place, category) {
 	    const defaultIcon = {
 	        url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
 	        labelOrigin: new google.maps.Point(30, 10),
@@ -293,6 +294,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        map: map,
 	        title: place.name,
 	        icon: defaultIcon,
+			customCategory: category, // 카테고리 정보 추가
 	    });
 
 	    marker.addListener("click", async () => {
@@ -305,7 +307,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        lastClickedMarker = marker;
 
 			// 사진 및 웹사이트 정보 로드
-		    const { photoUrl, website } = await fetchPlaceDetails(place.place_id);
+		    const { photoUrl, website, rating, userRatingsTotal, formattedAddress  } = await fetchPlaceDetails(place.place_id);
 			console.log(website);
 	        if (photoUrl) {
 	            elements.activityImg.innerHTML = `<img src="${photoUrl}" style="width:100%;">`;
@@ -315,10 +317,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 			
 			// 웹사이트 표시
 		    if (website) {
-		        document.getElementById('websiteContainer').innerHTML = `<a href="${website}" target="_blank">웹사이트 방문</a>`;
+		        document.getElementById('activityWebsite').innerHTML = `<a href="${website}" target="_blank">웹사이트 방문하기</a>`;
 		    } else {
-		        document.getElementById('websiteContainer').innerHTML = "등록된 웹사이트가 없습니다.";
+		        document.getElementById('activityWebsite').innerHTML = "등록된 웹사이트가 없습니다.";
 		    }
+			
+			// 이미지와 별점 표시
+            document.getElementById('activitySideRating').innerHTML = `<div class="restaurantSideRate">${generateStars(rating)}&ensp;&ensp;${userRatingsTotal}개의 평가</div>`;
+			
+			// 카테고리 정보 표시
+	        document.getElementById('activityCategory').textContent = `${marker.customCategory}`;
+			
+			// 주소 표시
+			document.getElementById(`activityAddress`).textContent = `${formattedAddress}`
 
 	        // UI 업데이트
 	        toggleDisplay([elements.activitySide], true);
@@ -327,6 +338,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	    });
 	}
 	
+	// 활동 불러오는 패치
 	async function fetchPlaceDetails(placeId) {
 	    try {
 	        const response = await fetch(`/epl/date/place/details?place_id=${placeId}`);
@@ -335,21 +347,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        }
 
 	        const data = await response.json();
-			console.log(data);
-	        // 사진 URL 생성
-/*	        let photoUrl = null;
-	        if (data && data.photos && data.photos.length > 0) {
-	            const photoReference = data.photos[0].photo_reference;
-	            photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${googleApiKey}`;
-	        }*/
+	        console.log("세부정보:", data);
 
-	        // 웹사이트 정보 추출
-	       // let website = data.website || null;
-			//console.log(website);
-	        return { photoUrl: data.photoUrl, website: data.website };
+	        // 데이터 사용
+	        const photoUrl = data.photoUrl || null;
+	        const website = data.website || null;
+	        const rating = data.rating || 0.0;
+	        const userRatingsTotal = data.userRatingsTotal || 0;
+			const formattedAddress = data.formattedAddress || null;
+			
+			
+	        return { photoUrl, website, rating, userRatingsTotal, formattedAddress };
 	    } catch (error) {
 	        console.error("세부정보 로드 중 오류 발생:", error);
-	        return { photoUrl: null, website: null };
+	        return { photoUrl: null, website: null, rating: 0.0, userRatingsTotal: 0 };
 	    }
 	}
 
@@ -517,11 +528,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 	                elements.restaurnatImg.innerHTML = `<img src="${photoUrl}" alt="${businessName} Image" style="width:100%;">`;
 	                elements.restaurantSideRate.innerHTML = `<div class="restaurantSideRate">${generateStars(rating)}&ensp;&ensp;${reviewCount}개의 평가</div>`;
 	            } else {
-					elements.restaurnatImg.innerHTML = "등록된 이미지가 없습니다.";
+					elements.restaurnatImg.innerHTML = `<img src="/static/images/date/restaurantNoImg.png" Image" style="width:100%;">`;
 					elements.restaurantSideRate.innerHTML = `<div class="restaurantSideRate">${generateStars(rating)}&ensp;&ensp; ${reviewCount}개의 평가</div>`;
 	            }
 	        } else {
-	            elements.restaurnatImg.innerHTML = "업체 정보를 찾을 수 없습니다.";
+	            elements.restaurnatImg.innerHTML = `<img src="/static/images/date/restaurantNoImg.png" Image" style="width:100%;">`;
 	        }
 	    } catch (error) {
 	        console.error("Google Places API 요청 실패:", error);

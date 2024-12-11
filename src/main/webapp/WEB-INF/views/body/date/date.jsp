@@ -114,8 +114,11 @@
 			<div id="activitySide">
 				<div id="activityImg"></div>
 				<div id="activityName"></div>
-				<div id="websiteContainer"></div>
-				<div id="activitySubmit">경유지에 추가하기</div>
+				<div id="activityCategory"></div>
+				<div id="activitySideRating"></div>
+				<div id="activityAddress"></div>
+				<div id="activityWebsite"></div>
+				<input type="button" id="activitySubmit" value="경유지에 추가하기">
 			</div>
 		</div>
 
