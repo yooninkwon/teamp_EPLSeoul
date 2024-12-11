@@ -8,6 +8,8 @@ import com.tech.EPL.metro.dto.StationAccidentDto;
 import com.tech.EPL.metro.dto.StationAmenitiesDto;
 import com.tech.EPL.metro.dto.StationCongestionDto;
 import com.tech.EPL.metro.dto.StationCrimeDto;
+import com.tech.EPL.metro.dto.StationFindXYDto;
+import com.tech.EPL.metro.dto.StationGoMapDto;
 import com.tech.EPL.metro.dto.StationHelpMapDto;
 import com.tech.EPL.metro.dto.StationInfoDto;
 import com.tech.EPL.metro.dto.StationNameHistoryDto;
@@ -31,6 +33,11 @@ public interface MetroMapper {
 	List<StationAccidentDto> stationAccident();
 	//metro5 최근 5개년 지하철 성범죄현황
 	List<StationCrimeDto> stationCrime();
+	
+	//metro2 지하철역 좌표값찾기
+	StationFindXYDto stationFindXY(String station);
+	//metrp2 지하철역 경유역찾기
+	StationGoMapDto stationGoMap(String reDeparture, String reDestination);
 	
 
 	
