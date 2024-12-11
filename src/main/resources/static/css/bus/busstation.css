@@ -74,3 +74,90 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+/* 정보창 스타일 */
+
+
+/* 메인 검색 정보창*/
+.info-main-window {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 100px;
+	margin-left:20px;
+	background-color: #fff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	font-family: 'Arial', sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	color: #0078d4;
+}
+
+
+.info-window {	
+	width: 200px;
+	padding: 10px;
+	background-color: #fff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	font-family: 'Arial', sans-serif;
+	font-size: 14px;
+	color: #333;
+	text-align: left;
+}
+
+/* 정보창 제목 강조 */
+.info-window strong {
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	color: #0078d4;
+	margin-bottom: 5px;
+}
+
+/* 주소 및 상세 링크 스타일 */
+.info-window a {
+	font-size: 12px;
+	color: #0078d4;
+	text-decoration: none;
+	margin-top: 5px;
+	display: inline-block;
+}
+
+.info-window a:hover {
+	text-decoration: underline;
+}
+
+/* 정보창 내부 간격 */
+.info-window p {
+	margin: 5px 0;
+	font-size: 13px;
+	color: #666;
+}
+
+/* 작은 아이콘 스타일 (옵션) */
+.info-window .icon {
+	width: 20px;
+	height: 20px;
+	margin-right: 8px;
+	vertical-align: middle;
+}
+
+/* 정보창 닫기 버튼 스타일 */
+.info-window .close-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	font-size: 16px;
+	color: #888;
+	cursor: pointer;
+	background: none;
+	border: none;
+}
+
+.info-window .close-btn:hover {
+	color: #333;
+}
+
+

@@ -7,7 +7,8 @@ kakao.maps.load(function () {
     var map = new kakao.maps.Map(container, options);
     var markers = [];  // 마커 배열
 
-    // 장소 검색을 위한 카카오맵 검색 객체 생성
+  
+	  // 장소 검색을 위한 카카오맵 검색 객체 생성
     var ps = new kakao.maps.services.Places();
 
     // 검색창 요소
@@ -124,7 +125,7 @@ kakao.maps.load(function () {
 	    }
 
 	    // 검색된 장소 정보창 생성
-	    var infoWindowContent = '<div style="padding:5px;">' +
+	    var infoWindowContent = '<div class="info-window" style="padding:5px;">' +
 	                            '<strong>' + place.place_name + '</strong><br>' +
 	                            '주소: ' + place.address_name + '<br>' +
 	                            '전화번호: ' + (place.phone || '정보 없음') + '</div>';
@@ -165,13 +166,48 @@ kakao.maps.load(function () {
 
 	        // 버스 정류장 마커 클릭 시 정보창 표시
 	        kakao.maps.event.addListener(stationMarker, 'click', function () {
-	            var stationInfoWindowContent = '<div style="padding:5px;">' +
+	            var stationInfoWindowContent = '<div class="info-main-window" style="padding:5px;">' +
 	                                           '<strong>' + station.station_name + '</strong><br>';
 	            var stationInfoWindow = new kakao.maps.InfoWindow({
 	                content: stationInfoWindowContent
 	            });
 
-	            // 이전에 열린 정보창이 있으면 닫기
+				console.log(station.stId);
+	           
+				
+				// AJAX 요청을 통해 해당 정류장의 도착 버스 정보를 가져옵니다.
+				fetch(`/epl/getBusArrivalInfo?stationId=${station.stId}`)
+				    .then(response => response.json())
+				    .then(data => {
+				        var arrivalInfoWindowContent = '<div class="info-main-window" style="padding:5px;">' +
+				                                       '<strong>' + station.station_name + '</strong><br>' +
+				                                       '도착 버스:<br>';
+				        // 도착하는 버스 목록 표시
+				        data.forEach(function(bus) {
+				            if (bus.busNo) {
+				                arrivalInfoWindowContent += bus.busNo + ' (도착 시간: ' + bus.arrivalTime + ')<br>';
+				            } else {
+				                arrivalInfoWindowContent += '버스 정보를 가져오는 데 실패했습니다.<br>';
+				            }
+				        });
+				        arrivalInfoWindowContent += '</div>';
+
+				        // 버스 도착 정보를 정보창에 표시
+				        var stationInfoWindow = new kakao.maps.InfoWindow({
+				            content: arrivalInfoWindowContent
+				        });
+
+				        // 정보창을 마커 위치에 표시
+				        stationInfoWindow.open(map, stationMarker);
+				        currentInfoWindow = stationInfoWindow; // 업데이트된 정보창을 currentInfoWindow에 할당
+				    })
+				    .catch(error => {
+				        console.error('버스 정보 요청 오류:', error);
+				    });
+				
+				
+				
+				 // 이전에 열린 정보창이 있으면 닫기
 	            if (currentInfoWindow) {
 	                currentInfoWindow.close();
 	            }

@@ -3,7 +3,7 @@ kakao.maps.load(function() {
 	var container = document.getElementById('map');
 	var options = {
 		center: new kakao.maps.LatLng(37.5759, 126.9796),  // 초기 지도 중심 (서울)
-		level: 5
+		level: 4
 	};
 	var map = new kakao.maps.Map(container, options);
 
