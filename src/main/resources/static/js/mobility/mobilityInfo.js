@@ -89,23 +89,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         stationList.forEach(station => {
             const btn = document.createElement('button');
             btn.textContent = station.name;
-            btn.dataset.lat = station.lat;
-            btn.dataset.lot = station.lot;
-            btn.className = 'station-item';
+            btn.className = 'option-item';
+			btn.addEventListener('click', () => { // 각 station 클릭 이벤트: 좌표값으로 지도 변경
+				const lat = parseFloat(station.lat);
+                const lot = parseFloat(station.lot);
+				var locPosition = new kakao.maps.LatLng(lat, lot);
+	            map.setCenter(locPosition);
+	        });
             document.getElementById('stationSelect').appendChild(btn);
         });
-
-        // 각 station 클릭 이벤트: 좌표값으로 지도 변경
-        document.querySelectorAll('.station-item').forEach(item => {
-            item.addEventListener('click', function () {
-                const lat = parseFloat(this.dataset.lat);
-                const lot = parseFloat(this.dataset.lot);
-				var locPosition = new kakao.maps.LatLng(lat, lot);
-		        map.setCenter(locPosition);
-            });
-        });
     });
-		
+			
 	// 따릉이 대여소 정보 호출
 	document.getElementById('fetchBikeData').addEventListener('click', function () {
 		document.getElementById('bikeInfo').style.display = "block";
@@ -184,7 +178,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 	// 데이터를 호출하는 공통 함수
 	function fetchAndDisplayData (imageSrc, service, useGeocoder) {
 		clearMarkers(); // 기존 마커 제거
-		var totalData = 0; // 총 station 개수를 저장하는 변수
+		var totalData = 0; // 총 데이터 개수를 저장하는 변수
 		const geocoder = useGeocoder ? new kakao.maps.services.Geocoder() : null; // 주소-좌표 변환 객체 생성
 	    fetch(`/epl/mobility/data/apiSeoul?service=${service}`) // 서버에 데이터 요청
 	        .then(response => response.json()) // JSON 문자열을 JS 객체로 변환
@@ -193,7 +187,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 		            const parsedPage = JSON.parse(page); // 각 JSON 페이지를 객체로 변환
 		            const stations = parsedPage[service].row; // 필요한 데이터 접근
 	                totalData += stations.length; // 총 개수 누적
-					
 					// 주소 검색을 사용하는 경우(킥보드 정보)
 					if (useGeocoder) {
 	                    stations.forEach(station => {

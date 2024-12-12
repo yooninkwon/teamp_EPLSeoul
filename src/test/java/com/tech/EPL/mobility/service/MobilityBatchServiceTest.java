@@ -36,7 +36,7 @@ class MobilityBatchServiceTest {
     @MockBean
     private Job processJob;
 
-    private static final String basePath = "C:/Users/eldorado/OneDrive/Codefile/Albamon/testData";
+    private static final String basePath = "C:/Users/eldorado/OneDrive/Codefile/Albamon/testData/sbd";
     
     @BeforeAll
     static void setUpOnce() throws Exception {
@@ -61,11 +61,12 @@ class MobilityBatchServiceTest {
     @DisplayName("파일 경로가 없거나 폴더가 아닌 경우")
     void testInvalidDirectory() throws Exception {
     	// Given: 잘못된 filePath
+    	String workType = "abd";
         String fileType = "invalid";
         
         // When: run 메서드 호출
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            mobilityBatchService.run(fileType);
+            mobilityBatchService.run(workType, fileType);
         });
         
         // Then: 적절한 예외 메시지 확인
@@ -79,11 +80,12 @@ class MobilityBatchServiceTest {
     @DisplayName("파일이 존재하지 않을 경우")
     void testNoFilesInDirectory() throws Exception {
     	// Given: 파일이 존재하지 않는 filePath
+    	String workType = "sbd";
         String fileType = "xml";
         
         // When: run 메서드 호출
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            mobilityBatchService.run(fileType);
+            mobilityBatchService.run(workType, fileType);
         });
         
         // Then: 적절한 예외 메시지 확인
@@ -97,11 +99,12 @@ class MobilityBatchServiceTest {
     @DisplayName("파일 확장자가 맞지 않는 경우")
     void testIncorrectFileExtension() throws Exception {
     	// Given: 매칭되지 않는 fileType
+    	String workType = "sbd";
     	String fileType = "csv";
     	
         // When: run 메서드 호출
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            mobilityBatchService.run(fileType);
+            mobilityBatchService.run(workType, fileType);
         });
         
         // Then: 적절한 예외 메시지 확인
@@ -115,13 +118,14 @@ class MobilityBatchServiceTest {
     @DisplayName("정상 작동하는 경우")
     void testValidRun() throws Exception {
     	// Given: 올바른 fileType
+    	String workType = "sbd";
         String fileType = "json";
         
         // When: run 메서드 호출
         JobExecution mockJobExecution = Mockito.mock(JobExecution.class);
         when(jobLauncher.run(any(Job.class), any(JobParameters.class))).thenReturn(mockJobExecution);
         
-        JobExecution execution = mobilityBatchService.run(fileType);
+        JobExecution execution = mobilityBatchService.run(workType,fileType);
 
         // jobLauncher.run() 호출 확인
         verify(jobLauncher, times(1)).run(eq(processJob), any(JobParameters.class));

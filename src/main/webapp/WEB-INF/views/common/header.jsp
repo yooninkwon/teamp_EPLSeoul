@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const firstSubmenuLinks = {
         '/epl/bus': '/epl/bus/', // 버스 길찾기
         '/epl/metro': '/epl/metro1', // 지하철 첫 메뉴
-        '/epl/mobility': '/epl/mobility/', // 워크 & 모빌리티 첫 메뉴
+        '/epl/mobility': '/epl/mobility/info', // 워크 & 모빌리티 첫 메뉴
         '/epl/date': '/epl/date/', // 데이트 첫 메뉴
         '/epl/realty1': '/epl/realty1', // 부동산 첫 메뉴
     };
@@ -97,7 +97,7 @@ function updateBreadcrumb(link) {
 	       <div class="nav-menu">
 	           <a href="/epl/bus" >BUS</a>
 	           <a href="/epl/metro">METRO</a>
-	           <a href="/epl/mobility">WALK & MINIMOBILITY</a>
+	           <a href="/epl/mobility">MOBILITY</a>
 	           <a href="/epl/date">DATE</a>
 	           <a class="realty" href="/epl/realty1">REALTY</a>
 	       </div>

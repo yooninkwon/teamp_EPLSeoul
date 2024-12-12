@@ -27,9 +27,9 @@ public class MobilityBatchService {
     	this.processJob = processJob;
     }
     
-    public JobExecution run(String fileType) throws Exception {
+    public JobExecution run(String workType, String fileType) throws Exception {
     	// 동적 경로 생성
-        String filePath = basePath + "/" + fileType;
+        String filePath = basePath + "/" + workType + "/" + fileType;
         
         // 유효성 확인
         File directory = new File(filePath);
@@ -51,14 +51,17 @@ public class MobilityBatchService {
         String fileName = files[0].getName();
         System.out.println(fileName + " 데이터 저장 실행");
         
+        // 읽을 파일 경로
+        String fullFilePath = filePath + "/" + fileName;
+        
         // 파라미터 전달
-    	JobParameters jobParameters = new JobParametersBuilder()
+        JobParameters jobParameters = new JobParametersBuilder()
+        		.addString("workType", workType)
     			.addString("fileType", fileType)
-    	        .addString("filePath", filePath)
-    	        .addString("fileName", fileName)
+    	        .addString("filePath", fullFilePath)
     	        .addLong("executionTime", System.currentTimeMillis()) // 고유 실행 ID
     	        .toJobParameters();
-    	
+        
         return jobLauncher.run(processJob, jobParameters);
     }
 }

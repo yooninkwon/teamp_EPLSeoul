@@ -66,7 +66,7 @@ public class MobilityBatchConfig {
     public Step processStep() {
         return stepBuilderFactory.get("processStep")
             .<MobilityRawData, MobilityProcessedData>chunk(10) // InputData 타입의 데이터를 읽어서, ProcessedData로 변환(Chunk 단위로 묶어서 처리)
-            .reader(itemReader(null,null,null)) // Reader 선택 (파일 형식에따라 동적으로 ItemReader를 정의)
+            .reader(itemReader(null,null)) // Reader 선택 (파일 형식에따라 동적으로 ItemReader를 정의)
             .processor(dataProcessor()) // ItemProcessor를 정의
             .writer(databaseWriter(null)) // ItemWriter를 정의
             .build();
@@ -76,12 +76,11 @@ public class MobilityBatchConfig {
     @StepScope // Step 실행 시점으로 동적 파라미터 처리
     public FlatFileItemReader<MobilityRawData> itemReader(
     		@Value("#{jobParameters['fileType']}") String fileType,
-    		@Value("#{jobParameters['filePath']}") String filePath,
-	    	@Value("#{jobParameters['fileName']}") String fileName) {
+    		@Value("#{jobParameters['fullFilePath']}") String fullFilePath) {
         if ("csv".equalsIgnoreCase(fileType)) {
-            return csvReader(filePath, fileName); // CSV Reader 선택
+            return csvReader(fullFilePath); // CSV Reader 선택
         } else if ("json".equalsIgnoreCase(fileType)) {
-            return jsonReader(filePath, fileName); // JSON Reader 선택
+            return jsonReader(fullFilePath); // JSON Reader 선택
         } else { // 지원하지 않는 형식일 경우 예외 발생
             throw new IllegalArgumentException("Unsupported file type: " + fileType);
         }
@@ -90,12 +89,7 @@ public class MobilityBatchConfig {
     @Bean
     @StepScope
     public FlatFileItemReader<MobilityRawData> csvReader(
-    		@Value("#{jobParameters['filePath']}") String filePath,
-	    	@Value("#{jobParameters['fileName']}") String fileName) {
-    	
-    	String fullFilePath = filePath + "/" + fileName;
-    	System.out.println(fullFilePath + " 접근");
-    	
+    		@Value("#{jobParameters['fullFilePath']}") String fullFilePath) {
     	FlatFileItemReader<MobilityRawData> reader = new FlatFileItemReader<>();
         reader.setResource(new FileSystemResource(fullFilePath)); // 읽을 파일의 경로
         reader.setLinesToSkip(1); // 헤더 건너뛰기
@@ -119,11 +113,10 @@ public class MobilityBatchConfig {
     
     @Bean
     @StepScope
-    public FlatFileItemReader<MobilityRawData> jsonReader(
-    		@Value("#{jobParameters['filePath']}") String filePath,
-	    	@Value("#{jobParameters['fileName']}") String fileName) {  // json용 커스텀 Reader
+    public FlatFileItemReader<MobilityRawData> jsonReader( // json용 커스텀 Reader
+    		@Value("#{jobParameters['fullFilePath']}") String fullFilePath) {
         return new FlatFileItemReader<MobilityRawData>() { // jsonReader를 InputData로 반환
-            private final Iterator<JSONObject> iterator = createJsonIterator(filePath, fileName); // JSON 파일의 내용을 Iterator로 변환
+            private final Iterator<JSONObject> iterator = createJsonIterator(fullFilePath); // JSON 파일의 내용을 Iterator로 변환
 
             @Override
             public MobilityRawData read() throws Exception {
@@ -142,12 +135,7 @@ public class MobilityBatchConfig {
 
     @StepScope
     protected Iterator<JSONObject> createJsonIterator(
-    		@Value("#{jobParameters['filePath']}") String filePath,
-	    	@Value("#{jobParameters['fileName']}") String fileName) {
-    	
-    	String fullFilePath = filePath + "/" + fileName;
-    	System.out.println(fullFilePath + " 접근");
-    	
+    		@Value("#{jobParameters['fullFilePath']}") String fullFilePath) {
         try { // 파일 내용을 읽어 JSON 객체로 변환
             File file = new File(fullFilePath);
             String content = new String(Files.readAllBytes(file.toPath())); // 파일 내용을 바이트 문자배열로 읽음
@@ -159,7 +147,7 @@ public class MobilityBatchConfig {
                     .map(obj -> new JSONObject((Map<?, ?>) obj)) // 각 Object를 JSONObject로 변환
                     .iterator(); // 변환된 리스트를 Iterator로 반환
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read JSON file: " + filePath, e); // 파일 읽기 실패 시 예외 발생
+            throw new RuntimeException("Failed to read JSON file: " + fullFilePath, e); // 파일 읽기 실패 시 예외 발생
         }
     }
     
