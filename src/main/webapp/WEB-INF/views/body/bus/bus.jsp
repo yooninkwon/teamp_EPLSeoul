@@ -30,10 +30,12 @@
 	   
 	 </script>
 
+
 <body>
     <h1 style="text-align: center;">실시간 버스 위치 추적</h1>
 
-    <div id="map" ></div> <!-- 지도 영역 -->
+    
+    <div id="map"></div> <!-- 지도 영역 -->
 
    <div id="searchBar" style="position: relative;">
     <input type="text" id="searchInput" placeholder="서울시 장소를 입력하세요">

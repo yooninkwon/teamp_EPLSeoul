@@ -164,46 +164,69 @@ kakao.maps.load(function () {
 	        stationMarker.setMap(map);
 	        markers.push({ marker: stationMarker, station: station });
 
-	        // 버스 정류장 마커 클릭 시 정보창 표시
-	        kakao.maps.event.addListener(stationMarker, 'click', function () {
-	            var stationInfoWindowContent = '<div class="info-main-window" style="padding:5px;">' +
-	                                           '<strong>' + station.station_name + '</strong><br>';
-	            var stationInfoWindow = new kakao.maps.InfoWindow({
-	                content: stationInfoWindowContent
-	            });
+			
+			
+			// 버스 정류장 마커 클릭 시 정보창 표시
+			kakao.maps.event.addListener(stationMarker, 'click', function () {
+			    var stationInfoWindowContent = '<div class="info-main-window" style="padding:5px;">' +
+			                                   '<strong>' + station.station_name + '</strong><br>';
+			    var stationInfoWindow = new kakao.maps.InfoWindow({
+			        content: stationInfoWindowContent
+			    });
 
-				console.log(station.stId);
-	           
-				
-				// AJAX 요청을 통해 해당 정류장의 도착 버스 정보를 가져옵니다.
-				fetch(`/epl/getBusArrivalInfo?stationId=${station.stId}`)
-				    .then(response => response.json())
-				    .then(data => {
-				        var arrivalInfoWindowContent = '<div class="info-main-window" style="padding:5px;">' +
-				                                       '<strong>' + station.station_name + '</strong><br>' +
-				                                       '도착 버스:<br>';
-				        // 도착하는 버스 목록 표시
-				        data.forEach(function(bus) {
-				            if (bus.busNo) {
-				                arrivalInfoWindowContent += bus.busNo + ' (도착 시간: ' + bus.arrivalTime + ')<br>';
-				            } else {
-				                arrivalInfoWindowContent += '버스 정보를 가져오는 데 실패했습니다.<br>';
-				            }
-				        });
-				        arrivalInfoWindowContent += '</div>';
+			    // 정보창을 표시
+			    stationInfoWindow.open(map, stationMarker);
 
-				        // 버스 도착 정보를 정보창에 표시
-				        var stationInfoWindow = new kakao.maps.InfoWindow({
-				            content: arrivalInfoWindowContent
-				        });
+			    // 마커 클릭 시 해당 정류장 이름을 infoPanel에 표시
+			    document.getElementById('infoPanel').querySelector('h3').innerHTML = station.station_name;
 
-				        // 정보창을 마커 위치에 표시
-				        stationInfoWindow.open(map, stationMarker);
-				        currentInfoWindow = stationInfoWindow; // 업데이트된 정보창을 currentInfoWindow에 할당
-				    })
-				    .catch(error => {
-				        console.error('버스 정보 요청 오류:', error);
-				    });
+			    // #busArrivalList div에 버스 도착 정보 나열
+			    fetch(`/epl/getBusArrivalInfo?stationId=${station.stId}`)
+			        .then(response => response.json())
+			        .then(data => {
+			            var arrivalInfoContent = '';
+			            data.forEach(function(bus) {
+			                if (bus.busNo) {
+			                    // 각 버스 클릭 시 정보 표시 기능 추가
+			                    arrivalInfoContent += `
+			                        <p id="bus_${bus.busNo}" class="bus-info" data-bus-no="${bus.busNo}">
+			                            <strong>${bus.busNo}</strong> (도착 시간: ${bus.arrmsg1})
+			                        </p>
+			                    `;
+			                } else {
+			                    arrivalInfoContent += '<p>버스 정보를 가져오는 데 실패했습니다.</p>';
+			                }
+			            });
+
+			            // #busArrivalList div에 버스 도착 정보 나열
+			            document.getElementById('busArrivalList').innerHTML = arrivalInfoContent;
+
+			            // 버스를 클릭했을 때 해당 버스 정보 표시
+			            document.querySelectorAll('.bus-info').forEach(function(busElement) {
+			                busElement.addEventListener('click', function() {
+			                    var busNo = busElement.dataset.busNo;
+			                    var selectedBus = data.find(bus => bus.busNo === busNo);
+			                    if (selectedBus) {
+			                        displayBusDetails(selectedBus);
+			                    }
+			                });
+			            });
+			        })
+			        .catch(error => {
+			            console.error('버스 정보 요청 오류:', error);
+			        });
+		
+
+			// 버스 세부 정보 표시 함수
+			function displayBusDetails(bus) {
+			    var busDetailsContent = `
+			        <h4>버스 번호: ${bus.busNo}</h4>
+			        <p>도착 시간: ${bus.arrmsg1}</p>
+			        <p>기타 정보: ${bus.otherDetails || '정보 없음'}</p>
+			    `;
+			    // infoPanel에 버스 정보 표시
+			    document.getElementById('busArrivalList').innerHTML = busDetailsContent;
+			}
 				
 				
 				

@@ -161,3 +161,44 @@
 }
 
 
+/* 각 버스 항목 스타일 */
+.bus-info {
+    margin: 10px 0;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bus-info:hover {
+    background-color: #e0e0e0;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 정류장 및 버스 정보 상자에 마우스 호버 시 효과 */
+#infoPanel:hover {
+    background-color: #fafafa;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+#busArrivalList:hover {
+    background-color: #fafafa;
+}
+
+/* 마커 클릭 시 정보창 */
+.kakao-map-info-window {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 스타일을 좀 더 깔끔하게 하기 위한 버스 정보 세부 스타일 */
+#busArrivalList p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+#busArrivalList strong {
+    color: #5c6bc0;
+}

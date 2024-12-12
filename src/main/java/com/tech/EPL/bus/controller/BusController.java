@@ -16,6 +16,7 @@ import com.tech.EPL.bus.dto.BlogPost;
 import com.tech.EPL.bus.service.BusArrivalService;
 import com.tech.EPL.bus.service.BusStationService;
 import com.tech.EPL.bus.service.NaverBlogService;
+import com.tech.EPL.bus.service.PublicDataService;
 import com.tech.EPL.config.ApiKeyConfig;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,8 @@ public class BusController {
 
 	private final NaverBlogService naverBlogService;
 
+	private final PublicDataService publicDataService;
+	
 	@GetMapping("/bus")
 	public String busTracking(Model model) {
 
@@ -47,12 +50,12 @@ public class BusController {
 	}
 
 	
-	 // 버스 도착 정보 요청
+	// 버스 도착 정보 요청
 	@RequestMapping("/getBusArrivalInfo")
 	@ResponseBody
 	public List<Map<String, String>> getBusArrivalInfo(@RequestParam("stationId") String stationId) {
 	   System.out.println("stationId:"+stationId);
-		try {
+	    try {
 	        // 서비스 호출하여 버스 도착 정보 가져오기
 	        List<Map<String, String>> busList = busArrivalService.getBusArrivalInfo(stationId);
 	        System.out.println("busList:"+busList);
@@ -89,16 +92,12 @@ public class BusController {
 	}
 	
 	
-	@GetMapping("/bus3")
-	public String busBlogList(Model model) {
-		
-		model.addAttribute("tmapBusKey", apiKeyConfig.getTmapBusKey());
-		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
-	
-
-
-		return "epl/bus3";
-	}
+    @GetMapping("/bus3")
+    public String fetchPublicData(Model model) {
+        String publicData = publicDataService.getPublicData();
+        model.addAttribute("publicData", publicData);
+        return "epl/bus3";
+    }
 
 
 
