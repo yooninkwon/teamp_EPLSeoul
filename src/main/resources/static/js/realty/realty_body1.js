@@ -27,7 +27,6 @@ $(document).ready(function() {
 				return response.json();
 			})
 			.then(data => {
-				console.log(data);
 				chart(data.buyingStat, data.rentStat, data.jeonseStat);
 			})
 			.catch(error => {

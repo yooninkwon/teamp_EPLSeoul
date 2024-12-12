@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/epl") // 추후 변경
 public class ELPRealtyController {
 		
-	@GetMapping("/realty0")
+	@GetMapping("/realty")
 	public String realty0() {
-		return "epl/realty0";
+		return "epl/realty";
 	}
 		
 	@GetMapping("/realty1")

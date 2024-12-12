@@ -19,12 +19,12 @@ public class MetroController {
 	
 	private final StationAccidentCrimeDataService stationAccidentCrimeDataService;
 	
-	@GetMapping("/metro1")
+	@GetMapping("/metro")
 	public String metro1(Model model) {
 		String kakao = apiKeyConfig.getKakaoBusKey();
 		model.addAttribute("kakao",kakao);
 		
-		return "epl/metro1";
+		return "epl/metro";
 	}
 			
 	@GetMapping("/metro2")
