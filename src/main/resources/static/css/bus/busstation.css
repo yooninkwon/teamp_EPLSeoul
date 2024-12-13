@@ -65,6 +65,25 @@
     background-color: #f0f0f0; /* 마우스를 올렸을 때 배경 색상 */
 }
 
+
+/* 지도와 infoPanel을 포함하는 컨테이너 스타일링 */
+#mapContainer {
+    display: flex; /* Flexbox를 사용하여 배치 */
+    align-items: flex-start; /* 요소를 상단에 맞춤 */
+}
+
+/* 왼쪽에 위치할 infoPanel 스타일 */
+#infoPanel {
+    width: 300px;
+    height: 500px; /* 지도와 같은 높이 */
+    margin-right: 10px; /* 지도와 간격 설정 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
+}
+
 /* 지도 스타일 */
 #map {
     width: 70%;
@@ -76,7 +95,6 @@
 }
 
 
-/* 정보창 스타일 */
 
 
 /* 메인 검색 정보창*/
@@ -164,8 +182,9 @@
 /* 각 버스 항목 스타일 */
 .bus-info {
     margin: 10px 0;
+    height: 50px;
     padding: 8px;
-    background-color: #f0f0f0;
+   background-color: rgba(115, 163, 255, 0.1); /* 연한 파란색 (투명도 50%) */;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -192,13 +211,59 @@
     color: #333;
 }
 
+
 /* 스타일을 좀 더 깔끔하게 하기 위한 버스 정보 세부 스타일 */
 #busArrivalList p {
-    font-size: 13px;
+    font-size: 17px;
     color: #666;
     margin-bottom: 8px;
 }
 
 #busArrivalList strong {
-    color: #5c6bc0;
+    color: #0078d4;
 }
+
+
+/* 모달 스타일 수정 */
+.modal {
+    display: none; /* 초기 상태: 숨김 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    pointer-events: none; /* 모달창 외부 이벤트를 막지 않음 */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    pointer-events: auto; /* 모달창 자체는 클릭 가능 */
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+

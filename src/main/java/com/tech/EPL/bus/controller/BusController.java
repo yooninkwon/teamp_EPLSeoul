@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tech.EPL.bus.dto.BlogPost;
+import com.tech.EPL.bus.dto.BusDetails;
 import com.tech.EPL.bus.service.BusArrivalService;
+import com.tech.EPL.bus.service.BusDetailApiServece;
 import com.tech.EPL.bus.service.BusStationService;
 import com.tech.EPL.bus.service.NaverBlogService;
 import com.tech.EPL.bus.service.PublicDataService;
@@ -36,6 +42,9 @@ public class BusController {
 	private final NaverBlogService naverBlogService;
 
 	private final PublicDataService publicDataService;
+
+	private final BusDetailApiServece busDetailService;
+	
 	
 	@GetMapping("/bus")
 	public String busTracking(Model model) {
@@ -90,6 +99,23 @@ public class BusController {
 		
 		return naverBlogService.getBlogPosts(place, display);
 	}
+	
+	
+    // 버스 번호를 통해 실시간 버스 위치 정보 가져오기
+	@RequestMapping("/getBusDetails")
+	public ResponseEntity<String> getBusDetails(@RequestParam String vehId1) throws JsonProcessingException {
+	    System.out.println("버스 상세 정보 요청: " + vehId1);  // 요청 받은 vehId1 확인
+	    BusDetails busDetails = busDetailService.getBusDetails(vehId1);
+
+	    if (busDetails == null) {
+	        System.out.println("버스 상세 정보 없음: " + vehId1);  // 데이터가 없는 경우 확인
+	        return ResponseEntity.status(HttpStatus.SC_NOT_FOUND).body("{}");  // 빈 JSON 반환
+	    }
+
+	    System.out.println("버스 상세 정보 반환: " + busDetails);  // 반환되는 busDetails 객체 확인
+	    return ResponseEntity.ok(new ObjectMapper().writeValueAsString(busDetails));  // 정상 응답
+	}
+	
 	
 	
     @GetMapping("/bus3")
