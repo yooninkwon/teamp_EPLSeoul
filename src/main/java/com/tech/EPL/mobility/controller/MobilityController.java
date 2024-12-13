@@ -19,9 +19,20 @@ public class MobilityController {
         this.kakaoApiJsKey = apiKeyConfig.getKakaoMobilityJsKey();
     }
     
-	@GetMapping("")
-	public String mobilityMain(Model model) {
+	@GetMapping("info")
+	public String mobilityInfo(Model model) {
 		model.addAttribute("kakaoApiJsKey", kakaoApiJsKey);
-		return "epl/mobility";
+		return "epl/mobility/info";
+	}
+	
+	@GetMapping("cluster")
+	public String mobilityCluster(Model model) {
+		model.addAttribute("kakaoApiJsKey", kakaoApiJsKey);
+		return "epl/mobility/cluster";
+	}
+	
+	@GetMapping("chart")
+	public String mobilityChart() {
+		return "epl/mobility/chart";
 	}
 }

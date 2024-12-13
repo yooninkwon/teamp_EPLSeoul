@@ -64,16 +64,16 @@
 
 
 	<!-- mobility-->
-	<definition name="epl/mobility" extends="epl_baselayout">
-		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility.jsp" />
+	<definition name="epl/mobility/info" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobilityInfo.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
 	</definition>
-	<definition name="epl/mobility/3" extends="epl_baselayout">
-		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility3.jsp" />
+	<definition name="epl/mobility/cluster" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobilityCluster.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
 	</definition>
-	<definition name="epl/mobility/4" extends="epl_baselayout">
-		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobility4.jsp" />
+	<definition name="epl/mobility/chart" extends="epl_baselayout">
+		<put-attribute name="epl_body" value="/WEB-INF/views/body/mobility/mobilityChart.jsp" />
 		<put-attribute name="epl_side" value="/WEB-INF/views/side/side_mobility.jsp" />
 	</definition>
 	

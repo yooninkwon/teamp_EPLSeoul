@@ -26,22 +26,23 @@ public class MobilityRestControllerTest {
     private MobilityBatchService mobilityBatchService;
     
     @Test
-    @DisplayName("runBatch 트리거 - fileType 파라미터 전달")
+    @DisplayName("runBatch 트리거 - 파라미터 전달")
     void testRunBatch() throws Exception {
     	// 테스트용 파라미터
+    	String workType = "sbd";
     	String fileType = "json";
     	
     	// Given: Service 계층 동작을 Mocking
     	JobExecution mockJobExecution = Mockito.mock(JobExecution.class);
     	Mockito.when(mockJobExecution.getStatus()).thenReturn(BatchStatus.COMPLETED);
-    	Mockito.when(mobilityBatchService.run(fileType)).thenReturn(mockJobExecution); 
+    	Mockito.when(mobilityBatchService.run(workType, fileType)).thenReturn(mockJobExecution); 
 	    // Mock `run()` 호출 시 가짜 JobExecution 객체 반환
 
         // When: MockMvc를 통해 Controller 호출
-        mockMvc.perform(get("/epl/mobility/data/runBatch/{fileType}", fileType))
+        mockMvc.perform(get("/epl/mobility/data/runBatch/{workType}/{fileType}",workType, fileType))
                .andExpect(status().isOk()); // Then: HTTP 상태 확인
         
         // mobilityBatchService 호출 확인
-        verify(mobilityBatchService, Mockito.times(1)).run(fileType);
+        verify(mobilityBatchService, Mockito.times(1)).run(workType, fileType);
     }
 }

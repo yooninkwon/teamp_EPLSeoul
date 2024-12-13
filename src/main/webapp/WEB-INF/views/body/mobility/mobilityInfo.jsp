@@ -5,12 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/static/css/mobility/mobility.css">
+<link rel="stylesheet" href="/static/css/mobility/mobilityInfo.css">
 <title>mobility_body</title>
 </head>
 <body>
-	<div class="title">기타 이동수단</div>
-	
 	<!-- 역 선택 옵션 박스 -->
 	<div class="station-container">
 		<div>
@@ -49,6 +47,7 @@
 				<td id="stationAbleRackCnt"></td>
 			</tr>
 		</table>
+		<div class="discript" style="color: red;">*실시간 정보는 5분에 한 번씩 갱신됩니다.</div>
 		<div class="discript">*대여가능 : 거치대에 거치된 자전거 수량 및 거치대에 거치되지 않았지만 대여소에 주차된 자전거 수량의 합을 말합니다.<br/>거치대의 수와 상관없이 자전거 주차가 가능하여 건수 차이가 날 수 있습니다.</div>
 	</div>
 	
@@ -71,6 +70,6 @@
 	<input type="checkbox" id="chkBicycle" /> 자전거도로 정보 보기
 	<div id="map"></div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiJsKey }&libraries=services"></script>
-<script src="/static/js/mobility/mobilityMain.js"></script>
+<script src="/static/js/mobility/mobilityInfo.js"></script>
 </body>
 </html>

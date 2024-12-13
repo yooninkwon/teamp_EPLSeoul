@@ -42,9 +42,9 @@ public class MobilityRestController {
     }
     
     // Batch Job : 데이터 가공 및 저장
-    @GetMapping("/runBatch/{fileType}")
-    public void runBatch(@PathVariable String fileType) throws Exception {
-        JobExecution execution = mobilityBatchService.run(fileType);
+    @GetMapping("/runBatch/{workType}/{fileType}")
+    public void runBatch(@PathVariable String workType, @PathVariable String fileType) throws Exception {
+        JobExecution execution = mobilityBatchService.run(workType, fileType);
         System.out.println("데이터 저장 결과 : " + execution.getStatus());
         if (execution.getStatus().isUnsuccessful()) {
             System.out.println("실패 이유 : " + execution.getAllFailureExceptions());
@@ -60,8 +60,8 @@ public class MobilityRestController {
     
     // 서울 열린데이터광장 API
     @GetMapping("apiSeoul")
-    public List<String> getSeoulAPIData(@RequestParam String service) throws IOException {
-        return mobilitySeoulAPIService.fetchSeoulAPIData(seoulApiKey, service);
+    public List<String> getSeoulAPIData(@RequestParam String service, @RequestParam(required = false) String period) throws IOException {
+        return mobilitySeoulAPIService.fetchSeoulAPIData(seoulApiKey, service, period);
     }
     
     // MOBILITY_SBD 데이터
