@@ -26,6 +26,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 		activitySide: document.getElementById("activitySide"),
 		activityImg: document.getElementById("activityImg"),
 		activityName: document.getElementById("activityName"),
+		changeDist: document.getElementById("changeDist"),
+		courseCount: document.getElementById("courseCount"),
+		restaurantSubmit: document.getElementById("restaurantSubmit"),
+		activitySubmit: document.getElementById("activitySubmit"),
     };
 
     let currentPage = 0;
@@ -43,11 +47,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     let googleApiKey = ''; // API 키 저장 변수
 	let mapContainer = document.getElementById("activityMap");
 	let lastClickedMarker = null; // 마지막으로 클릭된 마커 추적 변수
+	let lastClickedRow = null
+	let course = 0;
+	let selectedRowId = null;
+	let selectedName = null;
+	let selectedAddress = null;
+	
 	
 	
 	// 초기 상태 설정
 	await initState(); // initState를 async로 호출
-
 	// 초기 상태 설정 함수
 	async function initState() {
 	    elements.expContainer.classList.add("active");
@@ -60,8 +69,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        elements.restaurantSide,
 	        elements.activityContainer,
 			elements.activitySide,
+			elements.courseCount,
 	    ], false);
-
+		
 	    await fetchGoogleApi(); // Google API 키 가져오기
 	    await loadGoogleMapsScript(); // Google Maps 스크립트 로드
 	}
@@ -312,7 +322,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        if (photoUrl) {
 	            elements.activityImg.innerHTML = `<img src="${photoUrl}" style="width:100%;">`;
 	        } else {
-	            elements.activityImg.innerHTML = "이미지를 불러올 수 없습니다.";
+	            elements.activityImg.innerHTML = `<img src="/static/images/date/activityNoImg.png" style="width:100%;">`;
 	        }
 			
 			// 웹사이트 표시
@@ -487,21 +497,60 @@ document.addEventListener("DOMContentLoaded", async () => {
 	            <td style="width: 30%; float: left; margin-left: 50px;">${shortenedAddress}</td>
 	            ${sizeTag ? `<td id="sizeTag">${sizeTag}</td>` : ""}
 	            ${newTag ? `<td id="newTag">${newTag}</td>` : ""}
+				<input type="hidden" class="restaurnatId" value="${rowId}">
 	            
 	        `;
 
 			// 클릭 이벤트 추가
 			row.addEventListener("click", () => {
 				console.log(`Row clicked: ${rowId}`);
+				selectedRowId = rowId;
+				// 이전 클릭된 로우의 배경색 초기화
+			    if (lastClickedRow) {
+			        lastClickedRow.style.backgroundColor = ""; // 초기 상태로 복원
+			    }
+				// 현재 클릭된 로우의 배경색 변경
+			    row.style.backgroundColor = "#f0f8ff"; // 클릭된 로우의 배경색 설정
+			    // 마지막 클릭된 로우 업데이트
+			    lastClickedRow = row;
 				elements.listUp.classList.add("active");
 				toggleDisplay([elements.restaurantSide], true);
 				fetchPlaceImageAndRating(restaurant.business_name);
 				elements.restaurantSideName.innerHTML = restaurant.business_name;
 				renderMap(restaurant.business_name);
+				selectedName = restaurant.business_name;
+				selectedAddress = shortenedAddress;
 			});
 
 			elements.listTableBody.appendChild(row);
 		});
+	}
+	
+	function addCourse(selectedName, selectedAddress) {
+	    const data = {
+	        name: selectedName,
+	        address: selectedAddress
+	    };
+	    fetch('/epl/date/addCourse', {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify(data)
+	    })
+	    .then(response => {
+	        if (response.ok) {
+	            return response.json(); // 서버 응답 처리
+	        } else {
+	            throw new Error('Failed to save course');
+	        }
+	    })
+	    .then(data => {
+	        console.log('코스 저장 완료:', data);
+	    })
+	    .catch(error => {
+	        console.error('에러 발생:', error);
+	    });
 	}
 
 	async function fetchPlaceImageAndRating(businessName) {
@@ -534,6 +583,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        } else {
 	            elements.restaurnatImg.innerHTML = `<img src="/static/images/date/restaurantNoImg.png" Image" style="width:100%;">`;
 	        }
+			
 	    } catch (error) {
 	        console.error("Google Places API 요청 실패:", error);
 	        elements.restaurnatImg.innerHTML = "이미지를 로드하는 중 오류가 발생했습니다.";
@@ -612,6 +662,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return stars;
 	}
 	
+	elements.restaurantSubmit.addEventListener("click", async () => {
+	    addCourse(selectedName, selectedAddress); // 코스 추가
+		getCourseCount();
+	});
+	
+	function getCourseCount() {
+		fetch('/epl/date/getCourseCount') // 업데이트된 카운트 가져오기
+			.then(response => {
+			    if (response.ok) {
+			        return response.json();
+			    } else {
+			        throw new Error('Failed to fetch updated course count');
+			    }
+			})
+			.then(data => {
+			    course = data.courseCount;
+			    elements.courseCount.innerHTML = course; // 화면에 표시
+			})
+			.catch(error => {
+			    console.error('Error fetching updated course count:', error);
+			});
+	}
+	
+	// 활동 경유지에 추가
+	elements.activitySubmit.addEventListener("click" , () => {
+		toggleDisplay([elements.courseCount], true);
+		elements.courseCount.innerHTML = ++course;
+	});
+	
+	elements.changeDist.addEventListener("click" ,() => {
+		toggleDisplay([elements.localList, elements.restaurantSide, elements.activitySide], false);
+		toggleDisplay([elements.seoulMap, elements.mapSide], true);
+		elements.listUp.classList.remove("active");
+		mapContainer.style.width = "100%";
+		
+	});
 
 	// 여러 요소 표시/숨기기 토글 함수
 	function toggleDisplay(elements, show) {

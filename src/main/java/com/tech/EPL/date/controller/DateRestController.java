@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -171,6 +175,56 @@ public class DateRestController {
 	                .body("Google Places Details API 요청 실패: " + e.getMessage());
 	    }
 	}
+	
+	@PostMapping("/addCourse")
+	public Map<String, Object> saveCourse(@RequestBody Map<String, String> courseData, HttpSession session) {
+	    // 세션에서 코스카운트 가져오기
+	    Integer courseCount = (Integer) session.getAttribute("courseCount");
+	    if (courseCount == null) {
+	        courseCount = 0;
+	    }
+
+	    String name = courseData.get("name");
+	    String address = courseData.get("address");
+
+	    // 코스 중복 여부 확인
+	    if (session.getAttribute("course_" + name) != null) {
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("message", "이미 추가된 코스입니다.");
+	        response.put("courseCount", courseCount);
+	        return response;
+	    }
+
+	    // 코스카운트 증가 및 세션에 저장
+	    courseCount++;
+	    session.setAttribute("courseCount", courseCount);
+	    session.setAttribute("course_" + name, address);
+
+	    // JSON 응답 반환
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("message", "코스 추가 성공");
+	    response.put("courseCount", courseCount);
+	    return response;
+	}
+	
+	@GetMapping("/getCourseCount")
+	public Map<String, Object> getCourses(HttpSession session) {
+	    Map<String, Object> response = new HashMap<>();
+
+	    // 세션에서 모든 코스 데이터 가져오기
+	    session.getAttributeNames().asIterator().forEachRemaining(attr -> {
+	        if (attr.startsWith("course_")) {
+	            response.put(attr.substring(7), session.getAttribute(attr)); // "course_" 제거
+	        }
+	    });
+
+	    // 코스카운트 포함
+	    Integer courseCount = (Integer) session.getAttribute("courseCount");
+	    response.put("courseCount", courseCount != null ? courseCount : 0);
+
+	    return response;
+	}
+
 	
 	
 //	@GetMapping("/restaurant_search")

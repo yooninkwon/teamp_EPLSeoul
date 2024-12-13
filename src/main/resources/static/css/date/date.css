@@ -209,8 +209,57 @@
 
 /* 장소 리스트업 */
 .filterDiv {
+	text-align: center;
 	margin: 0 auto;
 	width: 50%;
+}
+
+#changeDist{
+	width: 15%;
+	background-color: #73A3FF;
+	float: left;
+	height: 50px;
+	border: none;
+	border-radius: 30px;
+	color: white;
+	font: bold;
+	font-size: 20px;
+}
+
+#changeDist:hover{
+	cursor: pointer;
+	background-color: #007bff;
+}
+
+#viewCourse {
+	background-image: url("/static/images/date/carIcon.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	width: 50px;
+	height: 50px;
+	float: right;
+	border: none;
+	border-radius: 30px;
+}
+
+#courseCount{
+	width: 50%;
+	height: 50%;
+	background-color: white;
+	border: 0.5px solid black;
+	border-radius: 50%;
+	margin-top: 30px;
+	margin-left: -10px;
+	text-align: center;
+	font-size: 20px;
+	font: bold;
+}
+
+#viewCourse:hover{
+	background-color: #007bff;
+	cursor: pointer;
+	transform: translateY(-5px); /* 약간 위로 튀어나오게 함 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
 }
 
 .filterButtonLeft {

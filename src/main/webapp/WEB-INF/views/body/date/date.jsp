@@ -69,9 +69,15 @@
 	</div>
 
 	<div class="localList">
+		<input type="button" id="changeDist" value="다른 구 선택하기" />
+		<div id="viewCourse">
+			<c:if test="${sessionScope.courseCount != null">
+			    <div id="courseCount">${sessionScope.courseCount}</div>
+			</c:if>
+		</div>
 		<div class="filterDiv">
-			<input type="button" class="filterButtonLeft" value="맛집/카페" /> <input
-				type="button" class="filterButtonRight" value="활동" />
+			<input type="button" class="filterButtonLeft" value="맛집/카페" /> 
+			<input type="button" class="filterButtonRight" value="활동" />
 		</div>
 		<br />
 		<div class="restaurantDiv">
