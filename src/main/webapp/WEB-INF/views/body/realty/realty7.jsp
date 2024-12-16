@@ -19,6 +19,5 @@
 
 <canvas id="chart1"></canvas>
 <script src="/static/js/realty/ex_line_chart.js"></script>
-<script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>

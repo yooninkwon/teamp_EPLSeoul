@@ -7,12 +7,18 @@ kakao.maps.load(function() {
 	};
 	var map = new kakao.maps.Map(container, options);
 
+	var resultdrawArr = [];
+
 	var markers = [];
 	var currentInfoWindow = null;
 	var currentPosition = null; // 현재 선택된 위치를 저장하는 변수
+	var secondPosition = null; // 현재 선택된 위치를 저장하는 변수
+
 
 	var searchInput = document.getElementById('searchInput');
 	var suggestions = document.getElementById('suggestions');
+	
+
 
 	// 검색 입력 이벤트
 	searchInput.addEventListener('input', function() {
@@ -80,6 +86,9 @@ kakao.maps.load(function() {
 
 		currentPosition = position;  // 선택된 위치 저장
 
+		console.log("currentPosition", currentPosition);
+
+		resetBlogPosts();
 		clearMarkers();  // 기존 마커 초기화
 		clearCategoryMarkers();
 		closeCategoryInfoWindows();
@@ -129,7 +138,7 @@ kakao.maps.load(function() {
 	document.querySelectorAll('.category-btn').forEach(function(button) {
 		button.addEventListener('click', function() {
 			var category = button.getAttribute('data-category');
-
+			
 			if (currentPosition) {
 				searchCategoryPlaces(category, currentPosition);  // 선택된 위치를 기준으로 카테고리 검색
 			} else {
@@ -146,12 +155,7 @@ kakao.maps.load(function() {
 	var categoryMarkers = [];
 	var categoryInfoWindows = []; // 카테고리 관련 InfoWindow들을 저장할 배열
 
-	function closeCategoryInfoWindows() {
-		categoryInfoWindows.forEach(function(infoWindow) {
-			infoWindow.close(); // 지도에서 InfoWindow 닫기
-		});
-		categoryInfoWindows = []; // 배열 초기화
-	}
+
 
 
 
@@ -227,9 +231,12 @@ kakao.maps.load(function() {
 		var placesService = new kakao.maps.services.Places();
 		var bounds = map.getBounds();
 
+		displayRouteInfo(null,null);
+		resetBlogPosts();
 		clearCategoryMarkers();
 		closeCategoryInfoWindows(); // 카테고리 정보창 닫기
 		clearCategoryInfoList(); // 카테고리 정보 리스트 초기화
+		clearDrawnPaths();
 
 		var markerImages = {
 			'FD6': '/static/images/bus/utensils.png',
@@ -248,6 +255,7 @@ kakao.maps.load(function() {
 			if (status === kakao.maps.services.Status.OK) {
 				results.forEach(function(place) {
 					var placePosition = new kakao.maps.LatLng(place.y, place.x);
+
 
 					if (bounds.contain(placePosition)) {
 						var markerImage = new kakao.maps.MarkerImage(
@@ -286,10 +294,15 @@ kakao.maps.load(function() {
 							});
 
 							kakao.maps.event.addListener(marker, 'click', function() {
+								// 마커 클릭 시 블로그 리스트 업데이트
+
+								secondPosition = new kakao.maps.LatLng(place.y, place.x);
+								console.log("secondPosition", secondPosition);  // 좌표 출력							
+								fetchAndUpdateBlogPosts(place.place_name);
 								closeCategoryInfoWindows();
 								infoWindow.open(map, marker);
 								categoryInfoWindows.push(infoWindow);
-
+								displayRouteInfo(null,null);
 								// 마커 클릭 시 해당 장소를 categoryInfoList에서 찾아 'selected' 클래스 추가
 								var targetPlaceDiv = Array.from(document.querySelectorAll('.category-info-item')).find(function(div) {
 									return div.dataset.placeId === place.id; // 각 div에 data-place-id 속성을 설정했다고 가정
@@ -325,9 +338,30 @@ kakao.maps.load(function() {
 
 
 
+	// 공통 함수: 블로그 데이터를 가져와 업데이트
+	function fetchAndUpdateBlogPosts(placeName) {
+		fetch('/epl/getBlogPostsByPlace?place=' + encodeURIComponent(placeName))
+			.then(response => response.json())
+			.then(data => {
+				// 블로그 리스트를 업데이트
+				updateBlogPosts(data);
+			})
+			.catch(error => {
+				console.error('블로그 데이터를 가져오는 데 실패했습니다:', error);
+			});
+	}
+
+
 	// 카테고리 정보 리스트에 장소 추가
 	function addToCategoryInfoList(place) {
 		var listContainer = document.getElementById('categoryInfoList');
+
+		// 빈 메시지 숨기기
+		var emptyMessage = document.getElementById('emptyMessage');
+		if (emptyMessage) {
+			emptyMessage.style.display = 'none';
+		}
+
 
 		var placeDiv = document.createElement('div');
 		placeDiv.className = 'category-info-item';
@@ -353,17 +387,21 @@ kakao.maps.load(function() {
 		});
 
 
-
 		// 클릭 이벤트로 지도 중심 이동 및 정보창 열기
 		placeDiv.addEventListener('click', function() {
 			var position = new kakao.maps.LatLng(place.y, place.x);
+			secondPosition = position;
+			console.log("position", position);
+
+			// 블로그 데이터를 가져와 업데이트
+			fetchAndUpdateBlogPosts(place.place_name);
 
 			// 지도 중심 이동
 			map.setCenter(position);
 
 			// 기존 열려 있는 정보창 닫기
 			closeCategoryInfoWindows();
-
+			displayRouteInfo(null,null);
 			// 해당 장소의 마커 찾기 (좌표 근사값 비교)
 			var targetMarker = categoryMarkers.find(function(marker) {
 				var markerPosition = marker.getPosition();
@@ -374,6 +412,7 @@ kakao.maps.load(function() {
 			if (targetMarker) {
 				// 해당 마커에 대해 클릭 이벤트 강제로 트리거
 				kakao.maps.event.trigger(targetMarker, 'click');
+
 			} else {
 				console.log("마커를 찾을 수 없습니다.");
 			}
@@ -390,14 +429,195 @@ kakao.maps.load(function() {
 				behavior: 'smooth', // 부드럽게 스크롤
 				block: 'center' // div가 화면 중앙에 오도록 위치 설정
 			});
-		
+
+
 		});
 
 		listContainer.appendChild(placeDiv);
 	}
 
+	// 출발점 마커 생성 (red_b.png)
+	var startMarker = new kakao.maps.Marker({
+		position: currentPosition,
+		image: new kakao.maps.MarkerImage(
+			'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png',
+			new kakao.maps.Size(24, 35),
+			{ offset: new kakao.maps.Point(12, 35) }
+		)
+	});
+	
+	// 도착점 마커 생성 (red_drag.png)
+	var endMarker = new kakao.maps.Marker({
+		position: secondPosition,
+		image: new kakao.maps.MarkerImage(
+			'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_drag.png',
+			new kakao.maps.Size(24, 35),
+			{ offset: new kakao.maps.Point(12, 35) }
+		)
+	});
+
+	// 버튼 클릭 이벤트 추가
+	document.getElementById('drawLineButton').addEventListener('click', function() {
+		// 현재 선택된 위치(currentPosition)와 클릭한 위치(position)가 모두 존재해야 선을 그릴 수 있음
+		
+		displayRouteInfo(null,null);
+		closeCategoryInfoWindows();
+		clearDrawnPaths();
+		clearMarkers();  // 기존 마커 초기화
+		
+		if (currentPosition && secondPosition) {
+			requestRoute(currentPosition, secondPosition);
+			map.setLevel(3);
+			map.setCenter(currentPosition);
+			startMarker.setMap(map);
+			endMarker.setMap(map);
+
+		} else {
+			alert("장소를 선택해주세요");
+			startMarker.setMap(map);
+		}
+		
+		secondPosition = null;
+
+	});
+
+	// 경로 탐색 요청 함수 (Tmap API)
+	function requestRoute(currentPosition, secondPosition) {
+		var startX = currentPosition.getLng();
+		var startY = currentPosition.getLat();
+		var endX = secondPosition.getLng();
+		var endY = secondPosition.getLat();
+
+		var headers = {};
+		headers["appKey"] = "bbXs9W3rW47xtyLXr2R9m5SFA68ZjMsV3GoyiOzO";
+
+		// 출발지 마커
+		var startMarkerImage = new kakao.maps.MarkerImage(
+		    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png',
+		    new kakao.maps.Size(40, 40) // 이미지 크기 설정
+		);
+		var startMarker = new kakao.maps.Marker({
+		    position: currentPosition,
+		    map: map,
+		    title: "출발지",
+		    image: startMarkerImage // 출발지 마커 이미지 설정
+		});
+		
+		
+		// 도착지 마커
+		var endMarkerImage = new kakao.maps.MarkerImage(
+		    'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
+		    new kakao.maps.Size(40, 40) // 이미지 크기 설정
+		);
+		var endMarker = new kakao.maps.Marker({
+		    position: secondPosition,
+		    map: map,
+		    title: "도착지",
+		    image: endMarkerImage // 도착지 마커 이미지 설정
+		});
+		
+		// 기존 마커 삭제를 위한 배열에 저장
+		markers.push(startMarker);
+		markers.push(endMarker);	
+		
+		$.ajax({
+			method: "POST",
+			headers: headers,
+			url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+			async: false,
+			data: {
+				"startX": startX,
+				"startY": startY,
+				"endX": endX,
+				"endY": endY,
+				"reqCoordType": "WGS84GEO",
+				"resCoordType": "EPSG3857",
+				"startName": "출발지",
+				"endName": "도착지"
+			},
+			success: function(response) {
+				var resultData = response.features;
+
+				// 소요 시간 및 거리 계산
+				var totalTime = 0;  // 초 단위
+				var totalDistance = 0;  // m 단위
+
+				var kakaoPath = [];
+				for (var i in resultData) {
+					var properties = resultData[i].properties;
+					if (properties && properties.totalTime) {
+						totalTime = properties.totalTime;  // 소요 시간 (초)
+						totalDistance = properties.totalDistance;  // 거리 (m)
+					}
+
+					var geometry = resultData[i].geometry;
+					if (geometry.type == "LineString") {
+						for (var j in geometry.coordinates) {
+							var latlng = new Tmapv2.Point(
+								geometry.coordinates[j][0],
+								geometry.coordinates[j][1]);
+							var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlng);
+							var convertChange = new Tmapv2.LatLng(
+								convertPoint._lat,
+								convertPoint._lng);
+
+							kakaoPath.push(new kakao.maps.LatLng(convertChange.lat(), convertChange.lng()));
+						}
+					}
+				}
+
+				// 경로를 그리는 Polyline
+				var polyline = new kakao.maps.Polyline({
+					path: kakaoPath,
+					strokeWeight: 5,
+					strokeColor: '#FF0000',
+					strokeOpacity: 0.7,
+					strokeStyle: 'solid'
+				});
+				polyline.setMap(map);
+				resultdrawArr.push(polyline);
+
+				// 소요 시간과 거리 표시
+				displayRouteInfo(totalTime, totalDistance);
+			},
+			error: function(request, status, error) {
+				console.log("code:" + request.status + "\n"
+					+ "message:" + request.responseText + "\n"
+					+ "error:" + error);
+			}
+		});
+	}
+
+	// 소요 시간과 거리를 표시하는 함수
+	function displayRouteInfo(time, distance) {
+		var resultElement = document.getElementById('result');
+		var minutes = Math.floor(time / 60);  // 초를 분으로 변환
+		var seconds = time % 60;  // 남은 초
+		var kilometers = (distance / 1000).toFixed(2);  // m를 km로 변환
+
+		resultElement.innerHTML = `
+	          <b>소요 시간:</b> ${minutes}분 ${seconds}초<br>
+	          <b>총 거리:</b> ${kilometers} km
+	      `;
+	}
 
 
+	function updateBlogPosts(blogPosts) {
+		// 기존 블로그 리스트를 클리어
+		var blogListContainer = document.getElementById('blogPostList');
+		blogListContainer.innerHTML = '';
+
+		// 새로운 블로그 리스트로 업데이트
+		blogPosts.forEach(post => {
+			var listItem = document.createElement('li');
+			listItem.innerHTML = `
+	            <a href="${post.link}" target="_blank">${post.title}</a>
+	            <p>${post.description}</p>
+	        `;
+			blogListContainer.appendChild(listItem);
+		});
+
+	}
 	// 카테고리 정보 리스트 초기화
 	function clearCategoryInfoList() {
 		var listContainer = document.getElementById('categoryInfoList');
@@ -430,6 +650,40 @@ kakao.maps.load(function() {
 		if (currentInfoWindow) {
 			currentInfoWindow.close();
 		}
+
+	}
+
+	// 기존에 그려진 경로들을 초기화하는 함수
+	function clearDrawnPaths() {
+		// resultdrawArr 배열에 저장된 Polyline들을 제거
+		resultdrawArr.forEach(function(polyline) {
+			polyline.setMap(null); // 지도에서 제거
+
+		});
+		resultdrawArr = []; // 배열 비우기
+	}
+
+	function closeCategoryInfoWindows() {
+		categoryInfoWindows.forEach(function(infoWindow) {
+			infoWindow.close(); // 지도에서 InfoWindow 닫기
+		});
+		categoryInfoWindows = []; // 배열 초기화
+	}
+	// 공통 함수: 블로그 데이터를 초기화
+	function resetBlogPosts() {
+		// 1. 블로그 데이터를 null로 설정 (필요시 데이터 초기화)
+		let blogPosts = null;
+
+		// 2. 블로그 리스트를 비워서 초기화
+		var blogListContainer = document.getElementById('blogPostList');
+		blogListContainer.innerHTML = '';  // 기존 블로그 리스트 제거
+
+		// 3. 블로그 데이터가 없다면 "데이터 없음" 메시지 추가 (선택 사항)
+		var noDataMessage = document.createElement('p');
+		noDataMessage.textContent = '블로그 데이터가 없습니다.';
+		blogListContainer.appendChild(noDataMessage);
+
+		console.log('블로그 데이터가 초기화되었습니다.');
 	}
 
 

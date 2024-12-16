@@ -140,6 +140,5 @@
 	</div>
 
 <script src="/static/js/realty/realty_body4.js"></script>
-<script src="/static/js/realty/realty_navbar.js"></script>
 </body>
 </html>

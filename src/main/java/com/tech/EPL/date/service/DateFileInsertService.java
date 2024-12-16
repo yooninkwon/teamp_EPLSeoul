@@ -29,7 +29,8 @@ public class DateFileInsertService {
 
         try {
             // CSV 파일 읽기
-            restaurantDataList = context.readByLine(filename);
+            restaurantDataList = null;
+            		//context.readByLine(filename);
             System.out.println("CSV 파일 파싱 완료");
 
             // 병렬로 데이터 삽입
@@ -47,10 +48,11 @@ public class DateFileInsertService {
         }
 
         // 저장된 데이터 개수 반환
-        if (!Optional.ofNullable(restaurantDataList).isEmpty()) {
-            return restaurantDataList.size();
-        } else {
-            return 0;
-        }
+//        if (!Optional.ofNullable(restaurantDataList).isEmpty()) {
+//            return restaurantDataList.size();
+//        } else {
+//            return 0;
+//        }
+      return 0;  
     }
 }

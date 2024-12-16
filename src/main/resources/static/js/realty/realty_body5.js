@@ -5,7 +5,11 @@ $(document).ready(function() {
 
 	const juminChartSeoul = $('#jumin-chart-seoul')
 	const juminChartGu = $('#jumin-chart-gu')
-
+	
+	const input_chart_type = $('input[name="chart-type"]');
+	const gu_chart_type = $('#gu-chart-container');
+	const seoul_chart_type = $('#seoul-chart-container');
+	
 	const labels = [
 		'2007', '2008', '2009', '2010',
 		'2011', '2012', '2013', '2014',
@@ -100,7 +104,6 @@ $(document).ready(function() {
 		for (let i = 0; i < 26; i++) {
 			dataArray.push(data.splice(0, 17));
 		}
-		console.log(dataArray);
 		createChartSeoul(juminChartSeoul, dataArray);
 		createChartGu(juminChartGu, dataArray);
 	}
@@ -162,9 +165,9 @@ $(document).ready(function() {
 		return data;
 	}
 	
-	$('input[name="chart-type"]').on('change', function() {
-		$('#seoul-chart-container').toggleClass('on off');
-		$('#gu-chart-container').toggleClass('on off');	
+	input_chart_type.on('change', function() {
+		seoul_chart_type.toggleClass('on off');
+		gu_chart_type.toggleClass('on off');	
 	});
 
 });

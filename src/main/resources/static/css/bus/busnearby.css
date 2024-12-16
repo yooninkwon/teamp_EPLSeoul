@@ -8,6 +8,7 @@
 }
 
 #map {
+    position: relative;
     width: 70%; /* 지도 너비 */
     height: 500px;
     margin: 0 auto;
@@ -17,6 +18,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     float: right; /* 왼쪽에 배치 */
 }
+
+#result {
+    position: absolute;
+    top: 20px;    /* 위쪽에서 20px 떨어진 위치 */
+    left: 20px;   /* 왼쪽에서 20px 떨어진 위치 */
+    background-color: rgba(255, 255, 255, 0.7); /* 배경색을 반투명하게 설정 */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 9999;  /* 다른 요소 위에 표시되도록 z-index 추가 */
+}
+
 
 /* 아래 스타일은 그대로 유지 */
 #category-buttons {
@@ -62,6 +76,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: row; /* 기본값이 row이지만 명시적으로 추가 */
 }
 
 #searchInput {
@@ -83,10 +98,14 @@
     border: none;
     background-color: #007bff;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
     border-radius: 0 4px 4px 0;
     transition: background-color 0.3s ease;
+    height: 40px;
+    display: inline-flex; /* 버튼이 가로로 배치되도록 */
+    align-items: center; /* 텍스트를 가운데로 정렬 */
+	white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 */
 }
 
 #searchButton:hover {
@@ -297,4 +316,82 @@
 .selected {
     background-color:  rgba(51, 153, 255, 0.2); /* 클릭된 div의 배경색 */
     
+}
+
+/* 블로그 리스트 전체 컨테이너 스타일 */
+#blogPostList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 1500px; /* 최대 너비 설정 */  
+    font-family: 'Arial', sans-serif;
+}
+
+/* 개별 블로그 항목 스타일 */
+#blogPostList li {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* 마우스 호버 시 스타일 */
+#blogPostList li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	color: #0078D4;
+}
+
+/* 블로그 링크 스타일 */
+#blogPostList a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: #0078D4;
+    display: block;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+}
+
+#blogPostList a:hover {
+    color: #005999;
+    text-decoration: underline;
+}
+
+/* 블로그 설명 스타일 */
+#blogPostList p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.empty-message {
+    color: #777;
+    font-size: 16px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+
+#drawLineButton {
+    background-color: #0078FF; /* 파란색 배경 */
+    color: white; /* 글자 색상 */
+    font-size: 14px; /* 글자 크기 */
+    padding: 10px 20px; /* 내부 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 테두리 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+	margin-left: 30px;
+}
+
+#drawLineButton:hover {
+    background-color: #005BB5; /* 호버 시 어두운 파란색 */
+    transform: translateY(-2px); /* 살짝 위로 올라가는 효과 */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
