@@ -395,3 +395,13 @@
     transform: translateY(-2px); /* 살짝 위로 올라가는 효과 */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+.bus-info {
+    margin: 10px 0;
+    height: 50px;
+    padding: 8px;
+   background-color: rgba(115, 163, 255, 0.1); /* 연한 파란색 (투명도 50%) */;
+    border-radius: 4px;
+    cursor: pointer;
+}

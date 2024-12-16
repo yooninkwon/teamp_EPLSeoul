@@ -356,9 +356,6 @@ kakao.maps.load(function() {
 						}
 
 
-
-
-
 						// 버스를 클릭했을 때 해당 버스 정보 표시
 						document.querySelectorAll('.bus-info').forEach(function(busElement) {
 							busElement.addEventListener('click', function() {
