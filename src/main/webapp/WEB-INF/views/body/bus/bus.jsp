@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/static/css/bus/busstation.css"> <!-- 외부 CSS 파일 -->
     <!-- Kakao Maps API SDK 로드 -->
   	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&libraries=services&autoload=false"></script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
     <!-- 외부 JavaScript 파일 로드 -->
 
     <title>실시간 버스 위치 추적</title>

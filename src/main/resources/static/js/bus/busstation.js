@@ -100,7 +100,7 @@ kakao.maps.load(function() {
 		var position = new kakao.maps.LatLng(place.y, place.x); // 검색된 장소의 좌표
 		map.setCenter(position);
 		map.setLevel(3);
-
+		console.log("position:",position);
 		// 기존 마커 제거
 		markers.forEach(function(markerObj) {
 			markerObj.marker.setMap(null);
@@ -206,69 +206,169 @@ kakao.maps.load(function() {
 							arrivalInfoContent = '<p>버스 정보가 없습니다.</p>';
 						}
 
-						
+
 						// #busArrivalList div에 버스 도착 정보 나열
 						document.getElementById('busArrivalList').innerHTML = arrivalInfoContent;
+
+						// 좌표계 정의 (TM 중부원점 기준, EPSG:5186 → WGS84 변환)
+						proj4.defs([
+						    ['EPSG:5186', '+proj=tmerc +lat_0=38 +lon_0=127 +k=1.0 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs'], // TM 중부원점
+						    ['WGS84', '+proj=longlat +datum=WGS84 +no_defs'] // WGS84
+						]);
+
+						// 좌표 변환 함수
+						function transformCoordinates(posX, posY) {
+						    // TM 좌표계 (EPSG:5186)를 WGS84로 변환
+						    const [lng, lat] = proj4('EPSG:5186', 'WGS84', [posX, posY]);
+						 
+							// 변환된 좌표 디버깅
+							console.log("변환된 좌표:", lat, lng);
+
+							
+							return { lat, lng };
+						}						
 						
+					
 						// 전역 변수로 마커를 선언
 						var busMarker = null;
-					
-							// 버스 위치를 실시간으로 업데이트하는 함수
+						// 이전 좌표를 추적할 변수
+						let prevLat = null;
+						let prevLng = null;
+
+						// 버스 위치를 실시간으로 업데이트하는 함수
 						function updateBusLocation(busNo) {
-						    // 5초마다 버스 위치를 가져와서 마커를 업데이트
 						    setInterval(function() {
 						        fetch(`/epl/getBusDetails?vehId1=${busNo}`)
-						            .then(response => response.text())  // 먼저 텍스트로 응답을 받음
-						            .then(text => {
-						                if (text) {
-						                    return JSON.parse(text); // 텍스트를 JSON으로 파싱
-						                } else {
-						                    throw new Error("빈 응답이 반환되었습니다.");
-						                }
-						            })
+						            .then(response => response.json())
 						            .then(data => {
-						                console.log("버스 위치:", data); // 받아온 데이터 로그 출력
-						                var busPosition = new kakao.maps.LatLng(data.posY, data.posX);
-						                
-						                // 마커를 업데이트하거나 새로운 마커를 추가
-						                if (data.posX && data.posY) {
-						                    updateBusMarker(busPosition);
+						                console.log("버스 위치 데이터:", data);
+
+						                // 좌표 변환 (실제 좌표계에 맞게 변환해야 할 경우)
+						                const transformed = transformCoordinates(data.posX, data.posY);
+						                console.log("변환된 좌표:", transformed.lat, transformed.lng);
+
+						                // 정류소의 좌표 기준으로 방향을 계산 (정류소 좌표가 station 객체에 있어야 합니다)
+						                if (prevLat !== null && prevLng !== null) {
+						                    // 마커 업데이트
+						                    updateBusMarker(new kakao.maps.LatLng(transformed.lat, transformed.lng), prevLat, prevLng);
+						                } else {
+						                    // 처음 좌표일 경우, prevLat, prevLng 초기화
+						                    prevLat = transformed.lat;
+						                    prevLng = transformed.lng;
+						                    console.log("첫 번째 좌표 설정: ", prevLat, prevLng);
 						                }
 						            })
 						            .catch(error => {
-						                console.error('버스 위치 업데이트 오류:', error);
+						                console.error("버스 위치 업데이트 오류:", error);
 						            });
-						    }, 5000);  // 5초마다 실행
+						    }, 5000);  // 10초마다 호출
 						}
 
-			
-						function updateBusMarker(position) {
-						    // 마커가 없으면 새로 추가, 있으면 위치만 변경
+						// 두 지점 간의 방향을 계산하는 함수 (위도, 경도의 차이를 기준으로 방향을 계산)
+						function getDirection(prevLat, prevLng, currLat, currLng) {
+						    const deltaLat = currLat - prevLat;  // 위도 차이
+						    const deltaLng = currLng - prevLng;  // 경도 차이
+
+						    // 위도 차이와 경도 차이를 기준으로 대각선 방향 계산
+						    if (Math.abs(deltaLat) > Math.abs(deltaLng)) {
+						        if (deltaLat > 0) {
+						            return deltaLng > 0 ? 'up-right' : deltaLng < 0 ? 'up-left' : 'up'; // 위쪽 대각선
+						        } else {
+						            return deltaLng > 0 ? 'down-right' : deltaLng < 0 ? 'down-left' : 'down'; // 아래쪽 대각선
+						        }
+						    } else {
+						        if (deltaLng > 0) {
+						            return deltaLat > 0 ? 'right-up' : deltaLat < 0 ? 'right-down' : 'right'; // 오른쪽 대각선
+						        } else {
+						            return deltaLat > 0 ? 'left-up' : deltaLat < 0 ? 'left-down' : 'left'; // 왼쪽 대각선
+						        }
+						    }
+						}
+
+						// 마커 업데이트 함수
+						function updateBusMarker(position, prevLat, prevLng) {
+						    // 이전 좌표와 현재 좌표를 비교하여 방향을 결정
+						    const direction = getDirection(prevLat, prevLng, position.getLat(), position.getLng());
+
+						    // 방향에 맞는 이미지 설정
+						    let busImageSrc = '/static/images/bus/bus_right.png';  // 기본은 오른쪽
+						    let imageSize = new kakao.maps.Size(40, 20);  // 기본 크기 (40x20)
+
+						    // 각 방향에 맞는 이미지 설정
+						    if (direction === 'up') {
+						        busImageSrc = '/static/images/bus/bus_up.png';  // 위쪽 방향 이미지
+						        imageSize = new kakao.maps.Size(20, 40);  // 위쪽 방향은 세로 크기 40
+						    } else if (direction === 'down') {
+						        busImageSrc = '/static/images/bus/bus_down.png';  // 아래쪽 방향 이미지
+						        imageSize = new kakao.maps.Size(20, 40);  // 아래쪽 방향은 세로 크기 40
+						    } else if (direction === 'left') {
+						        busImageSrc = '/static/images/bus/bus_left.png';  // 왼쪽 방향 이미지
+						        imageSize = new kakao.maps.Size(40, 20);  // 좌측은 기본 크기 40x20
+						    } else if (direction === 'right') {
+						        busImageSrc = '/static/images/bus/bus_right.png';  // 오른쪽 방향 이미지
+						        imageSize = new kakao.maps.Size(40, 20);  // 기본 크기 40x20
+						    } else if (direction === 'up-right') {
+						        busImageSrc = '/static/images/bus/bus_up-right.png';  // 위쪽 오른쪽 대각선
+						        imageSize = new kakao.maps.Size(40, 40);  // 대각선 크기
+						    } else if (direction === 'up-left') {
+						        busImageSrc = '/static/images/bus/bus_up-left.png';  // 위쪽 왼쪽 대각선
+						        imageSize = new kakao.maps.Size(40, 40);  // 대각선 크기
+						    } else if (direction === 'down-right') {
+						        busImageSrc = '/static/images/bus/bus_down-right.png';  // 아래쪽 오른쪽 대각선
+						        imageSize = new kakao.maps.Size(40, 40);  // 대각선 크기
+						    } else if (direction === 'down-left') {
+						        busImageSrc = '/static/images/bus/bus_down-left.png';  // 아래쪽 왼쪽 대각선
+						        imageSize = new kakao.maps.Size(40, 40);  // 대각선 크기
+						    }
+
+						    // 마커가 없으면 새로 생성, 있으면 위치만 변경
 						    if (!busMarker) {
 						        busMarker = new kakao.maps.Marker({
 						            position: position,
 						            image: new kakao.maps.MarkerImage(
-						                'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',  // 사용자 정의 아이콘
-						                new kakao.maps.Size(24, 35), // 아이콘 크기
-						                { offset: new kakao.maps.Point(12, 35) } // 아이콘의 중심 좌표
+						                busImageSrc,  // 방향에 맞는 이미지
+						                imageSize,     // 크기 설정
+						                { offset: new kakao.maps.Point(imageSize.width / 2, imageSize.height / 2) }  // 이미지의 기준점 설정
 						            )
 						        });
 						        busMarker.setMap(map);  // 지도에 마커 추가
 						    } else {
-						        busMarker.setPosition(position);  // 기존 마커의 위치를 새 위치로 업데이트
+						        // 기존 마커가 있으면 위치 및 이미지 업데이트
+						        busMarker.setPosition(position);
+
+						        const newImage = new kakao.maps.MarkerImage(
+						            busImageSrc,
+						            imageSize,
+						            { 
+						                offset: new kakao.maps.Point(imageSize.width / 2, imageSize.height / 2)  // 기준점 설정
+						            }
+						        );
+						        busMarker.setImage(newImage);  // 이미지 변경
 						    }
+
+						    // 지도 중심을 마커 위치로 이동
+						    map.setCenter(position);
+						    map.setLevel(1); // 레벨 1로 설정
+
+						    // 이전 좌표를 업데이트
+						    prevLat = position.getLat();
+						    prevLng = position.getLng();
 						}
-						
-						
+
+
+
+
+
 						// 버스를 클릭했을 때 해당 버스 정보 표시
 						document.querySelectorAll('.bus-info').forEach(function(busElement) {
 							busElement.addEventListener('click', function() {
 								var busNo = busElement.dataset.busNo;
 								console.log("busNo", busNo);
 
+															
 								// 버스 위치 실시간 업데이트 시작
 								updateBusLocation(busNo);
-								
+
 								fetch(`/epl/getBusDetails?vehId1=${busNo}`)
 									.then(response => response.text())  // 먼저 텍스트로 응답을 받음
 									.then(text => {
@@ -290,34 +390,34 @@ kakao.maps.load(function() {
 						// 버스 세부 정보 표시 함수
 						// 실시간 버스 위치 정보 표시 함수
 						function displayBusDetails(busDetails) {
-						    // busType에 따른 버스 종류 출력
-						    var busType = busDetails.busType === "1" ? "저상" : "일반";
-						    
-						    // congestion에 따른 혼잡도 출력
-						    var congestion;
-						    switch (busDetails.congetion) {
-						        case "0":
-						            congestion = "없음";
-						            break;
-						        case "3":
-						            congestion = "여유";
-						            break;
-						        case "4":
-						            congestion = "보통";
-						            break;
-						        case "5":
-						            congestion = "혼잡";
-						            break;
-						        case "6":
-						            congestion = "매우혼잡";
-						            break;
-						        default:
-						            congestion = "정보 없음";
-						            break;
-						    }
+							// busType에 따른 버스 종류 출력
+							var busType = busDetails.busType === "1" ? "저상" : "일반";
 
-						    // 모달창 내용 채우기
-						    var busDetailsContent = `
+							// congestion에 따른 혼잡도 출력
+							var congestion;
+							switch (busDetails.congetion) {
+								case "0":
+									congestion = "없음";
+									break;
+								case "3":
+									congestion = "여유";
+									break;
+								case "4":
+									congestion = "보통";
+									break;
+								case "5":
+									congestion = "혼잡";
+									break;
+								case "6":
+									congestion = "매우혼잡";
+									break;
+								default:
+									congestion = "정보 없음";
+									break;
+							}
+
+							// 모달창 내용 채우기
+							var busDetailsContent = `
 						        <h4>버스 번호: ${busDetails.plainNo}</h4>			        
 						        <p>버스 종류: ${busType}</p>
 						        <p>혼잡도: ${congestion}</p>
@@ -358,9 +458,9 @@ kakao.maps.load(function() {
 		});
 	}
 
-	
-	
-	
+
+
+
 	function getDistance(latLng1, latLng2) {
 		var lat1 = latLng1.getLat();  // 첫 번째 지점의 위도
 		var lon1 = latLng1.getLng();  // 첫 번째 지점의 경도
