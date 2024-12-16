@@ -16,4 +16,5 @@ public class BusStationDto {
     private double x_coord;
     private double y_coord;
     private String station_type;
+    
 }
