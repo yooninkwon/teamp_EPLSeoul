@@ -6,7 +6,7 @@
 
 <select id="busStation" resultType="com.tech.EPL.bus.dto.BusStationDto">
 
-SELECT NODE_ID, ARS_ID, STATION_NAME, X_COORD, Y_COORD, STATION_TYPE 
+SELECT * 
 FROM BUS_STATIONS
 
 
