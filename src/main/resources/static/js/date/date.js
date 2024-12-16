@@ -30,6 +30,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 		courseCount: document.getElementById("courseCount"),
 		restaurantSubmit: document.getElementById("restaurantSubmit"),
 		activitySubmit: document.getElementById("activitySubmit"),
+		viewCourse: document.getElementById("viewCourse"),
+		navigationContainer: document.querySelector(".navigationContainer"),
+		showlocalList: document.getElementById("showlocalList"),
+		courseListDiv: document.getElementById("courseListDiv"),
+		startAddress: document.getElementById("startAddress"),
+		navi: document.getElementById("navi"),
+		submitCourse: document.getElementById("submitCourse"),
     };
 
     let currentPage = 0;
@@ -45,6 +52,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     let searchType = '';
     let searchKeyword = '';
     let googleApiKey = ''; // API 키 저장 변수
+	let kakaoRestApiKey = '';
+	let kakaoJSApiKey = '';
 	let mapContainer = document.getElementById("activityMap");
 	let lastClickedMarker = null; // 마지막으로 클릭된 마커 추적 변수
 	let lastClickedRow = null
@@ -52,8 +61,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	let selectedRowId = null;
 	let selectedName = null;
 	let selectedAddress = null;
-	
-	
+	let selecttedOriginX = 0;
+	let selecttedOriginY = 0;
 	
 	// 초기 상태 설정
 	await initState(); // initState를 async로 호출
@@ -69,10 +78,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        elements.restaurantSide,
 	        elements.activityContainer,
 			elements.activitySide,
-			elements.courseCount,
+			elements.navigationContainer,
 	    ], false);
 		
+		getCourseCount();
 	    await fetchGoogleApi(); // Google API 키 가져오기
+		await fetchKaKaoApi(); // kakao API 키 가져오기
 	    await loadGoogleMapsScript(); // Google Maps 스크립트 로드
 	}
 
@@ -84,6 +95,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	        const data = await response.json(); // JSON 형식으로 파싱
 	        googleApiKey = data.googleApiKey; // 키를 저장
+	    } catch (error) {
+	        console.error("API 키 로드 실패:", error);
+	    }
+	}
+	
+	async function fetchKaKaoApi() {
+		try {
+			const response = await fetch("/epl/date/kakao-api-key")
+			if (!response.ok) throw new Error("API 키 요청 실패");
+			const data = await response.json(); // JSON 형식으로 파싱
+	        kakaoRestApiKey = data.kakaoRestApiKey; // 키를 저장
+	        kakaoJSApiKey = data.kakaoJSApiKey; // 키를 저장
+			console.log(kakaoRestApiKey);
+			console.log(kakaoJSApiKey);
 	    } catch (error) {
 	        console.error("API 키 로드 실패:", error);
 	    }
@@ -234,7 +259,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        const data = await response.json();
 
 	        if (data.candidates && data.candidates.length > 0) {
-	            console.log("구청 위치 검색 결과:", data.candidates[0].geometry.location);
 	            return data.candidates[0].geometry.location; // { lat, lng }
 	        } else {
 	            console.error(`구청 위치를 찾을 수 없습니다: ${districtName}`);
@@ -275,7 +299,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	                results.forEach((place) => {
 	                    if (place.geometry && place.geometry.location) {
 	                        addMarker(map, place, category);
-							console.log(category);
 	                    }
 	                });
 	            } else {
@@ -318,7 +341,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 			// 사진 및 웹사이트 정보 로드
 		    const { photoUrl, website, rating, userRatingsTotal, formattedAddress  } = await fetchPlaceDetails(place.place_id);
-			console.log(website);
 	        if (photoUrl) {
 	            elements.activityImg.innerHTML = `<img src="${photoUrl}" style="width:100%;">`;
 	        } else {
@@ -345,6 +367,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        toggleDisplay([elements.activitySide], true);
 	        mapContainer.style.width = "70%";
 			elements.activityName.innerHTML = `<p id="activitySideName">${place.name}</p>`;
+			selectedName = place.name;
+			selectedAddress = formattedAddress;
 	    });
 	}
 	
@@ -526,6 +550,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	}
 	
+	// 코스 추가 패치
 	function addCourse(selectedName, selectedAddress) {
 	    const data = {
 	        name: selectedName,
@@ -546,7 +571,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        }
 	    })
 	    .then(data => {
-	        console.log('코스 저장 완료:', data);
+			if (data.message == '이미 추가된 코스입니다.') {
+				alert(data.message);
+				getCourseCount();
+			} else if (data.message == '코스는 5개 까지만 가능합니다.') {
+				alert(data.message);
+				getCourseCount();
+			} else {				
+	        	console.log('코스 저장 완료:', data);
+				alert(data.message);
+				getCourseCount();
+			}
 	    })
 	    .catch(error => {
 	        console.error('에러 발생:', error);
@@ -662,11 +697,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return stars;
 	}
 	
+	// 음식점 경유지에 추가 버튼
 	elements.restaurantSubmit.addEventListener("click", async () => {
 	    addCourse(selectedName, selectedAddress); // 코스 추가
 		getCourseCount();
 	});
 	
+	// 코스 카운트 가져오기
 	function getCourseCount() {
 		fetch('/epl/date/getCourseCount') // 업데이트된 카운트 가져오기
 			.then(response => {
@@ -678,7 +715,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 			})
 			.then(data => {
 			    course = data.courseCount;
-			    elements.courseCount.innerHTML = course; // 화면에 표시
+				if(course > 0) {
+					toggleDisplay([elements.courseCount], true);
+				    elements.courseCount.innerHTML = course; // 화면에 표시
+				} else {
+					toggleDisplay([elements.courseCount], false);
+				}	
 			})
 			.catch(error => {
 			    console.error('Error fetching updated course count:', error);
@@ -686,9 +728,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 	}
 	
 	// 활동 경유지에 추가
-	elements.activitySubmit.addEventListener("click" , () => {
-		toggleDisplay([elements.courseCount], true);
-		elements.courseCount.innerHTML = ++course;
+	elements.activitySubmit.addEventListener("click" , async () => {
+		addCourse(selectedName, selectedAddress); // 코스 추가
+		getCourseCount();
 	});
 	
 	elements.changeDist.addEventListener("click" ,() => {
@@ -698,7 +740,332 @@ document.addEventListener("DOMContentLoaded", async () => {
 		mapContainer.style.width = "100%";
 		
 	});
+	
+	elements.viewCourse.addEventListener("click" , () =>{
+		if(elements.courseCount.style.display == "none"){
+			alert("선택된 경유지가 없습니다.");
+		}
+		toggleDisplay([elements.localList], false);
+		toggleDisplay([elements.navigationContainer], true);
+		getCourseInfo();
+		displayRoute();
+	});
+	
+	async function getCourseInfo() {
+        try {
+            const response = await fetch('/epl/date/getCourseInfo');
+            if (!response.ok) {
+                throw new Error('Failed to fetch course info');
+            }
 
+            const courseList = await response.json();
+
+            // DOM에 코스 정보 추가
+            elements.courseListDiv.innerHTML = ''; // 초기화
+
+            courseList.forEach((course, index) => {
+                const courseDiv = document.createElement('div');
+                courseDiv.classList.add('course-item');
+                courseDiv.setAttribute('draggable', 'true');
+                courseDiv.dataset.index = index; // 순서를 저장
+
+                courseDiv.innerHTML = `
+                    <span>${course.name}</span>
+                `;
+                courseListDiv.appendChild(courseDiv);
+            });
+
+            makeCourseListDraggable(); // 드래그 앤 드롭 활성화
+        } catch (error) {
+            console.error('Error fetching course info:', error);
+        }
+    }
+	
+	function makeCourseListDraggable() {
+	    let draggedItem = null;
+
+	    // 드래그 시작
+	    elements.courseListDiv.addEventListener('dragstart', (e) => {
+	        if (e.target.classList.contains('course-item')) {
+	            draggedItem = e.target;
+	            e.target.style.opacity = '0.5';
+	        }
+	    });
+
+	    // 드래그 종료
+	    elements.courseListDiv.addEventListener('dragend', (e) => {
+	        if (e.target.classList.contains('course-item')) {
+	            e.target.style.opacity = '1';
+	        }
+	        draggedItem = null;
+	    });
+
+	    // 드래그된 요소가 다른 요소 위로 이동 중
+	    elements.courseListDiv.addEventListener('dragover', (e) => {
+	        e.preventDefault(); // 기본 동작 방지
+	    });
+
+	    // 드랍 시 순서 변경
+	    elements.courseListDiv.addEventListener('drop', (e) => {
+	        e.preventDefault();
+
+	        if (draggedItem && e.target.classList.contains('course-item')) {
+	            const allItems = Array.from(courseListDiv.children);
+	            const draggedIndex = allItems.indexOf(draggedItem);
+	            const targetIndex = allItems.indexOf(e.target);
+
+	            // 순서 변경
+	            if (draggedIndex < targetIndex) {
+	                elements.courseListDiv.insertBefore(draggedItem, e.target.nextSibling);
+	            } else {
+	                elements.courseListDiv.insertBefore(draggedItem, e.target);
+	            }
+
+	            updateCourseOrder(); // 변경된 순서를 서버에 저장
+	        }
+	    });
+	}
+
+	// 순서 저장 API 호출
+	async function updateCourseOrder() {
+	    const updatedOrder = Array.from(elements.courseListDiv.children).map((item) => ({
+	        name: item.querySelector('span').innerText.split(' (')[0],
+	    }));
+
+	    try {
+	        const response = await fetch('/epl/date/updateCourseOrder', {
+	            method: 'POST',
+	            headers: { 'Content-Type': 'application/json' },
+	            body: JSON.stringify(updatedOrder),
+	        });
+
+	        if (!response.ok) {
+	            throw new Error('Failed to update course order');
+	        }
+	        console.log('Course order updated successfully');
+	    } catch (error) {
+	        console.error('Error updating course order:', error);
+	    }
+	}
+	
+	elements.showlocalList.addEventListener("click", () => {
+		toggleDisplay([elements.localList], true);
+		toggleDisplay([elements.navigationContainer], false);
+	});
+	
+	// 출발지 설정
+	elements.startAddress.addEventListener("click", () => {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            const startAddress = data.address; // 선택된 주소
+	            elements.startAddress.value = startAddress; // 입력 필드에 표시
+
+	            // 출발지를 서버에 저장
+	            fetch('/epl/date/setStartAddress', {
+	                method: 'POST',
+	                headers: { 'Content-Type': 'application/json' },
+	                body: JSON.stringify({ address: startAddress })
+	            })
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error('Failed to save start address');
+	                }
+	                console.log('Start address saved successfully');
+	            })
+	            .catch(error => console.error('Error saving start address:', error));
+	        }
+	    }).open();
+	});
+	
+	async function displayRoute() {
+	    try {
+			fetchKaKaoApi();
+	        // 세션에서 출발지와 웨이포인트 데이터 가져오기
+	        const response = await fetch('/epl/date/getRouteData');
+	        if (!response.ok) {
+	            throw new Error('Failed to fetch route data');
+	        }
+
+	        const routeData = await response.json();
+	        const startAddress = routeData.startAddress;
+	        const waypoints = routeData.waypoints;
+
+	        if (!startAddress) {
+	            console.error('Start address is missing');
+	            alert('출발지가 설정되지 않았습니다. 출발지를 먼저 설정하세요.');
+	            return;
+	        }
+
+	        if (!waypoints || waypoints.length === 0) {
+	            console.error('Waypoints are missing');
+	            alert('웨이포인트(코스)가 설정되지 않았습니다. 코스를 먼저 추가하세요.');
+	            return;
+	        }
+
+	        console.log('Start Address:', startAddress);
+	        console.log('Waypoints:', waypoints);
+
+	        // 출발지와 웨이포인트를 좌표로 변환
+	        const origin = await geocodeAddress(startAddress); // 출발지 좌표
+			selecttedOriginX = origin.x;
+			selecttedOriginY = origin.y;
+	        const destination = await geocodeAddress(waypoints[waypoints.length - 1]); // 마지막 웨이포인트 좌표
+	        const waypointCoords = await Promise.all(waypoints.slice(0, -1).map(geocodeAddress)); // 중간 웨이포인트 좌표
+			
+	        // 경로 API 호출
+	        const waypointsParam = waypointCoords.map(coord => `${coord.x},${coord.y}`).join('|');
+	        const routeResponse = await fetch(`https://apis-navi.kakaomobility.com/v1/directions?origin=${origin.x},${origin.y}&destination=${destination.x},${destination.y}&waypoints=${waypointsParam}`, {
+	            method: 'GET',
+	            headers: {
+	                Authorization: `KakaoAK ${kakaoRestApiKey}`
+	            }
+	        });
+
+	        if (!routeResponse.ok) {
+	            throw new Error('Failed to fetch route directions');
+	        }
+
+	        const routeDataJson = await routeResponse.json();
+	        renderRouteOnMap(routeDataJson, origin, destination, waypointCoords); // 변수 전달
+	    } catch (error) {
+	        console.error('Error displaying route:', error);
+	    }
+	}
+
+	// 주소를 좌표로 변환 (REST API 사용)
+	async function geocodeAddress(address) {
+	    const response = await fetch(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`, {
+	        method: 'GET',
+	        headers: {
+	            Authorization: `KakaoAK ${kakaoRestApiKey}`
+	        }
+	    });
+
+	    if (!response.ok) {
+	        throw new Error('Failed to geocode address');
+	    }
+
+	    const data = await response.json();
+	    const document = data.documents[0];
+	    return { x: document.x, y: document.y }; // 경도, 위도 반환
+	}
+
+	// 지도에 경로 표시
+	function renderRouteOnMap(routeData, origin, destination, waypoints) {
+	    if (typeof kakao === 'undefined' || !kakao.maps) {
+	        console.error("Kakao Maps SDK is not loaded");
+	        return;
+	    }
+
+	    const mapContainer = elements.navi;
+	    if (!mapContainer) {
+	        console.error("Map container not found");
+	        return;
+	    }
+
+	    const map = new kakao.maps.Map(mapContainer, {
+	        center: new kakao.maps.LatLng(origin.y, origin.x),
+	        level: 5
+	    });
+
+	    const sections = routeData.routes[0]?.sections;
+	    if (!sections || sections.length === 0) {
+	        console.error("No sections found in routeData.");
+	        return;
+	    }
+
+	    const vertexes = sections.flatMap(section =>
+	        section.roads.flatMap(road => road.vertexes)
+	    );
+
+	    const path = [];
+	    for (let i = 0; i < vertexes.length; i += 2) {
+	        const lat = parseFloat(vertexes[i + 1]);
+	        const lng = parseFloat(vertexes[i]);
+	        if (!isNaN(lat) && !isNaN(lng)) {
+	            path.push(new kakao.maps.LatLng(lat, lng));
+	        }
+	    }
+
+	    const polyline = new kakao.maps.Polyline({
+	        path: path,
+	        strokeWeight: 5,
+	        strokeColor: '#007bff',
+	        strokeOpacity: 0.8,
+	        strokeStyle: 'solid'
+	    });
+	    polyline.setMap(map);
+
+	    const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+	    // 출발지 마커
+	    const startMarker = new kakao.maps.Marker({
+	        position: new kakao.maps.LatLng(origin.y, origin.x),
+	        title: "출발지"
+	    });
+	    startMarker.setMap(map);
+
+	    // 도착지 마커
+	    const endMarker = new kakao.maps.Marker({
+	        position: new kakao.maps.LatLng(destination.y, destination.x),
+	        title: "도착지"
+	    });
+	    endMarker.setMap(map);
+
+	    // 도착지 클릭 이벤트
+	    kakao.maps.event.addListener(endMarker, 'click', () => {
+	        const lastSection = sections[sections.length - 1];
+	        if (!lastSection || !lastSection.duration || !lastSection.distance) {
+	            console.error("No data for last section.");
+	            return;
+	        }
+
+	        const timeInMinutes = Math.floor(lastSection.duration / 60);
+	        const distanceInKm = (lastSection.distance / 1000).toFixed(2);
+	        const content = `
+	            <div style="padding:5px;">
+	                <strong>도착지</strong><br>
+	                소요시간: ${timeInMinutes}분<br>
+	                거리: ${distanceInKm} km
+	            </div>`;
+	        infowindow.setContent(content);
+	        infowindow.open(map, endMarker);
+	    });
+
+	    // 경유지 마커
+	    waypoints.forEach((wp, index) => {
+	        const waypointMarker = new kakao.maps.Marker({
+	            position: new kakao.maps.LatLng(wp.y, wp.x),
+	            title: `경유지 ${index + 1}`
+	        });
+	        waypointMarker.setMap(map);
+
+	        // 경유지 클릭 이벤트
+	        kakao.maps.event.addListener(waypointMarker, 'click', () => {
+	            const section = sections[index];
+	            if (!section || !section.duration || !section.distance) {
+	                console.error(`No data for section at index ${index}`);
+	                return;
+	            }
+
+	            const timeInMinutes = Math.floor(section.duration / 60);
+	            const distanceInKm = (section.distance / 1000).toFixed(2);
+	            const content = `
+	                <div style="padding:5px;">
+	                    <strong>경유지 ${index + 1}</strong><br>
+	                    소요시간: ${timeInMinutes}분<br>
+	                    거리: ${distanceInKm} km
+	                </div>`;
+	            infowindow.setContent(content);
+	            infowindow.open(map, waypointMarker);
+	        });
+	    });
+	}
+
+	elements.submitCourse.addEventListener("click", () => {
+		displayRoute();
+	});
+	
 	// 여러 요소 표시/숨기기 토글 함수
 	function toggleDisplay(elements, show) {
 		elements.forEach(element => element.style.display = show ? "block" : "none");

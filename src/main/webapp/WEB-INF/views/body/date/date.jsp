@@ -9,11 +9,13 @@
 <link rel="stylesheet" href="/static/css/tiles.css">
 <!-- 외부 CSS 파일 -->
 <link rel="stylesheet" href="/static/css/date/date.css" />
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${dateKakaoJS}&libraries=services"></script>
 <script src="/static/js/date/date.js"></script>
+
 <title>date_body</title>
 </head>
 <body>
-	
 	<div class="expContainer">
 		<input type="button" id="expSubmit" value="다음으로" />
 	</div>
@@ -71,9 +73,7 @@
 	<div class="localList">
 		<input type="button" id="changeDist" value="다른 구 선택하기" />
 		<div id="viewCourse">
-			<c:if test="${sessionScope.courseCount != null">
-			    <div id="courseCount">${sessionScope.courseCount}</div>
-			</c:if>
+		    <div id="courseCount"></div>
 		</div>
 		<div class="filterDiv">
 			<input type="button" class="filterButtonLeft" value="맛집/카페" /> 
@@ -127,8 +127,26 @@
 				<input type="button" id="activitySubmit" value="경유지에 추가하기">
 			</div>
 		</div>
-
-
+	</div>
+	
+	<div class="navigationContainer">
+		<div id="naviSide">
+			<input type="button" id="showlocalList" value="뒤로" />
+			<c:choose>
+			    <c:when test="${sessionScope.startAddress != null}">
+			        <input type="text" id="startAddress" value="${sessionScope.startAddress}" readonly />
+			    </c:when>
+			    <c:otherwise>
+			        <input type="text" id="startAddress" placeholder="출발지를 입력 해 주세요." readonly />
+			    </c:otherwise>
+			</c:choose>
+			<div id="courseListDiv"></div>
+			<div id="courseSubmitDiv">
+				<input type="button" id="submitCourse" value="적용하기" />
+				<input type="button" id="sendCourse" value="경로받기" />
+			</div>
+		</div>
+		<div id="navi"></div>
 	</div>
 
 

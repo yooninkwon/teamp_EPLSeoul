@@ -1,6 +1,8 @@
 package com.tech.EPL.date.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +101,14 @@ public class DateRestController {
 	    return ResponseEntity.ok(response);
 	}
 	
+	@GetMapping("/kakao-api-key")
+	public ResponseEntity<Map<String, String>> getKaKaoApiKey() {
+	    Map<String, String> response = new HashMap<>();
+	    response.put("kakaoRestApiKey", apiKeyConfig.getKakaoDateKey());
+	    response.put("kakaoJSApiKey", apiKeyConfig.getKakaoJSDateKey());
+	    return ResponseEntity.ok(response);
+	}
+	
 	@GetMapping("/google-api/place")
     public ResponseEntity<?> getPlace(@RequestParam("input") String input) {
         try {
@@ -140,7 +150,6 @@ public class DateRestController {
 	        JsonNode addressNode = result.path("formatted_address");
 	        String website = result.path("website").asText(null);
 	        String formattedAddress = addressNode.asText(null); // 주소가 없을 경우 null 반환
-	        System.out.println(website);
 
 	        String photoUrl = null;
 
@@ -178,7 +187,6 @@ public class DateRestController {
 	
 	@PostMapping("/addCourse")
 	public Map<String, Object> saveCourse(@RequestBody Map<String, String> courseData, HttpSession session) {
-	    // 세션에서 코스카운트 가져오기
 	    Integer courseCount = (Integer) session.getAttribute("courseCount");
 	    if (courseCount == null) {
 	        courseCount = 0;
@@ -187,7 +195,7 @@ public class DateRestController {
 	    String name = courseData.get("name");
 	    String address = courseData.get("address");
 
-	    // 코스 중복 여부 확인
+	    // 중복 여부 확인
 	    if (session.getAttribute("course_" + name) != null) {
 	        Map<String, Object> response = new HashMap<>();
 	        response.put("message", "이미 추가된 코스입니다.");
@@ -195,12 +203,19 @@ public class DateRestController {
 	        return response;
 	    }
 
-	    // 코스카운트 증가 및 세션에 저장
+	    // 최대 개수 제한
+	    if (courseCount >= 5) {
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("message", "코스는 10개까지만 가능합니다.");
+	        response.put("courseCount", courseCount);
+	        return response;
+	    }
+
+	    // 코스카운트를 활용한 순서 저장
 	    courseCount++;
 	    session.setAttribute("courseCount", courseCount);
-	    session.setAttribute("course_" + name, address);
+	    session.setAttribute("course_" + courseCount, Map.of("name", name, "address", address));
 
-	    // JSON 응답 반환
 	    Map<String, Object> response = new HashMap<>();
 	    response.put("message", "코스 추가 성공");
 	    response.put("courseCount", courseCount);
@@ -217,14 +232,79 @@ public class DateRestController {
 	            response.put(attr.substring(7), session.getAttribute(attr)); // "course_" 제거
 	        }
 	    });
-
 	    // 코스카운트 포함
 	    Integer courseCount = (Integer) session.getAttribute("courseCount");
 	    response.put("courseCount", courseCount != null ? courseCount : 0);
 
 	    return response;
 	}
+	
+	@GetMapping("/getCourseInfo")
+	public List<Map<String, String>> getCourseInfo(HttpSession session) {
+	    Integer courseCount = (Integer) session.getAttribute("courseCount");
+	    if (courseCount == null || courseCount == 0) {
+	        return Collections.emptyList(); // 코스가 없으면 빈 리스트 반환
+	    }
 
+	    List<Map<String, String>> courseList = new ArrayList<>();
+	    for (int i = 1; i <= courseCount; i++) {
+	        Map<String, String> course = (Map<String, String>) session.getAttribute("course_" + i);
+	        if (course != null) {
+	            courseList.add(course);
+	        }
+	    }
+
+	    return courseList;
+	}
+	
+	@PostMapping("/updateCourseOrder")
+	public String updateCourseOrder(@RequestBody List<Map<String, String>> updatedOrder, HttpSession session) {
+	    session.getAttributeNames().asIterator().forEachRemaining(attr -> {
+	        if (attr.startsWith("course_")) {
+	            session.removeAttribute(attr);
+	        }
+	    });
+
+	    // 새로운 순서로 세션 데이터 저장
+	    int index = 1;
+	    for (Map<String, String> course : updatedOrder) {
+	        session.setAttribute("course_" + index, course);
+	        index++;
+	    }
+
+	    session.setAttribute("courseCount", updatedOrder.size());
+	    return "Order updated successfully";
+	}
+	
+	@PostMapping("/setStartAddress")
+    public String setStartAddress(@RequestBody Map<String, String> requestData, HttpSession session) {
+        session.setAttribute("startAddress", requestData.get("address"));
+        System.out.println("출발지 적용 완료");
+        return "Start address saved";
+    }
+	
+	@GetMapping("/getRouteData")
+	public Map<String, Object> getRouteData(HttpSession session) {
+	    String startAddress = (String) session.getAttribute("startAddress");
+	    Integer courseCount = (Integer) session.getAttribute("courseCount");
+
+	    // 코스 데이터를 웨이포인트 리스트로 변환
+	    List<String> waypoints = new ArrayList<>();
+	    if (courseCount != null && courseCount > 0) {
+	        for (int i = 1; i <= courseCount; i++) {
+	            Map<String, String> course = (Map<String, String>) session.getAttribute("course_" + i);
+	            if (course != null) {
+	                waypoints.add(course.get("address")); // 웨이포인트로 주소 추가
+	            }
+	        }
+	    }
+
+	    // 응답 데이터 구성
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("startAddress", startAddress);
+	    response.put("waypoints", waypoints); // 코스 데이터가 변환된 웨이포인트
+	    return response;
+	}
 	
 	
 //	@GetMapping("/restaurant_search")
