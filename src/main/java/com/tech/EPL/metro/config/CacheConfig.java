@@ -1,7 +1,5 @@
 package com.tech.EPL.metro.config;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -32,7 +30,7 @@ public class CacheConfig {
 	
     @Scheduled(fixedRate = 3600000)  // 1시간마다 갱신
     public void refreshCache() {
-    	cacheService.getAllStaionInfo();
+    	cacheService.getAllStationInfo();
 
         System.out.println("캐시 갱신 중");
     }

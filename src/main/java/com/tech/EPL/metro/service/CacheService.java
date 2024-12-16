@@ -23,7 +23,7 @@ public class CacheService {
 	//모든 지하철역 정보 불러오기
 	//캐시에 모든 데이터 저장
 	@Cacheable(value = "stationInfo")
-	public List<Map> getAllStaionInfo(){
+	public List<Map> getAllStationInfo(){
 		
 		String searchUrl = "http://openapi.seoul.go.kr:8088/" + apiKeyConfig.getSeoulMetroKey()
 		+ "/json/subwayStationMaster/1/1000/";
