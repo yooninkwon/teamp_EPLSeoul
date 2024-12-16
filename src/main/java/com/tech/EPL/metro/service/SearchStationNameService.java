@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -15,27 +21,23 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class SearchStationNameService implements ExecutionModel {
-
-	private final ReturnApiDataService returnApiDataService;
+	private final CacheService cacheService;
+	private final CacheManager cacheManager;
+	
 
 	@Override
 	public void execution(Model model) {
-		ApiKeyConfig key = (ApiKeyConfig) model.getAttribute("apiKeyConfig");
-
+		System.out.println(cacheManager.getCache("stationInfo"));
 		String searchValue = (String) model.getAttribute("searchValue");
 
 		// 결과를 담을 Map 객체 생성
 		List<Map> matchingRows = new ArrayList<>();
 
+		
+		
 		// 지하철역 검색
-		String searchUrl = "http://openapi.seoul.go.kr:8088/" + key.getSeoulMetroKey()
-				+ "/json/subwayStationMaster/1/1000/";
-		Map resultData = returnApiDataService.api(searchUrl).block();
-
-		Map items = (Map) resultData.get("subwayStationMaster");
-
-		List<Map> rows = (List<Map>) items.get("row");
-
+		List<Map> rows = cacheService.getAllStaionInfo();
+		
 		for (Map list : rows) {
 			String bldnNm = (String) list.get("BLDN_NM");
 
@@ -48,5 +50,8 @@ public class SearchStationNameService implements ExecutionModel {
 		model.addAttribute("list", matchingRows);
 
 	}
+
+	
+
 
 }
