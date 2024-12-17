@@ -33,13 +33,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.tech.EPL.config.ApiKeyConfig;
-import com.tech.EPL.mobility.dto.MobilityProcessedData;
 import com.tech.EPL.mobility.dto.MobilityRawData;
-import com.tech.EPL.mobility.repository.MobilityJpaRepository;
+import com.tech.EPL.mobility.dto.mobility_sbd;
+import com.tech.EPL.mobility.repository.MobilitySbdJpaRepository;
 
 @Configuration
 @EnableBatchProcessing // Batch 활성화
-public class MobilityBatchConfig {
+public class MobilitySbdBatchConfig {
 
 	// 필드 선언
     private JobBuilderFactory jobBuilderFactory;
@@ -47,7 +47,7 @@ public class MobilityBatchConfig {
     private String kakaoApiRestKey;
     
     // 단일 생성자 주입(@Autowired 생략)
-    public MobilityBatchConfig(JobBuilderFactory jobBuilderFactory,
+    public MobilitySbdBatchConfig(JobBuilderFactory jobBuilderFactory,
     		StepBuilderFactory stepBuilderFactory,
     		ApiKeyConfig apiKeyConfig) {
     	this.jobBuilderFactory = jobBuilderFactory;
@@ -55,26 +55,26 @@ public class MobilityBatchConfig {
         this.kakaoApiRestKey = apiKeyConfig.getKakaoMobilityRestKey();
     }
     
-    @Bean 
-    public Job processJob() {
-        return jobBuilderFactory.get("processJob")
-            .start(processStep()) // 첫 번째 단계로 processStep()을 실행
+    @Bean(name = "sbd")
+    public Job sbdProcessJob() {
+        return jobBuilderFactory.get("sbdProcessJob") // 고유 Job 이름
+            .start(sbdProcessStep()) // 첫 번째 단계로 processStep()을 실행
             .build();
     }
 
     @Bean
-    public Step processStep() {
-        return stepBuilderFactory.get("processStep")
-            .<MobilityRawData, MobilityProcessedData>chunk(10) // InputData 타입의 데이터를 읽어서, ProcessedData로 변환(Chunk 단위로 묶어서 처리)
-            .reader(itemReader(null,null)) // Reader 선택 (파일 형식에따라 동적으로 ItemReader를 정의)
-            .processor(dataProcessor()) // ItemProcessor를 정의
-            .writer(databaseWriter(null)) // ItemWriter를 정의
+    public Step sbdProcessStep() {
+        return stepBuilderFactory.get("sbdProcessStep") // 고유 Step 이름
+            .<MobilityRawData, mobility_sbd>chunk(10) // InputData 타입의 데이터를 읽어서, ProcessedData로 변환(Chunk 단위로 묶어서 처리)
+            .reader(sbdItemReader(null,null)) // Reader 선택 (파일 형식에따라 동적으로 ItemReader를 정의)
+            .processor(sbdDataProcessor()) // ItemProcessor를 정의
+            .writer(sbdDatabaseWriter(null)) // ItemWriter를 정의
             .build();
     }
     
     @Bean
     @StepScope // Step 실행 시점으로 동적 파라미터 처리
-    public FlatFileItemReader<MobilityRawData> itemReader(
+    public FlatFileItemReader<MobilityRawData> sbdItemReader(
     		@Value("#{jobParameters['fileType']}") String fileType,
     		@Value("#{jobParameters['fullFilePath']}") String fullFilePath) {
         if ("csv".equalsIgnoreCase(fileType)) {
@@ -123,7 +123,7 @@ public class MobilityBatchConfig {
                 if (iterator.hasNext()) { // Iterator에서 다음 요소가 존재하는지 확인
                     JSONObject json = iterator.next(); // 다음 JSON 객체 가져오기
                     MobilityRawData rawData = new MobilityRawData();
-                    rawData.setBldn_nm(json.getString("bldn_id")); // JSON 필드를 RawData에 매핑
+                    rawData.setBldn_nm(json.getString("bldn_nm")); // JSON 필드를 RawData에 매핑
                     rawData.setLat(json.getDouble("lat"));
                     rawData.setLot(json.getDouble("lot"));
                     return rawData; // JSON 데이터를 InputData 객체로 변환 후 반환
@@ -152,21 +152,21 @@ public class MobilityBatchConfig {
     }
     
     @Bean
-    public ItemProcessor<MobilityRawData, MobilityProcessedData> dataProcessor() {
+    public ItemProcessor<MobilityRawData, mobility_sbd> sbdDataProcessor() {
         return rawData -> {
             // REST API 호출
             String[] districtName = fetchDistrictName(rawData.getLat(), rawData.getLot());
             
             // RawData 및 API 호출 정보를 최종 ProcessedData에 매핑
-            MobilityProcessedData processedData = new MobilityProcessedData();
-            processedData.setName(rawData.getBldn_nm());
-            processedData.setLat(rawData.getLat());
-            processedData.setLot(rawData.getLot());
-            processedData.setSi(districtName[0]);
-            processedData.setGu(districtName[1]);
-            processedData.setDong(districtName[2]);
+            mobility_sbd mobilitySbd = new mobility_sbd();
+            mobilitySbd.setName(rawData.getBldn_nm());
+            mobilitySbd.setLat(rawData.getLat());
+            mobilitySbd.setLot(rawData.getLot());
+            mobilitySbd.setSi(districtName[0]);
+            mobilitySbd.setGu(districtName[1]);
+            mobilitySbd.setDong(districtName[2]);
 
-            return processedData;
+            return mobilitySbd;
         };
     }
     
@@ -205,9 +205,9 @@ public class MobilityBatchConfig {
     }
     
     @Bean
-    public ItemWriter<MobilityProcessedData> databaseWriter(MobilityJpaRepository jspRepository) { // JpaRepository 자동 주입
-        return entitys -> {
-            for (MobilityProcessedData entity : entitys) {
+    public ItemWriter<mobility_sbd> sbdDatabaseWriter(MobilitySbdJpaRepository jspRepository) { // JpaRepository 자동 주입
+        return entities -> {
+            for (mobility_sbd entity : entities) {
             	if ("서울특별시".equals(entity.getSi())) {
             		if (!jspRepository.existsByName(entity.getName())) { // 이름 기준 중복 확인
             			jspRepository.save(entity); // 중복되지 않은 경우 저장(CRUD 메서드)

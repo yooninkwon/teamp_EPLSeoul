@@ -8,9 +8,7 @@ $(document).ready(function() {
 
 	$navLinks.each(function () {
 	    const href = $(this).attr('href');
-		console.log(href)
 	    if (currentPath.startsWith(href)) {
-			console.log(this)
 	        $(this).addClass('active');
 	        $activeNavLink = $(this);
 	    }
