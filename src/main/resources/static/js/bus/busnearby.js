@@ -13,6 +13,8 @@ kakao.maps.load(function() {
 	var currentInfoWindow = null;
 	var currentPosition = null; // 현재 선택된 위치를 저장하는 변수
 	var secondPosition = null; // 현재 선택된 위치를 저장하는 변수
+	// boardingChart 변수를 전역적으로 선언
+	let boardingChart = null;  // 처음에는 null로 초기화
 
 
 	var searchInput = document.getElementById('searchInput');
@@ -100,7 +102,7 @@ kakao.maps.load(function() {
 	function focusStation(station) {
 		var position = new kakao.maps.LatLng(station.y_coord, station.x_coord);
 		map.setCenter(position);
-		map.setLevel(5);
+		map.setLevel(4);
 
 		currentPosition = position;  // 선택된 위치 저장
 
@@ -256,7 +258,7 @@ kakao.maps.load(function() {
 		closeCategoryInfoWindows(); // 카테고리 정보창 닫기
 		clearCategoryInfoList(); // 카테고리 정보 리스트 초기화
 		clearDrawnPaths();
-
+		clearChart();
 
 		var markerImages = {
 			'FD6': '/static/images/bus/utensils.png',
@@ -275,9 +277,9 @@ kakao.maps.load(function() {
 		if (category === 'BS1') {
 			// 버스정류장 데이터 활용
 
+				
 			var nearbyStations = busStations.filter(function(station) {
 				var stationPosition = new kakao.maps.LatLng(station.y_coord, station.x_coord);
-
 				var distance = getDistance(position, stationPosition); // 거리 계산
 				return distance < 500; // 500m 내 정류장만 필터링
 
@@ -307,15 +309,96 @@ kakao.maps.load(function() {
 
 				});
 				
+				
+		
+				// 정류장 클릭 이벤트 처리
 				kakao.maps.event.addListener(stationMarker, 'click', function() {
 				    // 정류장 이름을 categoryInfoList 상단에 표시
 				    var categoryInfoList = document.getElementById('categoryInfoList');
 				    
 				    // 정류장 이름을 상단에 추가
-				    categoryInfoList.innerHTML = `<h3>${station.station_name}</h3>`; // 정류장 이름 추가
-				    
-				    console.log(station);
+				    categoryInfoList.innerHTML = `<h3>${station.station_name}</h3>`; // 정류장 이름 추가					
+				    console.log("station.stId:" + station.stId);
 
+				    // chartTitleContainer를 업데이트하여 제목 변경
+				    var chartTitleContainer = document.getElementById('chartTitleContainer');
+				    chartTitleContainer.innerHTML = '<h1>정류장 시간대별 승합차 인원</h1>';
+
+				    // 데이터를 가져와 차트를 그리기
+				    fetch(`/epl/busStopData?stationId=${station.stId}`)
+				        .then(response => response.json())
+				        .then(data => {
+				            // 시간대 라벨
+				            const labels = Array.from({ length: 24 }, (_, i) => `${i}시`);
+
+				            // 승차 데이터와 하차 데이터를 각각 배열로 구성
+				            const boardingData = [];
+				            const alightingData = [];
+				            
+				            data.forEach(item => {
+				                const hourlyBoarding = [];
+				                const hourlyAlighting = [];
+				                
+				                // 각 시간별 승차 및 하차 데이터 추가
+				                for (let i = 0; i < 24; i++) {
+				                    hourlyBoarding.push(item[`hour_${String(i).padStart(2, '0')}_boarding`]);
+				                    hourlyAlighting.push(item[`hour_${String(i).padStart(2, '0')}_alighting`]);
+				                }
+
+				                boardingData.push(hourlyBoarding);
+				                alightingData.push(hourlyAlighting);
+				            });
+
+				            // Chart.js로 그래프 그리기
+				            const ctx = document.getElementById('boardingChart').getContext('2d');
+
+				            // 차트가 이미 존재하는 경우 삭제하고 새 차트를 그리기
+				            if (boardingChart) {
+				                boardingChart.destroy();  // 기존 차트를 삭제
+				                boardingChart = null;     // 차트 객체를 null로 설정
+				            }
+
+				            // 새로운 차트 생성
+				            boardingChart = new Chart(ctx, {
+				                type: 'bar',
+				                data: {
+				                    labels: labels,
+				                    datasets: [
+				                        {
+				                            label: '승차',
+				                            data: boardingData[0], // 첫 번째 데이터 세트로 승차 데이터
+				                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+				                            borderColor: 'rgba(75, 192, 192, 1)',
+				                            borderWidth: 1
+				                        },
+				                        {
+				                            label: '하차',
+				                            data: alightingData[0], // 첫 번째 데이터 세트로 하차 데이터
+				                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+				                            borderColor: 'rgba(255, 99, 132, 1)',
+				                            borderWidth: 1
+				                        }
+				                    ]
+				                },
+				                options: {
+				                    scales: {
+				                        y: {
+				                            beginAtZero: true
+				                        }
+				                    }
+				                }
+				            });
+
+				            console.log("Boarding Data:", boardingData);
+				            console.log("Alighting Data:", alightingData);
+				        })
+				        .catch(error => {
+				            console.error('Error fetching boarding data:', error);
+				        });
+				
+					
+				
+					
 				    // #busArrivalList div에 버스 도착 정보 나열
 				    fetch(`/epl/getBusArrivalInfo?stationId=${station.stId}`)
 				        .then(response => response.json())
@@ -344,7 +427,251 @@ kakao.maps.load(function() {
 
 				            // 버스 도착 정보 나열
 				            categoryInfoList.innerHTML += `<div id="busArrivalList">${arrivalInfoContent}</div>`;
-				        });
+				       
+									// 좌표계 정의 (TM 중부원점 기준, EPSG:5186 → WGS84 변환)
+									proj4.defs([
+										['EPSG:5186', '+proj=tmerc +lat_0=38 +lon_0=127 +k=1.0 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs'], // TM 중부원점
+										['WGS84', '+proj=longlat +datum=WGS84 +no_defs'] // WGS84
+									]);
+
+									// 좌표 변환 함수
+									function transformCoordinates(posX, posY) {
+										// TM 좌표계 (EPSG:5186)를 WGS84로 변환
+										const [lng, lat] = proj4('EPSG:5186', 'WGS84', [posX, posY]);
+
+										// 변환된 좌표 디버깅
+										console.log("변환된 좌표:", lat, lng);
+										return { lat, lng };
+									}
+
+									// 버스 위치를 실시간으로 업데이트하는 함수
+									function updateBusLocation(busNo) {
+										// 기존에 표시된 버스 마커를 모두 지운다.
+										if (window.busMarkers && window.busMarkers.length > 0) {
+											window.busMarkers.forEach(function(marker) {
+												marker.setMap(null);  // 기존 마커 제거
+											});
+											window.busMarkers = [];  // 마커 배열 초기화
+										}
+
+										// 먼저, 1회성으로 버스의 현재 위치를 지도에 표시
+										fetch(`/epl/getBusDetails?vehId1=${busNo}`)
+											.then(response => response.json())
+											.then(data => {
+												console.log("버스 위치 데이터:", data);
+
+												// data가 배열이 아니면, 배열로 처리할 수 있게 감싸기
+												if (!Array.isArray(data)) {
+													data = [data];  // 배열이 아니면 배열로 감싸서 처리
+												}
+
+												// 여러 버스의 좌표를 처리하기 위해 배열로 저장
+												let busPositions = [];
+
+												// 각 버스에 대해 좌표 변환 후 처리
+												data.forEach(function(bus) {
+													// posX, posY 값이 유효한지 체크
+													if (bus.posX && bus.posY) {
+														const transformed = transformCoordinates(bus.posX, bus.posY);
+														if (transformed && transformed.lat && transformed.lng) {
+															busPositions.push(transformed);
+														} else {
+															console.error("좌표 변환 실패:", bus.posX, bus.posY);
+														}
+													} else {
+														console.error("유효하지 않은 posX 또는 posY:", bus.posX, bus.posY);
+													}
+												});
+
+												// 변환된 좌표를 디버깅용으로 출력
+												console.log("변환된 좌표들:", busPositions);
+
+												// 각 버스 마커 추가
+												busPositions.forEach(function(position) {
+													addBusMarker(position.lat, position.lng);
+												});
+											})
+											.catch(error => {
+												console.error("버스 위치 업데이트 오류:", error);
+											});
+
+										// 이후 5초마다 실시간으로 위치를 갱신
+										setInterval(function() {
+											fetch(`/epl/getBusDetails?vehId1=${busNo}`)
+												.then(response => response.json())
+												.then(data => {
+													console.log("버스 위치 데이터:", data);
+
+													// data가 배열이 아니면, 배열로 처리할 수 있게 감싸기
+													if (!Array.isArray(data)) {
+														data = [data];  // 배열이 아니면 배열로 감싸서 처리
+													}
+
+													// 여러 버스의 좌표를 처리하기 위해 배열로 저장
+													let busPositions = [];
+
+													// 각 버스에 대해 좌표 변환 후 처리
+													data.forEach(function(bus) {
+														// posX, posY 값이 유효한지 체크
+														if (bus.posX && bus.posY) {
+															const transformed = transformCoordinates(bus.posX, bus.posY);
+															if (transformed && transformed.lat && transformed.lng) {
+																busPositions.push(transformed);
+															} else {
+																console.error("좌표 변환 실패:", bus.posX, bus.posY);
+															}
+														} else {
+															console.error("유효하지 않은 posX 또는 posY:", bus.posX, bus.posY);
+														}
+													});
+
+													// 변환된 좌표를 디버깅용으로 출력
+													console.log("변환된 좌표들:", busPositions);
+
+													// 각 버스 마커 추가
+													busPositions.forEach(function(position) {
+														addBusMarker(position.lat, position.lng);
+													});
+												})
+												.catch(error => {
+													console.error("버스 위치 업데이트 오류:", error);
+												});
+										}, 20000); // 5초마다 호출
+									}
+
+									// 버스를 지도에 마커로 추가하는 함수
+									function addBusMarker(lat, lng) {
+										// 새로운 마커를 생성하고 지도에 추가
+										var busMarkerPosition = new kakao.maps.LatLng(lat, lng);
+										var busMarkerImage = new kakao.maps.MarkerImage(
+											'/static/images/bus/bus_1.png',
+											new kakao.maps.Size(35, 35) // 마커 크기 설정
+										);
+
+										var busMarker = new kakao.maps.Marker({
+											position: busMarkerPosition,
+											image: busMarkerImage,
+											map: map // 마커를 표시할 지도
+										});
+
+
+										// 마커를 배열에 추가
+										window.busMarkers.push(busMarker);
+									}
+
+									// 버스를 클릭했을 때 해당 버스 정보 표시
+									document.querySelectorAll('.bus-info').forEach(function(busElement) {
+										busElement.addEventListener('click', function() {
+											var busNo = busElement.dataset.busNo;
+											console.log("busNo", busNo);
+
+											fetch(`/epl/getBusDetails?vehId1=${busNo}`)
+												.then(response => response.text())  // 먼저 텍스트로 응답을 받음
+												.then(text => {
+													if (text) {
+														return JSON.parse(text); // 텍스트를 JSON으로 파싱
+													} else {
+														throw new Error("빈 응답이 반환되었습니다.");
+													}
+												})
+												.then(data => {
+													console.log("버스 상세 정보:", data); // 받아온 데이터 로그 출력
+													displayBusDetails(data, busNo);  // busNo를 전달하여 클릭된 버스의 마커를 구별
+												})
+												.catch(error => {
+													console.error('버스 상세 정보 요청 오류:', error);
+												});
+										
+									});
+
+
+									// 버스 세부 정보 표시 함수 및 마커 이미지 변경
+									function displayBusDetails(busDetails) {
+									    // 버스의 위치가 제공되었는지 확인
+									    if (busDetails && busDetails.posX && busDetails.posY) {
+									        const transformed = transformCoordinates(busDetails.posX, busDetails.posY);
+									        if (transformed && transformed.lat && transformed.lng) {
+									            // 지도 중심을 해당 버스의 위치로 이동
+									            var busPosition = new kakao.maps.LatLng(transformed.lat, transformed.lng);
+									            map.setCenter(busPosition);  // 지도 중심을 버스 위치로 이동
+
+									            // 지도 레벨을 1로 설정
+									            map.setLevel(1);  // 지도 레벨을 1로 변경
+								           
+									        } else {
+									            console.error("좌표 변환 실패:", busDetails.posX, busDetails.posY);
+									        }
+									    } else {
+									        console.error("버스 위치 정보가 없습니다.");
+									    }
+
+
+										// busType에 따른 버스 종류 출력
+										var busType = busDetails.busType === "1" ? "저상" : "일반";
+
+										// congestion에 따른 혼잡도 출력
+										var congestion;
+										switch (busDetails.congetion) {
+											case "0":
+												congestion = "없음";
+												break;
+											case "3":
+												congestion = "여유";
+												break;
+											case "4":
+												congestion = "보통";
+												break;
+											case "5":
+												congestion = "혼잡";
+												break;
+											case "6":
+												congestion = "매우혼잡";
+												break;
+											default:
+												congestion = "정보 없음";
+												break;
+										}
+
+										// 모달창 내용 채우기
+										var busDetailsContent = `
+									        <h4>버스 번호: ${busDetails.plainNo}</h4>			        
+									        <p>버스 종류: ${busType}</p>
+									        <p>혼잡도: ${congestion}</p>
+									        <p>위도: ${busDetails.posX}</p>
+									        <p>경도: ${busDetails.posY}</p>
+									    `;
+										document.getElementById('modalBusDetails').innerHTML = busDetailsContent;
+
+										// 모달창 표시
+										var modal = document.getElementById('busDetailModal');
+										modal.style.display = "block";  // 모달을 보이게 설정
+									}
+
+									// 모달창 닫기 버튼 이벤트 추가
+									document.getElementById('closeModal').addEventListener('click', function() {
+										document.getElementById('busDetailModal').style.display = "none";  // 모달 닫기
+									});
+								});
+
+							// 모달창 외부 영역 클릭 시 닫기
+							window.addEventListener('click', function(event) {
+								var modal = document.getElementById('busDetailModal');
+								if (event.target === modal) {
+									modal.style.display = "none";
+								}
+							});
+
+
+							// 이전에 열린 정보창이 있으면 닫기
+							if (currentInfoWindow) {
+								currentInfoWindow.close();
+							}
+
+							stationInfoWindow.open(map, stationMarker);
+							currentInfoWindow = stationInfoWindow;  // 클릭한 버스정류장의 정보창을 currentInfoWindow로 업데이트
+						
+						
+						 });
 
 							closeCategoryInfoWindows(); // 기존 열린 창 닫기
 							infoWindow.open(map, stationMarker);
@@ -352,9 +679,9 @@ kakao.maps.load(function() {
 							// 정류장 마커 클릭 시 secondPosition 값을 설정
 							secondPosition = stationPosition;
 							console.log("secondPosition", secondPosition); // 확인용 콘솔 출력
-
-
-
+		
+							
+							
 						});
 				});
 
@@ -703,23 +1030,39 @@ kakao.maps.load(function() {
 
 
 		function updateBlogPosts(blogPosts) {
-			// 기존 블로그 리스트를 클리어
-			var blogListContainer = document.getElementById('blogPostList');
-			blogListContainer.innerHTML = '';
+		    // 기존 블로그 리스트를 클리어
+		    var blogListContainer = document.getElementById('blogPostList');
+		    blogListContainer.innerHTML = ''; // 기존 내용을 초기화
 
-			// 새로운 블로그 리스트로 업데이트
-			blogPosts.forEach(post => {
-				var listItem = document.createElement('li');
-				listItem.innerHTML = `
-	            <a href="${post.link}" target="_blank">${post.title}</a>
-	            <p>${post.description}</p>
-	        `;
-				blogListContainer.appendChild(listItem);
-			});
+		    // <h1> 태그를 생성하여 블로그 리뷰 추가
+		    var header = document.createElement('h1');
+		    header.textContent = '블로그 리뷰';
+		    blogListContainer.appendChild(header);
 
+		    // 새로운 블로그 리스트로 업데이트
+		    blogPosts.forEach(post => {
+		        var listItem = document.createElement('li');
+		        listItem.innerHTML = `
+		            <a href="${post.link}" target="_blank">${post.title}</a>
+		            <p>${post.description}</p>
+		        `;
+		        blogListContainer.appendChild(listItem);
+		    });
 		}
 
+		// 타이틀과 표(차트)를 제거하는 함수
+		function clearChart() {
+		    // 타이틀을 비우기
+		    var chartTitleContainer = document.getElementById('chartTitleContainer');
+		    chartTitleContainer.innerHTML = '';
 
+		    // 차트를 비우기
+		    var ctx = document.getElementById('boardingChart').getContext('2d');
+		    if (boardingChart) {
+		        boardingChart.destroy();  // 차트 객체 삭제
+		        boardingChart = null;     // 차트 객체를 null로 설정
+		    }
+		}
 
 
 		// 카테고리 정보 리스트 초기화
@@ -784,7 +1127,7 @@ kakao.maps.load(function() {
 
 			// 3. 블로그 데이터가 없다면 "데이터 없음" 메시지 추가 (선택 사항)
 			var noDataMessage = document.createElement('p');
-			noDataMessage.textContent = '블로그 데이터가 없습니다.';
+			
 			blogListContainer.appendChild(noDataMessage);
 
 			console.log('블로그 데이터가 초기화되었습니다.');

@@ -18,7 +18,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tech.EPL.bus.dto.BlogPost;
 import com.tech.EPL.bus.dto.BusDetails;
+import com.tech.EPL.bus.dto.BusStationDataDto;
 import com.tech.EPL.bus.service.BusArrivalService;
+import com.tech.EPL.bus.service.BusDataService;
 import com.tech.EPL.bus.service.BusDetailApiServece;
 import com.tech.EPL.bus.service.BusStationService;
 import com.tech.EPL.bus.service.NaverBlogService;
@@ -45,19 +47,24 @@ public class BusController {
 
 	private final BusDetailApiServece busDetailService;
 	
+	private final BusDataService busDataService;
 	
-	@GetMapping("/bus")
-	public String busTracking(Model model) {
 
+	@GetMapping("/busNearby")
+	public String getNearbyPlaces(Model model) throws IOException {
+		// 기존 API 키 및 기타 서비스 호출
 		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
+		model.addAttribute("googleBusKey", apiKeyConfig.getGoogleBusKey());
 		model.addAttribute("tmapBusKey", apiKeyConfig.getTmapBusKey());
 		model.addAttribute("OpenBus", apiKeyConfig.getOpenBus());
-
+		
 		busStationService.execution(model);
 
-		return "epl/bus";
+		return "epl/busNearby";
 	}
-
+	
+	
+	
 	
 	// 버스 도착 정보 요청
 	@RequestMapping("/getBusArrivalInfo")
@@ -67,7 +74,7 @@ public class BusController {
 	    try {
 	        // 서비스 호출하여 버스 도착 정보 가져오기
 	        List<Map<String, String>> busList = busArrivalService.getBusArrivalInfo(stationId);
-	        System.out.println("busList:"+busList);
+//	        System.out.println("busList:"+busList);
 	      
 	        return busList;
 	    } catch (Exception e) {
@@ -80,17 +87,7 @@ public class BusController {
 	
 	
 	
-	@GetMapping("/busNearby")
-	public String getNearbyPlaces(Model model) throws IOException {
-		// 기존 API 키 및 기타 서비스 호출
-		model.addAttribute("kakaoBus", apiKeyConfig.getKakaoBusKey());
-		model.addAttribute("googleBusKey", apiKeyConfig.getGoogleBusKey());
-		model.addAttribute("tmapBusKey", apiKeyConfig.getTmapBusKey());
-		
-		busStationService.execution(model);
 
-		return "epl/busNearby";
-	}
 
 	@GetMapping("/getBlogPostsByPlace")
 	@ResponseBody
@@ -117,14 +114,21 @@ public class BusController {
 	}
 	
 	
-	
-    @GetMapping("/bus3")
-    public String fetchPublicData(Model model) {
-        String publicData = publicDataService.getPublicData();
-        model.addAttribute("publicData", publicData);
-        return "epl/bus3";
+
+
+
+    @RequestMapping("/busStopData")
+    @ResponseBody
+    public List<BusStationDataDto> getBusStopData(@RequestParam("stationId") int busStopId) {
+        return busDataService.getHourlyBoardingData(busStopId);
     }
+	
+	
+		
 
 
+
+    
+    
 
 }

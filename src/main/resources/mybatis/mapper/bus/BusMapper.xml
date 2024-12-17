@@ -9,10 +9,15 @@
 SELECT * 
 FROM BUS_STATIONS
 
-
 </select>
 
 
-
+<select id="selectHourlyBoardingData" resultType="com.tech.EPL.bus.dto.BusStationDataDto" parameterType="int">
+    SELECT
+        *
+    FROM BUS_PASSENGER_DATA
+    WHERE BUS_STOP_ID = #{busStopId}
+	LIMIT 1
+</select>
 
 </mapper>

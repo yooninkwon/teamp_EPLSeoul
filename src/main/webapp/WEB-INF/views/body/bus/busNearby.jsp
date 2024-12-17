@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/static/css/tiles.css">
-<!-- 외부 CSS 파일 -->
+
+
 <link rel="stylesheet" href="/static/css/bus/busnearby.css">
 <!-- 외부 CSS 파일 -->
 
@@ -20,6 +20,9 @@
 	src="https://maps.googleapis.com/maps/api/js?key=${googleBusKey}&loading=async&libraries=places">
 	
 </script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <link rel="stylesheet"
@@ -36,8 +39,8 @@
 		station_name : "${station.station_name}", // 문자열 값을 안전하게 삽입
 		x_coord : parseFloat("${station.x_coord}"), // 숫자 값은 그대로 사용
 		y_coord : parseFloat("${station.y_coord}"),
-		stId: "${station.node_id}"
-		// 숫자 값은 그대로 사용
+		stId : "${station.node_id}"
+	// 숫자 값은 그대로 사용
 	});
 	</c:forEach>
 
@@ -195,23 +198,36 @@
 		<p id="result"></p>
 	</div>
 
-	<div id="searchBar" style="position: relative;">
+	<div id="searchBar" >
 		<input type="text" id="searchInput" placeholder="버스 정류장을 입력하세요.">
 		<button id="searchButton">검색</button>
 		<ul id="suggestions"></ul>
 		<button id="drawLineButton">보행 경로</button>
 	</div>
 
+
 	<div id="categoryInfoList">
 		<div id="emptyMessage" class="empty-message">정류장과 카테고리를 선택해주세요.</div>
 	</div>
 
 
-	<h1>블로그 리뷰</h1>
 	<ul id="blogPostList">
 		<!-- 블로그 리스트가 동적으로 여기에 추가됨 -->
 	</ul>
 
+
+	<!-- 모달창 구조 -->
+	<div id="busDetailModal" class="modal">
+		<div class="modal-content">
+			<span class="close-btn" id="closeModal">&times;</span>
+			<div id="modalBusDetails"></div>
+		</div>
+	</div>
+
+
+	<!-- 제목을 표시할 영역 (초기에는 비어있음) -->
+	<div id="chartTitleContainer"></div>
+	<canvas id="boardingChart" width="800" height="400"></canvas>
 
 	<script src="/static/js/bus/busnearby.js"></script>
 

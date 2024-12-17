@@ -46,12 +46,12 @@ public class BusArrivalService {
     // 공공 API 호출 메서드 (실제 API 호출)
     public String callBusApi(String stationId) {
         String API_KEY = apiKeyConfig.getOpenBus(); 
-        System.out.println("사용 중인 API_KEY: " + API_KEY); // API 키 확인
+       
 
         String API_URL = "http://ws.bus.go.kr/api/rest/arrive/getLowArrInfoByStId"; 
         String url = API_URL + "?serviceKey=" + API_KEY + "&stId=" + stationId;
 
-        System.out.println("URL: " + url);
+
 
         try {
             // URI 객체로 변환

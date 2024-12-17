@@ -26,7 +26,7 @@ public class BusDetailApiServece {
         String apiUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId?serviceKey=" 
                         + apiKey + "&vehId=" + vehId;
 
-        System.out.println("apiUrl: " + apiUrl); // API 호출 URL 확인
+     
 
         try {
             // URI 객체로 변환
@@ -36,7 +36,7 @@ public class BusDetailApiServece {
             String responseXml = restTemplate.getForObject(uri, String.class);
 
             // API 응답 확인
-            System.out.println("API 응답: " + responseXml);
+            // System.out.println("API 응답: " + responseXml);
 
             // XML 파싱
             XmlMapper xmlMapper = new XmlMapper();

@@ -19,7 +19,7 @@
 
     // 메뉴별 첫 번째 사이드바 경로 설정
     const firstSubmenuLinks = {
-        '/epl/bus': '/epl/bus/', // 버스 길찾기
+        '/epl/bus': '/epl//busNearby/', // 버스 길찾기
         '/epl/metro': '/epl/metro1', // 지하철 첫 메뉴
         '/epl/mobility': '/epl/mobility/info', // 워크 & 모빌리티 첫 메뉴
         '/epl/date': '/epl/date/', // 데이트 첫 메뉴
@@ -97,7 +97,7 @@
 	       
 	       <!-- Navigation Menu -->
 	       <div class="nav-menu">
-	           <a href="/epl/bus" >BUS</a>
+	           <a href="/epl/busNearby" >BUS</a>
 	           <a href="/epl/metro">METRO</a>
 	           <a href="/epl/mobility">MOBILITY</a>
 	           <a href="/epl/date">DATE</a>

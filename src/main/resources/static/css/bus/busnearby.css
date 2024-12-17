@@ -1,16 +1,14 @@
-/* 전체 레이아웃 설정 */
-#left-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 30%; /* 왼쪽 패널의 너비 */
-    margin-left: 10px; /* 왼쪽에 간격을 둠 */
+
+/* 사용 안하는 사이드바 */
+#epl_side {
+	display: none;
 }
 
+/* 전체 레이아웃 설정 */
 #map {
     position: relative;
     width: 70%; /* 지도 너비 */
-    height: 500px;
+    height: 700px;
     margin: 0 auto;
     margin-left: 40px;
     border: 2px solid #ddd;
@@ -28,7 +26,7 @@
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-    z-index: 9999;  /* 다른 요소 위에 표시되도록 z-index 추가 */
+    z-index: 9998;  /* 다른 요소 위에 표시되도록 z-index 추가 */
 }
 
 
@@ -52,7 +50,7 @@
     border-radius: 5px;
     cursor: pointer;
     margin: 5px;
-    font-size: 16px;
+    font-size: 20px;
     transition: background-color 0.3s;
 }
 
@@ -143,12 +141,12 @@
 
 /* categoryInfoList 스타일 */
 #categoryInfoList {
-    height:400px;
+    height:580px;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
-	max-height: 400px;
+	max-height: 580px;
 	overflow-y: auto;
 }
 
@@ -323,7 +321,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    max-width: 1500px; /* 최대 너비 설정 */  
+    max-width: 2000px; /* 최대 너비 설정 */  
     font-family: 'Arial', sans-serif;
 }
 
@@ -349,7 +347,7 @@
 #blogPostList a {
     text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     color: #0078D4;
     display: block;
     margin-bottom: 8px;
@@ -364,7 +362,7 @@
 /* 블로그 설명 스타일 */
 #blogPostList p {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
     color: #555;
     line-height: 1.6;
 }
@@ -399,9 +397,37 @@
 
 .bus-info {
     margin: 10px 0;
-    height: 50px;
+    height: 80px;
     padding: 8px;
-   background-color: rgba(115, 163, 255, 0.1); /* 연한 파란색 (투명도 50%) */;
+    background-color: rgba(115, 163, 255, 0.1); /* 연한 파란색 (투명도 50%) */;
     border-radius: 4px;
     cursor: pointer;
+}
+
+/* 모달 스타일 수정 */
+.modal {
+    display: none; /* 초기 상태: 숨김 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    pointer-events: none; /* 모달창 외부 이벤트를 막지 않음 */
+ 	z-index: 9999;  /* 다른 요소 위에 표시되도록 z-index 추가 */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    pointer-events: auto; /* 모달창 자체는 클릭 가능 */
 }
