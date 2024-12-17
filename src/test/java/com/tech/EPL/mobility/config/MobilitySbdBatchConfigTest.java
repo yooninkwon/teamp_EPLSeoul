@@ -39,19 +39,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
 
-import com.tech.EPL.mobility.dto.MobilityProcessedData;
+import com.tech.EPL.mobility.dto.mobility_sbd;
 import com.tech.EPL.mobility.dto.MobilityRawData;
-import com.tech.EPL.mobility.repository.MobilityJpaRepository;
+import com.tech.EPL.mobility.repository.MobilitySbdJpaRepository;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // @BeforeAll 비정적 메서드 사용 가능
-class MobilityBatchConfigTest {
+class MobilitySbdBatchConfigTest {
 
     @Autowired
-    private MobilityBatchConfig batchConfig;
+    private MobilitySbdBatchConfig batchConfig;
     
     @MockBean
-    private MobilityJpaRepository jpaRepository;
+    private MobilitySbdJpaRepository jpaRepository;
 
     private static final String basePath = "C:/Users/eldorado/OneDrive/Codefile/Albamon/testData";
     
@@ -210,8 +210,8 @@ class MobilityBatchConfigTest {
         rawData.setLot(127.193877);
 
         // When: 데이터를 처리
-        MobilityBatchConfig spyBatchConfig = spy(batchConfig);
-        MobilityProcessedData processedData = spyBatchConfig.dataProcessor().process(rawData);
+        MobilitySbdBatchConfig spyBatchConfig = spy(batchConfig);
+        mobility_sbd processedData = spyBatchConfig.sbdDataProcessor().process(rawData);
 
         // Then: 변환된 데이터 검증
         assertThat(processedData.getName()).isEqualTo("미사");
@@ -224,12 +224,12 @@ class MobilityBatchConfigTest {
     @Test
     @DisplayName("Writer가 중복 데이터를 걸러내는지 확인")
     void testWriterWithDuplicates() throws Exception {
-        MobilityProcessedData data = new MobilityProcessedData();
+        mobility_sbd data = new mobility_sbd();
         data.setName("미사");
 
         when(jpaRepository.existsByName("미사")).thenReturn(true);
 
-        ItemWriter<MobilityProcessedData> writer = batchConfig.databaseWriter(jpaRepository);
+        ItemWriter<mobility_sbd> writer = batchConfig.sbdDatabaseWriter(jpaRepository);
 
         writer.write(Arrays.asList(data));
 
@@ -240,15 +240,15 @@ class MobilityBatchConfigTest {
     @DisplayName("Writer가 데이터를 저장하는지 확인")
     void testWriter() throws Exception {
         // Given: Writer 생성
-        MobilityProcessedData data1 = new MobilityProcessedData();
+        mobility_sbd data1 = new mobility_sbd();
         data1.setName("미사");
 
-        MobilityProcessedData data2 = new MobilityProcessedData();
+        mobility_sbd data2 = new mobility_sbd();
         data2.setName("강일");
 
         when(jpaRepository.existsByName(any(String.class))).thenReturn(false);
 
-        ItemWriter<MobilityProcessedData> writer = batchConfig.databaseWriter(jpaRepository);
+        ItemWriter<mobility_sbd> writer = batchConfig.sbdDatabaseWriter(jpaRepository);
 
         // When: 데이터를 저장
         writer.write(Arrays.asList(data1, data2));

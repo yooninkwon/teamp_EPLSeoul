@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			btn.dataset.month = month;
 	        btn.className = 'option-item';
 			btn.addEventListener('click', () => {
-	            handleMonthBtn(btn);
+	            btn.classList.toggle('active');
 
 				// 기존 타이머가 있으면 초기화
 			    if (loadTimer) {
@@ -57,16 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	    }
 	}
 	
-	// 클릭 이벤트 처리
-	function handleMonthBtn(selectedBtn) {
-		// 활성화 or 비활성화
-        if (selectedBtn.classList.contains('active')) {
-            selectedBtn.classList.remove('active');
-        } else {
-            selectedBtn.classList.add('active');
-        }
-	}
-	
 	// 활성화 여부에 따라 데이터 fetch
 	async function loadMonthlyData() {
 		// 초기화
@@ -77,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('districtSelect').innerHTML = '';
 		
 		// 월별 대여정보를 순차적으로 호출
-		const buttons = document.getElementById('monthlySelect').querySelectorAll('.active');
+		const buttons = document.querySelectorAll('#monthlySelect .active');
 	    for (const btn of buttons) {
 			const month = btn.dataset.month; // 클릭된 버튼의 month 값
 			await fetchData('stationUseMonthInfo', month);
@@ -192,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				kakao.maps.event.addListener(marker, 'click', function() {
 					document.getElementById('stationName').innerHTML = `${data.name}`;
 					document.getElementById('stationTotRentCnt').innerHTML = data.rentCnt.toLocaleString();
+					document.getElementById('district').innerHTML = `${data.district}`;
 				});
             }
         });
