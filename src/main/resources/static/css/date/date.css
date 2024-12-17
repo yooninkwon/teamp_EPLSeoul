@@ -656,7 +656,6 @@
 
 #navi{
 	width: 65%;
-	background-color: lime;
 	float: right;
 	height: 800px;
 }
@@ -701,7 +700,7 @@
 	height: 50px;
 }
 
-#sendCourse {
+#shareButton {
 	width: 47%;
 	float: right;
 	background-color: #73A3FF;
@@ -714,7 +713,7 @@
 	height: 50px;
 }
 
-#submitCourse:hover, #sendCourse:hover{
+#submitCourse:hover, #shareButton:hover{
 	background-color: #007bff;
 	cursor: pointer;
 }

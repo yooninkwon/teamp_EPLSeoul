@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/static/css/date/date.css" />
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${dateKakaoJS}&libraries=services"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="/static/js/date/date.js"></script>
 
 <title>date_body</title>
@@ -143,7 +144,7 @@
 			<div id="courseListDiv"></div>
 			<div id="courseSubmitDiv">
 				<input type="button" id="submitCourse" value="적용하기" />
-				<input type="button" id="sendCourse" value="경로받기" />
+				<input type="button" id="shareButton" value="첫 경유지 공유" />
 			</div>
 		</div>
 		<div id="navi"></div>

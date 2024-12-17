@@ -279,7 +279,6 @@ public class DateRestController {
 	@PostMapping("/setStartAddress")
     public String setStartAddress(@RequestBody Map<String, String> requestData, HttpSession session) {
         session.setAttribute("startAddress", requestData.get("address"));
-        System.out.println("출발지 적용 완료");
         return "Start address saved";
     }
 	
@@ -295,6 +294,8 @@ public class DateRestController {
 	            Map<String, String> course = (Map<String, String>) session.getAttribute("course_" + i);
 	            if (course != null) {
 	                waypoints.add(course.get("address")); // 웨이포인트로 주소 추가
+	                // waypoints.add(course.get("name")); // 웨이포인트로 이름 추가
+	                System.out.println(waypoints);
 	            }
 	        }
 	    }
@@ -306,6 +307,26 @@ public class DateRestController {
 	    return response;
 	}
 	
+	@PostMapping("/deleteCourse")
+	public String deleteCourse(@RequestBody Map<String, Integer> request, HttpSession session) {
+	    Integer indexToDelete = request.get("index");
+	    Integer courseCount = (Integer) session.getAttribute("courseCount");
+
+	    if (courseCount != null && indexToDelete < courseCount) {
+	        // 기존 course 삭제
+	        session.removeAttribute("course_" + (indexToDelete + 1));
+
+	        // 이후 코스 재정렬
+	        for (int i = indexToDelete + 1; i < courseCount; i++) {
+	            Map<String, String> course = (Map<String, String>) session.getAttribute("course_" + (i + 1));
+	            session.setAttribute("course_" + i, course);
+	        }
+
+	        session.removeAttribute("course_" + courseCount); // 마지막 중복된 course 제거
+	        session.setAttribute("courseCount", courseCount - 1);
+	    }
+	    return "Course deleted and updated successfully";
+	}
 	
 //	@GetMapping("/restaurant_search")
 //	public List<DateRestaurantDto> searchRestaurants(

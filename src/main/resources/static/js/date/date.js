@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         filterButtonLeft: document.querySelector(".filterButtonLeft"),
         filterButtonRight: document.querySelector(".filterButtonRight"),
         restaurantFilters: document.querySelectorAll(".restaurantFilter"),
+        searchInput: document.getElementById("searchInput"),
         searchSubmit: document.getElementById("searchSubmit"),
         restaurantContainer: document.querySelector(".restaurantDiv"),
         restaurantSide: document.querySelector(".restaurantSide"),
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		startAddress: document.getElementById("startAddress"),
 		navi: document.getElementById("navi"),
 		submitCourse: document.getElementById("submitCourse"),
+		shareButton: document.getElementById("shareButton"),
     };
 
     let currentPage = 0;
@@ -68,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	await initState(); // initState를 async로 호출
 	// 초기 상태 설정 함수
 	async function initState() {
+		getCourseCount();
 	    elements.expContainer.classList.add("active");
 	    elements.filterButtonLeft.classList.add("active");
 	    toggleDisplay([
@@ -77,14 +80,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        elements.localList,
 	        elements.restaurantSide,
 	        elements.activityContainer,
-			elements.activitySide,
-			elements.navigationContainer,
+	        elements.activitySide,
+	        elements.navigationContainer,
 	    ], false);
-		
-		getCourseCount();
+
 	    await fetchGoogleApi(); // Google API 키 가져오기
-		await fetchKaKaoApi(); // kakao API 키 가져오기
+	    await fetchKaKaoApi(); // Kakao API 키 가져오기
 	    await loadGoogleMapsScript(); // Google Maps 스크립트 로드
+		
+		if (!Kakao.isInitialized()) {
+		        Kakao.init(kakaoJSApiKey); // 여기에 본인의 Kakao JavaScript Key를 넣으세요.
+		        console.log('Kakao SDK initialized:', Kakao.isInitialized());
+		    }
+		
+	    if (course > 0) {
+			elements.expContainer.classList.remove("active");
+	        toggleDisplay([elements.seoulMap], true); // 코스가 있으면 localList 표시
+	    }
 	}
 
 	// Google API 키 가져오는 함수
@@ -113,6 +125,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        console.error("API 키 로드 실패:", error);
 	    }
 	}
+	
+	// 입력창에서 엔터 키를 눌렀을 때 검색 실행
+	elements.searchInput.addEventListener("keydown", (e) => {
+	    if (e.key === "Enter") { // 엔터 키 확인
+	        e.preventDefault(); // 폼 자동 제출 방지
+	        elements.searchSubmit.click(); // 검색 버튼 클릭 이벤트 실행
+	    }
+	});
 	
 	// 검색 버튼 클릭 이벤트
 	elements.searchSubmit.addEventListener("click", () => {
@@ -704,7 +724,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	});
 	
 	// 코스 카운트 가져오기
-	function getCourseCount() {
+	async function getCourseCount() {
 		fetch('/epl/date/getCourseCount') // 업데이트된 카운트 가져오기
 			.then(response => {
 			    if (response.ok) {
@@ -744,6 +764,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	elements.viewCourse.addEventListener("click" , () =>{
 		if(elements.courseCount.style.display == "none"){
 			alert("선택된 경유지가 없습니다.");
+			return;
 		}
 		toggleDisplay([elements.localList], false);
 		toggleDisplay([elements.navigationContainer], true);
@@ -752,85 +773,117 @@ document.addEventListener("DOMContentLoaded", async () => {
 	});
 	
 	async function getCourseInfo() {
-        try {
-            const response = await fetch('/epl/date/getCourseInfo');
-            if (!response.ok) {
-                throw new Error('Failed to fetch course info');
-            }
+	    try {
+	        const response = await fetch('/epl/date/getCourseInfo');
+	        if (!response.ok) {
+	            throw new Error('Failed to fetch course info');
+	        }
 
-            const courseList = await response.json();
+	        const courseList = await response.json();
+	        console.log("courseList", courseList);
+	        elements.courseListDiv.innerHTML = ''; // 초기화
 
-            // DOM에 코스 정보 추가
-            elements.courseListDiv.innerHTML = ''; // 초기화
+	        courseList.forEach((course, index) => {
+	            const courseDiv = document.createElement('div');
+	            courseDiv.classList.add('course-item');
+	            courseDiv.setAttribute('draggable', 'true');
+	            courseDiv.dataset.index = index; // 순서를 저장
 
-            courseList.forEach((course, index) => {
-                const courseDiv = document.createElement('div');
-                courseDiv.classList.add('course-item');
-                courseDiv.setAttribute('draggable', 'true');
-                courseDiv.dataset.index = index; // 순서를 저장
+	            courseDiv.innerHTML = `
+	                <span>${course.name}</span>
+	                <span style="display: none;">${course.address}</span>
+	                <button class="delete-btn" style="margin-left: 10px;">X</button>
+	            `;
+	            elements.courseListDiv.appendChild(courseDiv);
 
-                courseDiv.innerHTML = `
-                    <span>${course.name}</span>
-                `;
-                courseListDiv.appendChild(courseDiv);
-            });
+	            // X 버튼 클릭 이벤트 등록
+	            const deleteBtn = courseDiv.querySelector('.delete-btn');
+	            deleteBtn.addEventListener('click', () => deleteCourse(index));
+	        });
 
-            makeCourseListDraggable(); // 드래그 앤 드롭 활성화
-        } catch (error) {
-            console.error('Error fetching course info:', error);
-        }
-    }
+	        makeCourseListDraggable(); // 드래그 앤 드롭 활성화
+	    } catch (error) {
+	        console.error('Error fetching course info:', error);
+	    }
+	}
+	
+	async function deleteCourse(index) {
+	    try {
+	        const response = await fetch('/epl/date/deleteCourse', {
+	            method: 'POST',
+	            headers: { 'Content-Type': 'application/json' },
+	            body: JSON.stringify({ index }), // 삭제할 순서 인덱스 전송
+	        });
+
+	        if (!response.ok) {
+	            throw new Error('Failed to delete course');
+	        }
+
+	        console.log(`Course at index ${index} deleted successfully.`);
+	        getCourseInfo(); // 삭제 후 최신화된 리스트를 다시 불러옴
+	    } catch (error) {
+	        console.error('Error deleting course:', error);
+	    }
+	}
 	
 	function makeCourseListDraggable() {
 	    let draggedItem = null;
 
-	    // 드래그 시작
+	    // 이벤트 위임: courseListDiv 내의 모든 자식 요소에 대해 드래그 이벤트 처리
 	    elements.courseListDiv.addEventListener('dragstart', (e) => {
 	        if (e.target.classList.contains('course-item')) {
 	            draggedItem = e.target;
+	            e.dataTransfer.effectAllowed = "move";
+	            e.dataTransfer.setData("text/plain", ""); // 필수 설정
 	            e.target.style.opacity = '0.5';
 	        }
 	    });
 
-	    // 드래그 종료
 	    elements.courseListDiv.addEventListener('dragend', (e) => {
 	        if (e.target.classList.contains('course-item')) {
 	            e.target.style.opacity = '1';
 	        }
-	        draggedItem = null;
+	        draggedItem = null; // 드래그된 항목 초기화
 	    });
 
-	    // 드래그된 요소가 다른 요소 위로 이동 중
+	    // 드래그 오버 처리
 	    elements.courseListDiv.addEventListener('dragover', (e) => {
-	        e.preventDefault(); // 기본 동작 방지
+	        e.preventDefault();
+	        const target = e.target;
+
+	        if (target && target !== draggedItem && target.classList.contains('course-item')) {
+	            const bounding = target.getBoundingClientRect();
+	            const offset = e.clientY - bounding.top;
+
+	            if (offset > bounding.height / 2) {
+	                // 마우스 위치가 요소 하단부에 있으면 뒤에 삽입
+	                target.parentNode.insertBefore(draggedItem, target.nextSibling);
+	            } else {
+	                // 마우스 위치가 요소 상단부에 있으면 앞에 삽입
+	                target.parentNode.insertBefore(draggedItem, target);
+	            }
+	        }
 	    });
 
-	    // 드랍 시 순서 변경
-	    elements.courseListDiv.addEventListener('drop', (e) => {
-	        e.preventDefault();
-
-	        if (draggedItem && e.target.classList.contains('course-item')) {
-	            const allItems = Array.from(courseListDiv.children);
-	            const draggedIndex = allItems.indexOf(draggedItem);
-	            const targetIndex = allItems.indexOf(e.target);
-
-	            // 순서 변경
-	            if (draggedIndex < targetIndex) {
-	                elements.courseListDiv.insertBefore(draggedItem, e.target.nextSibling);
-	            } else {
-	                elements.courseListDiv.insertBefore(draggedItem, e.target);
-	            }
-
-	            updateCourseOrder(); // 변경된 순서를 서버에 저장
-	        }
+	    // 드래그가 끝난 후 순서를 업데이트
+	    elements.courseListDiv.addEventListener('drop', () => {
+	        updateCourseOrder(); // 변경된 순서를 서버에 저장
 	    });
 	}
 
 	// 순서 저장 API 호출
 	async function updateCourseOrder() {
-	    const updatedOrder = Array.from(elements.courseListDiv.children).map((item) => ({
-	        name: item.querySelector('span').innerText.split(' (')[0],
-	    }));
+	    const updatedOrder = Array.from(elements.courseListDiv.children).map((item) => {
+	        const spans = item.querySelectorAll('span'); // 두 개의 span 태그 선택
+	        const name = spans[0]?.innerText || ""; // 첫 번째 span에서 이름 추출
+	        const address = spans[1]?.innerText || ""; // 두 번째 span에서 주소 추출
+
+	        console.log("Extracted:", { name, address }); // 디버깅용 로그
+
+	        return { name, address }; // 이름과 주소를 함께 반환
+	    });
+
+	    console.log("Updated Order:", updatedOrder); // 최종 순서 확인용 로그
 
 	    try {
 	        const response = await fetch('/epl/date/updateCourseOrder', {
@@ -849,6 +902,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	}
 	
 	elements.showlocalList.addEventListener("click", () => {
+		getCourseCount();
 		toggleDisplay([elements.localList], true);
 		toggleDisplay([elements.navigationContainer], false);
 	});
@@ -896,17 +950,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 	            return;
 	        }
 
-	        if (!waypoints || waypoints.length === 0) {
-	            console.error('Waypoints are missing');
-	            alert('웨이포인트(코스)가 설정되지 않았습니다. 코스를 먼저 추가하세요.');
-	            return;
-	        }
-
 	        console.log('Start Address:', startAddress);
 	        console.log('Waypoints:', waypoints);
 
 	        // 출발지와 웨이포인트를 좌표로 변환
 	        const origin = await geocodeAddress(startAddress); // 출발지 좌표
+			origin.name = "출발지";
 			selecttedOriginX = origin.x;
 			selecttedOriginY = origin.y;
 	        const destination = await geocodeAddress(waypoints[waypoints.length - 1]); // 마지막 웨이포인트 좌표
@@ -1047,7 +1096,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	                console.error(`No data for section at index ${index}`);
 	                return;
 	            }
-
+				
 	            const timeInMinutes = Math.floor(section.duration / 60);
 	            const distanceInKm = (section.distance / 1000).toFixed(2);
 	            const content = `
@@ -1063,11 +1112,95 @@ document.addEventListener("DOMContentLoaded", async () => {
 	}
 
 	elements.submitCourse.addEventListener("click", () => {
+		getCourseCount();
+		if (course == 0) {
+			alert("선택된 경유지가 없습니다.");
+			return;
+		}
 		displayRoute();
 	});
 	
 	// 여러 요소 표시/숨기기 토글 함수
 	function toggleDisplay(elements, show) {
 		elements.forEach(element => element.style.display = show ? "block" : "none");
+	}
+	
+	// 경로 공유 함수
+	async function shareRouteViaKakao(firstWaypointName) {
+	    if (!Kakao.isInitialized()) {
+	        console.error("Kakao SDK is not initialized. Initializing now...");
+	        Kakao.init(kakaoJSApiKey); // API 키로 초기화
+	    }
+
+	    try {
+	        // 첫 번째 경유지의 카카오 플레이스 링크 가져오기
+	        const placeLink = await getPlaceLink(firstWaypointName);
+	        console.log("Place URL:", placeLink);
+
+	        // 카카오링크 메시지 설정
+	        Kakao.Share.sendDefault({
+	            objectType: 'feed',
+	            content: {
+	                title: 'EPL_SEOUL 데이트 계획의 첫 장소를 확인해 보세요!',
+	                description: `첫 번째 경유지: ${firstWaypointName}`,
+	                imageUrl: 'YOUR_IMAGE_URL', // 이미지 URL (옵션)
+	                link: {
+	                    mobileWebUrl: placeLink, // 첫 번째 경유지 링크
+	                    webUrl: placeLink        // 웹 링크
+	                }
+	            },
+	            buttons: [
+	                {
+	                    title: '첫 번째 경유지 확인하기',
+	                    link: {
+	                        mobileWebUrl: placeLink,
+	                        webUrl: placeLink
+	                    }
+	                }
+	            ]
+	        });
+	    } catch (error) {
+	        console.error('Error fetching place link or sharing via Kakao:', error);
+	    }
+	}
+
+	// 이벤트 리스너 예시
+	elements.shareButton.addEventListener('click', async () => {
+	    try {
+	        // 서버에서 코스 데이터 가져오기
+	        const courseList = await fetch('/epl/date/getCourseInfo').then(res => res.json());
+	        if (!courseList || courseList.length === 0) {
+	            console.error("No course data available.");
+	            alert("코스가 없습니다. 먼저 코스를 추가해 주세요.");
+	            return;
+	        }
+
+	        // 첫 번째 경유지의 이름 가져오기
+	        const firstWaypointName = courseList[0]?.name || "경유지";
+
+	        // 첫 번째 경유지 링크로 공유 실행
+	        await shareRouteViaKakao(firstWaypointName);
+	    } catch (error) {
+	        console.error("Error sharing route:", error);
+	    }
+	});
+	
+	async function getPlaceLink(query) {
+	    const response = await fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(query)}`, {
+	        headers: {
+	            Authorization: `KakaoAK ${kakaoRestApiKey}` // REST API 키 사용
+	        }
+	    });
+
+	    if (!response.ok) {
+	        throw new Error('Failed to fetch place data');
+	    }
+
+	    const data = await response.json();
+	    if (data.documents.length === 0) {
+	        throw new Error('No place found');
+	    }
+
+	    return data.documents[0].place_url; // 첫 번째 결과의 place_url 반환
 	}
 });
