@@ -110,6 +110,7 @@
 				<div id="restaurantInfo">
 					<div id="restaurantSideName"></div>
 					<div id="restaurantSideRate"></div>
+					<div id="restaurantSideLink"></div>
 				</div>
 				<div id="restaurantMap">map</div>
 				<input type="button" id="restaurantSubmit" value="경유지에 추가하기">
