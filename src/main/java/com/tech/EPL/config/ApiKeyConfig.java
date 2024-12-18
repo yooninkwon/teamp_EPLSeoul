@@ -50,6 +50,12 @@ public class ApiKeyConfig {
 	@Value("${google.date}")
 	private String googleDateKey;
 	
+	@Value("${kakao.date.rest}")
+	private String kakaoDateKey;
+	
+	@Value("${kakao.date.js}")
+	private String kakaoJSDateKey;
+	
 	// realty
 	@Value("${open.realty}")
 	private String openRealtyKey;

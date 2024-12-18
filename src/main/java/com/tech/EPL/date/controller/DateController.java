@@ -19,6 +19,7 @@ public class DateController {
 	@GetMapping("/date")
 	public String dateMain(Model model) {
 		model.addAttribute("dateGoogle", apiKeyConfig.getGoogleDateKey());
+		model.addAttribute("dateKakaoJS", apiKeyConfig.getKakaoJSDateKey());
 		return "epl/date";
 	}	
 	
