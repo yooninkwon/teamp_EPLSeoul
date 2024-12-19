@@ -11,7 +11,7 @@
 <body>
 	<!-- 카테고리 옵션 버튼 -->
 	<div class="category-box">
-		<div class="category-btn" id="fetchBikeRentData" style="background-color: #56b38f; margin-right: 15px;">
+		<div class="category-btn" id="fetchBikeRentData" style="background-color: #56b38f;">
 			<img src="/static/images/mobility/bike.png" class="category-img" /> 따릉이 대여소별 대여 통계
 		</div>
 	</div>
@@ -23,9 +23,9 @@
 		<div class="discript">*지난 달부터 최근 1년간의 데이터를 조회할 수 있습니다.</div>
 		<div class="discript" style="color: red;">*기간 선택 후 3초 후에 데이터가 로드됩니다.</div>
 		<!-- 행정구 선택 옵션 박스 -->
-		<div class="station-container">
+		<div class="district-container">
 			<div>행정구 찾기</div>
-			<div id="districtSelect"><span class="discript">*조회 기간을 선택하세요. </span></div>
+			<div id="districtSelect"><span class="discript">*조회 기간을 선택하세요.</span></div>
 		</div>
 		<div>
 			<table class="info-table bike-color">
@@ -47,7 +47,7 @@
 				</tr>
 			</table>
 		</div>
-		<div class="discript">*선택한 월별 대여건수의 합계를 확인할 수 있습니다. </div>
+		<div class="discript">*선택한 월별 대여건수의 합계를 확인할 수 있습니다.</div>
 	</div>
 	
 	<!-- 카카오 지도 -->

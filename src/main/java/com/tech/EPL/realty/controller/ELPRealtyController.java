@@ -37,16 +37,6 @@ public class ELPRealtyController {
 	public String realty5() {
 		return "epl/realty5";
 	}
-	
-	@GetMapping("/realty6")
-	public String realty6() {
-		return "epl/realty6";
-	}	
-	
-	@GetMapping("/realty7")
-	public String realty7() {
-		return "epl/realty7";
-	}	
 }
 
 

@@ -14,15 +14,29 @@
 	display: block;
 	width: 100%;
 	height: 800px;
-	background-color: gray;
+	background-image: url("/static/images/date/dateExp.png");
+	background-repeat: no-repeat;
+	background-size: 80%;
+	background-position: center center;
 }
 
 #expSubmit {
 	width: 20%;
 	height: 50px;
 	margin-top: 700px;
-	margin-right: 150px;
+	margin-right: 250px;
 	float: right;
+	border-radius: 15px;
+	border: none;
+	font: bold;
+	font-size: 25px;
+	color: white;
+	background-color: #73A3FF;
+}
+
+#expSubmit:hover{
+	cursor: pointer;
+	background-color: #007bff;
 }
 
 /* 서울 지도 */
@@ -30,10 +44,15 @@
 	display: none;
 }
 
+.seoulMap h1{
+	margin-left: 250px;
+}
+
 .seoulMap.active {
 	display: block;
 	width: 100%;
 	height: 800px;
+	text-align: center;
 }
 
 #seoulSvg {
@@ -147,7 +166,7 @@
 /* 데이트 취향선택 */
 .liking {
 	width: 60%;
-	height: 800px;
+	height: 770px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -190,8 +209,57 @@
 
 /* 장소 리스트업 */
 .filterDiv {
+	text-align: center;
 	margin: 0 auto;
 	width: 50%;
+}
+
+#changeDist{
+	width: 15%;
+	background-color: #73A3FF;
+	float: left;
+	height: 50px;
+	border: none;
+	border-radius: 30px;
+	color: white;
+	font: bold;
+	font-size: 20px;
+}
+
+#changeDist:hover{
+	cursor: pointer;
+	background-color: #007bff;
+}
+
+#viewCourse {
+	background-image: url("/static/images/date/carIcon.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	width: 50px;
+	height: 50px;
+	float: right;
+	border: none;
+	border-radius: 30px;
+}
+
+#courseCount{
+	width: 50%;
+	height: 50%;
+	background-color: white;
+	border: 0.5px solid black;
+	border-radius: 50%;
+	margin-top: 30px;
+	margin-left: -10px;
+	text-align: center;
+	font-size: 20px;
+	font: bold;
+}
+
+#viewCourse:hover{
+	background-color: #007bff;
+	cursor: pointer;
+	transform: translateY(-5px); /* 약간 위로 튀어나오게 함 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
 }
 
 .filterButtonLeft {
@@ -288,7 +356,7 @@
 
 .listUp {
 	width: 70%;
-	height: 600px;
+	height: 620px;
 	margin: 0 auto;
 	overflow: auto;
 	margin-top: 70px;
@@ -359,14 +427,14 @@
 .restaurantSide {
 	float: right;
 	width: 25%;
-	height: 670px;
+	height: 700px;
 	border-radius: 15px;
 	border: 2px solid #73A3FF;
 }
 
 #restaurantImg {
 	width: 100%;
-	height: 220px;
+	height: 250px;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
 	background-repeat: no-repeat;
@@ -375,7 +443,7 @@
 }
 
 #restaurantImg img {
-	height: 220px;
+	height: 250px;
 	width: 100%;
 	border-top-left-radius: 15px;
 	border-top-right-radius: 15px;
@@ -387,12 +455,23 @@
 	margin-bottom: 0px;
 }
 
+#restaurantSideLink{
+	width: 20%;
+	padding-right: 10px;
+	padding-top: 5px;
+	float: right;
+}
+
+#restaurantSideLink a{
+	text-decoration: none;
+	font-size: 20px;
+}
+
 #restaurantSideName {
 	margin-top: 20px;
 	width: 90%;
 	font-size: 25px;
 	font: bold;
-	color: #73A3FF;
 	text-align: left;
 	padding-left: 10px;
 }
@@ -402,6 +481,7 @@
 	align-items: left;
 	padding-left: 10px;
 	font-size: 20px;
+	float: left;
 }
 
 .star {
@@ -451,6 +531,7 @@
 	border-bottom-left-radius: 15px;
 	border-bottom-right-radius: 15px;
 	border: 2px solid #73A3FF;
+	font-size: 20px;
 }
 
 #restaurantSubmit:hover {
@@ -458,9 +539,203 @@
 	cursor: pointer;
 }
 
-.activityDiv{
+#activityMap{
 	width: 100%;
 	margin-top: 50px;
-	background-color: gray;
 	height: 700px;
+	float: left;
+}
+
+#activitySide{
+	float: right;
+	margin-top: 50px;
+	width: 25%;
+	height: 700px;
+	border-radius: 15px;
+	border: 2px solid #73A3FF;
+}
+
+#activityImg{
+	width: 100%;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	background-color: gray;
+	height: 300px;
+}
+
+#activityImg img{
+	height: 300px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+#activitySideName {
+	margin-top: 20px;
+	width: 90%;
+	font-size: 25px;
+	font: bold;
+	text-align: left;
+	padding-left: 10px;
+	margin-bottom: 0px;
+}
+
+#activityWebsite{
+	margin-top: 20px;
+	width: 90%;
+	font-size: 20px;
+	font: bold;
+	color: #73A3FF;
+	text-align: left;
+	padding-left: 10px;
+	text-decoration: none;
+	height: 190px;
+}
+
+#activityCategory{
+	margin-top: 10px;
+	width: 90%;
+	font-size: 18px;
+	font: bold;
+	padding-left: 10px;
+}
+
+#activitySideRating{
+	display: flex;
+	align-items: left;
+	padding-left: 10px;
+	font-size: 20px;
+}
+
+#activityAddress{
+	width: 90%;
+	padding: 10px;
+	float: left;
+	font: bold;
+	font-size: 17px;
+	height: 80px;
+}
+
+#activitySubmit {
+	width: 100%;
+	height: 70px;
+	background-color: #73A3FF;
+	color: white;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	border: 2px solid #73A3FF;
+	font-size: 20px;
+}
+
+#activitySubmit:hover {
+	background-color: #007bff;
+	cursor: pointer;
+}
+
+.navigationContainer{
+	width: 100%;
+	height: 800px;
+}
+
+#naviSide{
+	width: 30%;
+	float: left;
+	height: 800px;
+}
+
+#showlocalList{
+	width: 20%;
+	height: 40px;
+	float: left;
+	font: bold;
+	font-size: 25px;
+	background-color: #73A3FF;
+	color: white;
+	border-radius: 15px;
+	border: none;
+	margin-bottom: 0px;
+}
+
+#showlocalList:hover{
+	background-color: #007bff;
+	cursor: pointer;
+}
+
+#courseListDiv{
+	margin-top: 50px;
+	width: 100%;
+	height: 650px;
+	border: 1px solid #73A3FF;
+}
+
+#navi{
+	width: 65%;
+	float: right;
+	height: 800px;
+}
+
+#courseList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;  
+}
+
+.course-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: grab;
+    height: 50px;
+    font: bold;
+    font-size: 25px;
+    padding-top: 20px;
+}
+
+#startAddress{
+	width: 72%;
+	float: right;
+	height: 35px;
+	font: bold;
+	font-size: 20px;
+	border-radius: 15px;
+	border: 1px solid #73A3FF;
+}
+
+#submitCourse {
+	width: 47%;
+	float: left;
+	background-color: #73A3FF;
+	border: none;
+	border-radius: 15px;
+	font: bold;
+	font-size: 25px;
+	color: white;
+	margin-top: 50px;
+	height: 50px;
+}
+
+#shareButton {
+	width: 47%;
+	float: right;
+	background-color: #73A3FF;
+	border: none;
+	border-radius: 15px;
+	font: bold;
+	font-size: 25px;
+	color: white;
+	margin-top: 50px;
+	height: 50px;
+}
+
+#submitCourse:hover, #shareButton:hover{
+	background-color: #007bff;
+	cursor: pointer;
+}
+
+.course-item:active {
+    cursor: grabbing;
+}
+
+.course-item.dragging {
+    opacity: 0.5;
+    border: 2px dashed #999;
 }

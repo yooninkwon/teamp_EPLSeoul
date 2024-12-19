@@ -8,26 +8,28 @@
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/realty/on_off.css" />
+<link rel="stylesheet" href="/static/css/realty/realty.css" />
 <title>realty_body</title>
 </head>
 
 <body>
-
-	<h1>연도별 실거래가 통계 </h1>
-
-	<label for="buying">
-		<input type="radio" name="seType" id="buying" value="buying-container" checked />
+	<div id="title-radio-div">
+	<h1 class="body-title">연도별 실거래가 통계 </h1>
+	<br />
+	<label for="buying" class="g_box _1">
+		<input type="radio" name="seType" id="buying" value="buying-container" checked /> 
 		매매 평균 
 	</label>
-	<label for="rent">
-		<input type="radio" name="seType" id="rent" value="rent-container" />
+	<label for="rent" class="g_box _1">
+		<input type="radio" name="seType" id="rent" value="rent-container" /> 
 		월세 평균 
 	</label>
-	<label for="jeonse">
-		<input type="radio" name="seType" id="jeonse" value="jeonse-container" />
+	<label for="jeonse" class="g_box _1">
+		<input type="radio" name="seType" id="jeonse" value="jeonse-container" /> 
 		전세 보증금 평균  
 	</label>
-	
+	</div>
+
 	<div id="all-chart-div">
 		<!--  -->
 		<div id="buying-container" class="on">

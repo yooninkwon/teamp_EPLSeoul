@@ -9,73 +9,79 @@
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/Realty/on_off.css" />
+<link rel="stylesheet" href="/static/css/realty/realty.css" />
 <title>realty_body</title>
 </head>
 
 <body>
-	<h1>자치구별 실거래가 통계 (2021 - 2024) </h1>
+	<div id="title-radio-div">
+		<h1 class="body-title">자치구별 실거래가 통계 (2021 - 2024) </h1>
+		<br />
+		<label for="apt" class="g_box _1 m-bottom">
+			 <input type="radio" name="avg" id="apt" value="apt" checked />
+			 아파트 
+		</label>
+		
+		<label for="single" class="g_box _1">
+			 <input type="radio" name="avg" id="single" value="single" />
+			 단독다가구 
+		</label>
+		
+		<label for="multi" class="g_box _1">
+			 <input type="radio" name="avg" id="multi" value="multi" />
+			 연립다세대 
+		</label>
+		
+		<label for="office" class="g_box _1">
+			 <input type="radio" name="avg" id="office" value="office" />
+			 오피스텔 
+		</label>
+		<br />
+		<br />
+		<br />
+		
+		<!--  -->
+		 <label for="buying" class="g_box _1">
+			  <input type="radio" name="living-se" id="buying" value="buying-container" checked />
+			  매매 
+		 </label>
+		 
+		 <label for="rent-grfe" class="g_box _1">
+			  <input type="radio" name="living-se" id="rent-grfe" value="rent-grfe-container" />
+			  월세 보증금 		  
+		 </label>
+		 
+		 <label for="rent-rtfe" class="g_box _1">
+			  <input type="radio" name="living-se" id="rent-rtfe" value="rent-rtfe-container" />
+			  월세 월납입금 
+		 </label>
+		 
+		 <label for="jeonse" class="g_box _1">
+			  <input type="radio" name="living-se" id="jeonse" value="jeonse-container" />
+			  전세 보증금 
+		 </label>
+		 
+		<br />
+		<br />
+		<br />
+		
+		<!--  -->
+		<label for="avg" class="g_box _2">
+			 <input type="radio" name="chart-type" id="avg" value="avg" checked />
+			 평균가 
+		</label>
+		
+		<label for="max" class="g_box _2">
+			 <input type="radio" name="chart-type" id="max" value="max" />
+			 최고가 
+		</label>
+		
+		<label for="min" class="g_box _2">
+			 <input type="radio" name="chart-type" id="min" value="min" />
+			 최저가 
+		</label>
 	
-	<label for="apt">
-		 <input type="radio" name="avg" id="apt" value="apt" checked />
-		 아파트 
-	</label>
-	
-	<label for="single">
-		 <input type="radio" name="avg" id="single" value="single" />
-		 단독다가구 
-	</label>
-	
-	<label for="multi">
-		 <input type="radio" name="avg" id="multi" value="multi" />
-		 연립다세대 
-	</label>
-	
-	<label for="office">
-		 <input type="radio" name="avg" id="office" value="office" />
-		 오피스텔 
-	</label>
-	 
-	<br />
-	
-	<!--  -->
-	 <label for="buying">
-		  <input type="radio" name="living-se" id="buying" value="buying-container" checked />
-		  매매 
-	 </label>
-	 
-	 <label for="rent-grfe">
-		  <input type="radio" name="living-se" id="rent-grfe" value="rent-grfe-container" />
-		  월세 보증금 		  
-	 </label>
-	 
-	 <label for="rent-rtfe">
-		  <input type="radio" name="living-se" id="rent-rtfe" value="rent-rtfe-container" />
-		  월세 월납입금 
-	 </label>
-	 
-	 <label for="jeonse">
-		  <input type="radio" name="living-se" id="jeonse" value="jeonse-container" />
-		  전세 보증금 
-	 </label>
-	 
-	<br />
-	
-	<!--  -->
-	<label for="avg">
-		 <input type="radio" name="chart-type" id="avg" value="avg" checked />
-		 평균가 
-	</label>
-	
-	<label for="max">
-		 <input type="radio" name="chart-type" id="max" value="max" />
-		 최고가 
-	</label>
-	
-	<label for="min">
-		 <input type="radio" name="chart-type" id="min" value="min" />
-		 최저가 
-	</label>
-	
+	 </div>
 	<!--  -->
 	<div id="all-chart-container">
 		<div id="buying-container" class="on">

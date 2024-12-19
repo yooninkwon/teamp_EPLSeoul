@@ -12,34 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tech.EPL.config.ApiKeyConfig;
-import com.tech.EPL.mobility.dto.MobilityProcessedData;
-import com.tech.EPL.mobility.repository.MobilityJpaRepository;
+import com.tech.EPL.mobility.dto.mobility_abd;
+import com.tech.EPL.mobility.dto.mobility_sbd;
+import com.tech.EPL.mobility.repository.MobilityAbdJpaRepository;
+import com.tech.EPL.mobility.repository.MobilitySbdJpaRepository;
 import com.tech.EPL.mobility.service.MobilityBatchService;
 import com.tech.EPL.mobility.service.MobilitySeoulAPIService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor // Lombok : final 필드에 자동 생성자 주입
 @RequestMapping("/epl/mobility/data")
 public class MobilityRestController {
 	
 	// 필드 선언
 	private final MobilityBatchService mobilityBatchService;
 	private final CacheManager cacheManager;
-	private final String seoulApiKey;
+	private final ApiKeyConfig apiKeyConfig;
     private final MobilitySeoulAPIService mobilitySeoulAPIService;
-    private final MobilityJpaRepository jpaRepository;
-    
-    // 단일 생성자 주입(@Autowired 생략)
-    public MobilityRestController(MobilityBatchService mobilityBatchService,
-    		CacheManager cacheManager,
-    		ApiKeyConfig apiKeyConfig,
-    		MobilitySeoulAPIService mobilitySeoulAPIService,
-    		MobilityJpaRepository jpaRepository) {
-    	this.mobilityBatchService = mobilityBatchService;
-    	this.cacheManager = cacheManager;
-        this.seoulApiKey = apiKeyConfig.getSeoulMobilityKey();
-        this.mobilitySeoulAPIService = mobilitySeoulAPIService;
-        this.jpaRepository = jpaRepository;
-    }
+    private final MobilitySbdJpaRepository sbdJpaRepository;
+    private final MobilityAbdJpaRepository abdJpaRepository;
     
     // Batch Job : 데이터 가공 및 저장
     @GetMapping("/runBatch/{workType}/{fileType}")
@@ -59,14 +52,21 @@ public class MobilityRestController {
     }
     
     // 서울 열린데이터광장 API
-    @GetMapping("apiSeoul")
+    @GetMapping("/apiSeoul")
     public List<String> getSeoulAPIData(@RequestParam String service, @RequestParam(required = false) String period) throws IOException {
+    	String seoulApiKey = apiKeyConfig.getSeoulMobilityKey();
         return mobilitySeoulAPIService.fetchSeoulAPIData(seoulApiKey, service, period);
     }
     
     // MOBILITY_SBD 데이터
-    @GetMapping("sbdDatas")
-    public List<MobilityProcessedData> getSbdData() {
-    	return jpaRepository.findAll();
+    @GetMapping("/sbdDatas")
+    public List<mobility_sbd> getSbdData() {
+    	return sbdJpaRepository.findAll();
+    }
+    
+    // MOBILITY_ABD 데이터
+    @GetMapping("/abdDatas")
+    public List<mobility_abd> getAbdData() {
+    	return abdJpaRepository.findAll();
     }
 }
