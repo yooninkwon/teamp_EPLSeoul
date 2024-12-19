@@ -1,0 +1,92 @@
+@charset "UTF-8";/* 공통 스타일 */
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h1, h2, h3 {
+  color: #444;
+}
+
+section {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+h2 {
+  margin-top: 20px;
+  font-size: 1.8em;
+  color: #0066cc;
+}
+
+h3 {
+  margin-top: 15px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+/* 목록 스타일 */
+ul {
+  margin: 10px 0 10px 20px;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+/* 텍스트 스타일 */
+p {
+  margin-bottom: 15px;
+  font-size: 1.1em;
+  color: #555;
+}
+
+/* 링크 스타일 */
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 강조 텍스트 스타일 */
+strong {
+  font-weight: bold;
+  color: #333;
+}
+
+/* 콘텐츠 사이드 여백 */
+section ul li {
+  padding-left: 10px;
+}
+
+/* 작은 텍스트 사이 여백 */
+section ul li strong + br {
+  margin-bottom: 5px;
+}
+
+/* 강조 표시 블록 */
+&loz {
+  color: #cc6600;
+  font-size: 1.2em;
+  margin-right: 5px;
+}

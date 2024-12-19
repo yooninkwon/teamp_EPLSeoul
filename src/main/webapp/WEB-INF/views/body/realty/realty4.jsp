@@ -8,50 +8,54 @@
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/Realty/on_off.css" />
+<link rel="stylesheet" href="/static/css/Realty/realty.css" />
 <title>realty_body</title>
 </head>
 
 <body>
-	<h1>자치구 연도별 실거래가 등락 추이</h1>
+	<div id="title-radio-div">
+		<h1 class="body-title">자치구 연도별 실거래가 등락 추이</h1>
+		<br />
+		 <label for="apt" class="g_box _1">
+			  <input type="radio" name="bldg-usg" id="apt" value="apt" checked />
+			  아파트 
+		 </label>
+		 
+		 <label for="single" class="g_box _1">
+			  <input type="radio" name="bldg-usg" id="single" value="single" />
+			  단독다가구 		  
+		 </label>
+		 
+		 <label for="multi" class="g_box _1">
+			  <input type="radio" name="bldg-usg" id="multi" value="multi" />
+			  연립다세대  
+		 </label>
+		 
+		 <label for="office" class="g_box _1">
+			  <input type="radio" name="bldg-usg" id="office" value="office" />
+			  오피스텔  
+		 </label>
 	
-	 <label for="apt">
-		  <input type="radio" name="bldg-usg" id="apt" value="apt" checked />
-		  아파트 
-	 </label>
-	 
-	 <label for="single">
-		  <input type="radio" name="bldg-usg" id="single" value="single" />
-		  단독다가구 		  
-	 </label>
-	 
-	 <label for="multi">
-		  <input type="radio" name="bldg-usg" id="multi" value="multi" />
-		  연립다세대  
-	 </label>
-	 
-	 <label for="office">
-		  <input type="radio" name="bldg-usg" id="office" value="office" />
-		  오피스텔  
-	 </label>
-
-	<br />
-	
-	<!--  -->	
-	 <label for="buying">
-		  <input type="radio" name="living-se" id="buying" value="buying-container" checked />
-		  매매 
-	 </label>
-	 
-	 <label for="rent">
-		  <input type="radio" name="living-se" id="rent" value="rent-container" />
-		  월세 		  
-	 </label>
-	 
-	 <label for="jeonse">
-		  <input type="radio" name="living-se" id="jeonse" value="jeonse-container" />
-		  전세 보증금 
-	 </label>
-	 
+		<br />
+		<br />
+		<br />
+		
+		<!--  -->	
+		 <label for="buying" class="g_box _1">
+			  <input type="radio" name="living-se" id="buying" value="buying-container" checked />
+			  매매 
+		 </label>
+		 
+		 <label for="rent" class="g_box _1">
+			  <input type="radio" name="living-se" id="rent" value="rent-container" />
+			  월세 		  
+		 </label>
+		 
+		 <label for="jeonse" class="g_box _1">
+			  <input type="radio" name="living-se" id="jeonse" value="jeonse-container" />
+			  전세 보증금 
+		 </label>
+	 </div>
 	 
 	<div id="all-chart-container">
 		<div id="buying-container" class="on">

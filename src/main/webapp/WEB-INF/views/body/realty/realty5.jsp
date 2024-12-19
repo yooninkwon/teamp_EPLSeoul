@@ -8,22 +8,24 @@
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/Realty/on_off.css" />
+<link rel="stylesheet" href="/static/css/Realty/realty.css" />
 <title>realty_body</title>
 </head>
 
 <body>
-	<h1> 연도별 서울시 인구수 통계 (2007 - 2023) </h1>
-	
-		
-	 <label for="seoul">
-		  <input type="radio" name="chart-type" id="seoul" value="seoul-chart-container" checked />
-		  서울시 종합 
-	 </label>
-	 
-	 <label for="gu">
-		  <input type="radio" name="chart-type" id="gu" value="jumin-chart-container" />
-		  자치구 	  
-	 </label>
+	<div id="title-radio-div">
+		<h1 class="body-title"> 연도별 서울시 인구수 통계 (2007 - 2023) </h1>
+		<br />
+		 <label for="seoul" class="g_box _1">
+			  <input type="radio" name="chart-type" id="seoul" value="seoul-chart-container" checked />
+			  서울시 종합 
+		 </label>
+		 
+		 <label for="gu" class="g_box _1">
+			  <input type="radio" name="chart-type" id="gu" value="jumin-chart-container" />
+			  자치구 	  
+		 </label>
+	</div>
 	
 	<!--  -->
 	<div id="all-chart-container">
