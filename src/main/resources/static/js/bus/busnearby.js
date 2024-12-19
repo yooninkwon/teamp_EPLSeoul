@@ -8,14 +8,18 @@ kakao.maps.load(function() {
 	var map = new kakao.maps.Map(container, options);
 
 	var resultdrawArr = [];
-
+	
 	var markers = [];
 	var currentInfoWindow = null;
 	var currentPosition = null; // 현재 선택된 위치를 저장하는 변수
 	var secondPosition = null; // 현재 선택된 위치를 저장하는 변수
 	// boardingChart 변수를 전역적으로 선언
 	let boardingChart = null;  // 처음에는 null로 초기화
-
+	
+	// 전역 마커 배열 초기화
+	if (!window.busMarkers) {
+	    window.busMarkers = [];
+	}
 
 	var searchInput = document.getElementById('searchInput');
 	var suggestions = document.getElementById('suggestions');
@@ -293,7 +297,7 @@ kakao.maps.load(function() {
 					title: station.station_name,
 					image: new kakao.maps.MarkerImage(
 						markerImages['BS1'], // 버스 마커 이미지
-						new kakao.maps.Size(25, 25),
+						new kakao.maps.Size(20, 20),
 						{ offset: new kakao.maps.Point(12, 0) }
 					)
 				});
@@ -409,7 +413,8 @@ kakao.maps.load(function() {
 				            data.forEach(function(bus) {
 				                // busNo가 0인 경우는 제외
 				                if (bus.busNo && bus.busNo !== "0") {
-				                    hasValidBusInfo = true; // 유효한 버스 정보가 있음
+									updateBusLocation(bus.busNo); // 각 버스 위치 업데이트
+									hasValidBusInfo = true; // 유효한 버스 정보가 있음
 				                    // 각 버스 클릭 시 정보 표시 기능 추가
 				                    arrivalInfoContent += `
 				                        <p id="bus_${bus.busNo}" class="bus-info" data-bus-no="${bus.busNo}">
@@ -497,10 +502,17 @@ kakao.maps.load(function() {
 
 										// 이후 5초마다 실시간으로 위치를 갱신
 										setInterval(function() {
+											
+											// 기존 마커 제거
+											clearBusMarkers();
+											
 											fetch(`/epl/getBusDetails?vehId1=${busNo}`)
 												.then(response => response.json())
 												.then(data => {
 													console.log("버스 위치 데이터:", data);
+
+													
+												
 
 													// data가 배열이 아니면, 배열로 처리할 수 있게 감싸기
 													if (!Array.isArray(data)) {
@@ -634,12 +646,15 @@ kakao.maps.load(function() {
 
 										// 모달창 내용 채우기
 										var busDetailsContent = `
-									        <h4>버스 번호: ${busDetails.plainNo}</h4>			        
-									        <p>버스 종류: ${busType}</p>
-									        <p>혼잡도: ${congestion}</p>
-									        <p>위도: ${busDetails.posX}</p>
-									        <p>경도: ${busDetails.posY}</p>
-									    `;
+										    <h4>버스 번호: <span>${busDetails.plainNo}</span></h4>
+										    <p>버스 종류: <span>${busType}</span></p>
+										    <p>혼잡도: <span>${congestion}</span></p>
+										    <p>정류소 도착 여부: <span>${busDetails.stopFlag === "1" ? "도착" : "운행중"}</span></p>
+										    <p>최종 정류장 ID: <span>${busDetails.lastStnIdName}</span></p>
+										    <p>정류소 순번: <span>${busDetails.stOrd}</span></p>
+										    <p>만차 여부: <span>${busDetails.isFullFlag === "1" ? "만차" : "여유"}</span></p>
+										   
+										`;
 										document.getElementById('modalBusDetails').innerHTML = busDetailsContent;
 
 										// 모달창 표시
@@ -648,7 +663,7 @@ kakao.maps.load(function() {
 									}
 
 									// 모달창 닫기 버튼 이벤트 추가
-									document.getElementById('closeModal').addEventListener('click', function() {
+									document.getElementById('closeBtn').addEventListener('click', function() {
 										document.getElementById('busDetailModal').style.display = "none";  // 모달 닫기
 									});
 								});
@@ -773,8 +788,17 @@ kakao.maps.load(function() {
 	}
 
 
+		// 기존에 표시된 버스 마커를 모두 지우는 함수
+		function clearBusMarkers() {
+		    if (window.busMarkers && window.busMarkers.length > 0) {
+		        window.busMarkers.forEach(function(marker) {
+		            marker.setMap(null); // 지도에서 마커 제거
+		        });
+		        window.busMarkers = []; // 배열 초기화
+		    }
+		}
 
-
+	
 		// 공통 함수: 블로그 데이터를 가져와 업데이트
 		function fetchAndUpdateBlogPosts(placeName) {
 			fetch('/epl/getBlogPostsByPlace?place=' + encodeURIComponent(placeName))

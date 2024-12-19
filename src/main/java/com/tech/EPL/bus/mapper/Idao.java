@@ -15,4 +15,5 @@ public interface Idao {
 
 	public  List<BusStationDataDto> selectHourlyBoardingData(int busStopId);
 	
+	public BusStationDto busStationName (String node_id);
 }

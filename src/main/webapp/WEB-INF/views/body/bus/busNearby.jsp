@@ -219,7 +219,7 @@
 	<!-- 모달창 구조 -->
 	<div id="busDetailModal" class="modal">
 		<div class="modal-content">
-			<span class="close-btn" id="closeModal">&times;</span>
+			<span class="close-btn" id="closeBtn">&times;</span>
 			<div id="modalBusDetails"></div>
 		</div>
 	</div>
