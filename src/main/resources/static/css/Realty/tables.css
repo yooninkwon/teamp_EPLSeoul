@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+table th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+span .table-span {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}

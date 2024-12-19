@@ -8,6 +8,7 @@
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/realty/on_off.css" />
+<link rel="stylesheet" href="/static/css/realty/information.css" />
 <title>realty_body</title>
 </head>
 

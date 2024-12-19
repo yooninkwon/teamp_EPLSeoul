@@ -8,56 +8,58 @@
 <script	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <link rel="stylesheet" href="/static/css/tiles.css">
 <link rel="stylesheet" href="/static/css/realty/on_off.css">
+<link rel="stylesheet" href="/static/css/realty/realty.css">
+<link rel="stylesheet" href="/static/css/realty/tables.css">
 <title>realty_body</title>
 </head>
 
 <body>
-	<h1> 자치구 실거래가 랭킹 (전체 데이터 평균치) </h1>
-
-	<label for="buying-max">
-		<input type="radio" name="tableType" id="buying-max" value="buying-rank-max" checked />
-		매매 최고가 
-	</label>
-	<label for="buying-min">
-		<input type="radio" name="tableType" id="buying-min" value="buying-rank-min" />
-		매매 최저가 
-	</label>
-	
-	<br />
-	
-	<label for="rent-grfe-max">
-		<input type="radio" name="tableType" id="rent-grfe-max" value="rent-rank-grfe-max" />
-		월세 보증금 최고가 
-	</label>
-	<label for="rent-grfe-min">
-		<input type="radio" name="tableType" id="rent-grfe-min" value="rent-rank-grfe-min" />
-		월세 보증금 최저가 
-	</label>
-	<label for="rent-rtfe-max">
-		<input type="radio" name="tableType" id="rent-rtfe-max" value="rent-rank-rtfe-max" />
-		월세 월납입금 최고가 
-	</label>
-	<label for="rent-rtfe-min">
-		<input type="radio" name="tableType" id="rent-rtfe-min" value="rent-rank-rtfe-min" />
-		월세 월납입금 최저가 
-	</label>
-	
-	<br />
-	
-	<label for="jeonse-grfe-max">
-		<input type="radio" name="tableType" id="jeonse-grfe-max" value="jeonse-rank-max" />
-		전세 보증금 최고가 
-	</label>
-	<label for="jeonse-grfe-min">
-		<input type="radio" name="tableType" id="jeonse-grfe-min" value="jeonse-rank-min" />
-		전세 보증금 최저가 
-	</label>
-	
+	<div id="title-radio-div">
+		<h1 class="body-title"> 자치구 실거래가 랭킹 (전체 데이터 평균치) </h1>
+		<br />
+		<label for="buying-max" class="g_box _1">
+			<input type="radio" name="tableType" id="buying-max" value="buying-rank-max" checked />
+			매매 최고가 
+		</label>
+		<label for="buying-min" class="g_box _1">
+			<input type="radio" name="tableType" id="buying-min" value="buying-rank-min" />
+			매매 최저가 
+		</label>
+		
+		<label for="jeonse-grfe-max" class="g_box _1">
+			<input type="radio" name="tableType" id="jeonse-grfe-max" value="jeonse-rank-max" />
+			전세 보증금 최고가 
+		</label>
+		<label for="jeonse-grfe-min" class="g_box _1">
+			<input type="radio" name="tableType" id="jeonse-grfe-min" value="jeonse-rank-min" />
+			전세 보증금 최저가 
+		</label>
+		
+		<br />
+		<br />
+		<br />
+				<label for="rent-grfe-max" class="g_box _1">
+			<input type="radio" name="tableType" id="rent-grfe-max" value="rent-rank-grfe-max" />
+			월세 보증금 최고가 
+		</label>
+		<label for="rent-grfe-min" class="g_box _1">
+			<input type="radio" name="tableType" id="rent-grfe-min" value="rent-rank-grfe-min" />
+			월세 보증금 최저가 
+		</label>
+		<label for="rent-rtfe-max" class="g_box _1">
+			<input type="radio" name="tableType" id="rent-rtfe-max" value="rent-rank-rtfe-max" />
+			월세 월납입금 최고가 
+		</label>
+		<label for="rent-rtfe-min" class="g_box _1">
+			<input type="radio" name="tableType" id="rent-rtfe-min" value="rent-rank-rtfe-min" />
+			월세 월납입금 최저가 
+		</label>
+	</div>
 	<br />
 	<br />
 	<div id="all-table-container">
 		<div id="buying-rank-max" class="on">
-	  		<span>매매 평균 최고가 TOP 3</span>
+	  		<span class="table-span">매매 평균 최고가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
@@ -75,7 +77,7 @@
 		</div>
 		
 		<div id="buying-rank-min" class="off">
-	  		<span>매매 평균 최저가 TOP 3</span>
+	  		<span class="table-span">매매 평균 최저가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
@@ -93,7 +95,7 @@
 		</div>
 		
 		<div id="rent-rank-grfe-max" class="off">
-	  		<span>월세 보증금 평균 최고가 TOP 3</span>
+	  		<span class="table-span">월세 보증금 평균 최고가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
@@ -111,7 +113,7 @@
 		</div>
 		
 		<div id="rent-rank-grfe-min" class="off">
-	  		<span>월세 보증금 평균 최저가 TOP 3</span>
+	  		<span class="table-span">월세 보증금 평균 최저가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
@@ -129,7 +131,7 @@
 		</div>
 		
 		<div id="rent-rank-rtfe-max" class="off">
-	  		<span>월세 월납입금 평균 최고가 TOP 3</span>
+	  		<span class="table-span">월세 월납입금 평균 최고가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
@@ -147,7 +149,7 @@
 		</div>
 		
 		<div id="rent-rank-rtfe-min" class="off">
-	  		<span>월세 월납입금 평균 최저가 TOP 3</span>	
+	  		<span class="table-span">월세 월납입금 평균 최저가 TOP 3</span>	
 			<table border="1">
 				<thead>
 					<tr>
@@ -165,7 +167,7 @@
 		</div>
 		
 		<div id="jeonse-rank-max" class="off">
-			<span>전세 보증금 평균 최고가 TOP 3</span>
+			<span class="table-span">전세 보증금 평균 최고가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
@@ -183,7 +185,7 @@
 		</div>
 		
 		<div id="jeonse-rank-min" class="off">
-			<span>전세 보증금 평균 최저가 TOP 3</span>
+			<span class="table-span">전세 보증금 평균 최저가 TOP 3</span>
 			<table border="1">
 				<thead>
 					<tr>
