@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		navi: document.getElementById("navi"),
 		submitCourse: document.getElementById("submitCourse"),
 		shareButton: document.getElementById("shareButton"),
+		restaurantSideLink: document.getElementById("restaurantSideLink"),
     };
 
     let currentPage = 0;
@@ -90,7 +91,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 		
 		if (!Kakao.isInitialized()) {
 		        Kakao.init(kakaoJSApiKey); // 여기에 본인의 Kakao JavaScript Key를 넣으세요.
-		        console.log('Kakao SDK initialized:', Kakao.isInitialized());
 		    }
 		
 	    if (course > 0) {
@@ -119,8 +119,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 			const data = await response.json(); // JSON 형식으로 파싱
 	        kakaoRestApiKey = data.kakaoRestApiKey; // 키를 저장
 	        kakaoJSApiKey = data.kakaoJSApiKey; // 키를 저장
-			console.log(kakaoRestApiKey);
-			console.log(kakaoJSApiKey);
 	    } catch (error) {
 	        console.error("API 키 로드 실패:", error);
 	    }
@@ -401,7 +399,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        }
 
 	        const data = await response.json();
-	        console.log("세부정보:", data);
 
 	        // 데이터 사용
 	        const photoUrl = data.photoUrl || null;
@@ -547,7 +544,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 			// 클릭 이벤트 추가
 			row.addEventListener("click", () => {
-				console.log(`Row clicked: ${rowId}`);
 				selectedRowId = rowId;
 				// 이전 클릭된 로우의 배경색 초기화
 			    if (lastClickedRow) {
@@ -598,7 +594,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 				alert(data.message);
 				getCourseCount();
 			} else {				
-	        	console.log('코스 저장 완료:', data);
 				alert(data.message);
 				getCourseCount();
 			}
@@ -627,13 +622,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	                // photoReference를 이용해 Google Places Photo API 요청
 	                const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${googleApiKey}`;
-
+					
+					// kakao Places 링크
+					const placeLike = await getPlaceLink(businessName);
+					
 	                // 이미지와 별점 표시
 	                elements.restaurnatImg.innerHTML = `<img src="${photoUrl}" alt="${businessName} Image" style="width:100%;">`;
 	                elements.restaurantSideRate.innerHTML = `<div class="restaurantSideRate">${generateStars(rating)}&ensp;&ensp;${reviewCount}개의 평가</div>`;
+					elements.restaurantSideLink.innerHTML = `<a href="${placeLike}" target="_blank" >메뉴보기</a>`;
 	            } else {
 					elements.restaurnatImg.innerHTML = `<img src="/static/images/date/restaurantNoImg.png" Image" style="width:100%;">`;
 					elements.restaurantSideRate.innerHTML = `<div class="restaurantSideRate">${generateStars(rating)}&ensp;&ensp; ${reviewCount}개의 평가</div>`;
+					elements.restaurantSideLink.innerHTML = `<a href="${placeLike}" target="_blank" >메뉴보기</a>`;
 	            }
 	        } else {
 	            elements.restaurnatImg.innerHTML = `<img src="/static/images/date/restaurantNoImg.png" Image" style="width:100%;">`;
@@ -641,7 +641,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 			
 	    } catch (error) {
 	        console.error("Google Places API 요청 실패:", error);
-	        elements.restaurnatImg.innerHTML = "이미지를 로드하는 중 오류가 발생했습니다.";
+	        elements.restaurnatImg.innerHTML =  `<img src="/static/images/date/restaurantNoImg.png" Image" style="width:100%;">`;
 	    }
 	}
 	
@@ -659,7 +659,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        script.defer = true;
 
 	        script.onload = () => {
-	            console.log("Google Maps API 로드 성공");
 	            resolve();
 	        };
 
@@ -780,7 +779,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        }
 
 	        const courseList = await response.json();
-	        console.log("courseList", courseList);
 	        elements.courseListDiv.innerHTML = ''; // 초기화
 
 	        courseList.forEach((course, index) => {
@@ -819,7 +817,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	            throw new Error('Failed to delete course');
 	        }
 
-	        console.log(`Course at index ${index} deleted successfully.`);
 	        getCourseInfo(); // 삭제 후 최신화된 리스트를 다시 불러옴
 	    } catch (error) {
 	        console.error('Error deleting course:', error);
@@ -878,12 +875,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        const name = spans[0]?.innerText || ""; // 첫 번째 span에서 이름 추출
 	        const address = spans[1]?.innerText || ""; // 두 번째 span에서 주소 추출
 
-	        console.log("Extracted:", { name, address }); // 디버깅용 로그
-
 	        return { name, address }; // 이름과 주소를 함께 반환
 	    });
-
-	    console.log("Updated Order:", updatedOrder); // 최종 순서 확인용 로그
 
 	    try {
 	        const response = await fetch('/epl/date/updateCourseOrder', {
@@ -895,7 +888,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	        if (!response.ok) {
 	            throw new Error('Failed to update course order');
 	        }
-	        console.log('Course order updated successfully');
 	    } catch (error) {
 	        console.error('Error updating course order:', error);
 	    }
@@ -924,7 +916,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	                if (!response.ok) {
 	                    throw new Error('Failed to save start address');
 	                }
-	                console.log('Start address saved successfully');
 	            })
 	            .catch(error => console.error('Error saving start address:', error));
 	        }
@@ -949,9 +940,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	            alert('출발지가 설정되지 않았습니다. 출발지를 먼저 설정하세요.');
 	            return;
 	        }
-
-	        console.log('Start Address:', startAddress);
-	        console.log('Waypoints:', waypoints);
 
 	        // 출발지와 웨이포인트를 좌표로 변환
 	        const origin = await geocodeAddress(startAddress); // 출발지 좌표
@@ -1135,7 +1123,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	    try {
 	        // 첫 번째 경유지의 카카오 플레이스 링크 가져오기
 	        const placeLink = await getPlaceLink(firstWaypointName);
-	        console.log("Place URL:", placeLink);
 
 	        // 카카오링크 메시지 설정
 	        Kakao.Share.sendDefault({
@@ -1143,7 +1130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	            content: {
 	                title: 'EPL_SEOUL 데이트 계획의 첫 장소를 확인해 보세요!',
 	                description: `첫 번째 경유지: ${firstWaypointName}`,
-	                imageUrl: 'YOUR_IMAGE_URL', // 이미지 URL (옵션)
+	                imageUrl: 'https://i.ibb.co/gr39Vcv/001-3.png', // 이미지 URL (옵션)
 	                link: {
 	                    mobileWebUrl: placeLink, // 첫 번째 경유지 링크
 	                    webUrl: placeLink        // 웹 링크

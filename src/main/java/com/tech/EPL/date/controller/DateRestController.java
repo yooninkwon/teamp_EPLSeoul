@@ -89,7 +89,6 @@ public class DateRestController {
 	    if (searchKeyword.equals("")) {
 	    	return dateMapper.restaurantList(distname, offset, size, strType);
 		} else {
-			System.out.println(st);
 			return dateMapper.searchRestaurantList(distname, offset, size, st, searchKeyword);
 		}
 	}
@@ -294,8 +293,6 @@ public class DateRestController {
 	            Map<String, String> course = (Map<String, String>) session.getAttribute("course_" + i);
 	            if (course != null) {
 	                waypoints.add(course.get("address")); // 웨이포인트로 주소 추가
-	                // waypoints.add(course.get("name")); // 웨이포인트로 이름 추가
-	                System.out.println(waypoints);
 	            }
 	        }
 	    }
