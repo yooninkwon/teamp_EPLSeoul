@@ -1,16 +1,14 @@
-/* 전체 레이아웃 설정 */
-#left-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 30%; /* 왼쪽 패널의 너비 */
-    margin-left: 10px; /* 왼쪽에 간격을 둠 */
+
+/* 사용 안하는 사이드바 */
+#epl_side {
+	display: none;
 }
 
+/* 전체 레이아웃 설정 */
 #map {
     position: relative;
     width: 70%; /* 지도 너비 */
-    height: 500px;
+    height: 700px;
     margin: 0 auto;
     margin-left: 40px;
     border: 2px solid #ddd;
@@ -28,7 +26,7 @@
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-    z-index: 9999;  /* 다른 요소 위에 표시되도록 z-index 추가 */
+    z-index: 9998;  /* 다른 요소 위에 표시되도록 z-index 추가 */
 }
 
 
@@ -52,7 +50,7 @@
     border-radius: 5px;
     cursor: pointer;
     margin: 5px;
-    font-size: 16px;
+    font-size: 20px;
     transition: background-color 0.3s;
 }
 
@@ -80,7 +78,7 @@
 }
 
 #searchInput {
-    width: 300px;
+    width: 250px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px 0 0 4px;
@@ -143,12 +141,12 @@
 
 /* categoryInfoList 스타일 */
 #categoryInfoList {
-    height:400px;
+    height:580px;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
-	max-height: 400px;
+	max-height: 580px;
 	overflow-y: auto;
 }
 
@@ -323,7 +321,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    max-width: 1500px; /* 최대 너비 설정 */  
+    max-width: 2000px; /* 최대 너비 설정 */  
     font-family: 'Arial', sans-serif;
 }
 
@@ -349,7 +347,7 @@
 #blogPostList a {
     text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     color: #0078D4;
     display: block;
     margin-bottom: 8px;
@@ -364,7 +362,7 @@
 /* 블로그 설명 스타일 */
 #blogPostList p {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
     color: #555;
     line-height: 1.6;
 }
@@ -395,3 +393,106 @@
     transform: translateY(-2px); /* 살짝 위로 올라가는 효과 */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+.bus-info {
+    margin: 15px 0; /* 상하 간격을 늘려서 여백을 추가 */
+    padding: 12px; /* 내용물 주변에 여백을 추가 */
+    background-color: rgba(115, 163, 255, 0.15); /* 연한 파란색, 약간의 투명도 */
+    border-radius: 8px; /* 둥근 모서리 */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.bus-info:hover {
+    background-color: rgba(115, 163, 255, 0.2); /* 호버시 배경색을 조금 더 진하게 */
+    transform: translateY(-5px); /* 호버 시 살짝 위로 올라오는 효과 */
+}
+
+.bus-info strong {
+    font-size: 16px; /* 버스 번호 크기 조금 키움 */
+    color: #0078d4; /* 버스 번호에 파란색 텍스트 */
+    display: block; /* 줄바꿈을 하기 위해 block으로 설정 */
+    margin-bottom: 5px; /* 상단에 간격을 줘서 텍스트 분리 */
+}
+
+.bus-info br {
+    margin-bottom: 5px; /* 줄바꿈 후 아래에 간격 추가 */
+}
+
+.bus-info span {
+    font-size: 14px; /* 도착 시간 크기 */
+    color: #333; /* 텍스트 색을 어두운 회색으로 */
+}
+
+/* 모달 스타일 수정 */
+.modal {
+    display: none; /* 초기 상태: 숨김 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    pointer-events: none; /* 모달창 외부 이벤트를 막지 않음 */
+    z-index: 9999; /* 다른 요소 위에 표시되도록 z-index 추가 */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    pointer-events: auto; /* 모달창 자체는 클릭 가능 */
+
+    /* 수정된 부분 */
+    position: relative; /* relative로 변경 */
+    left: -140px; /* 왼쪽으로 이동 */
+	top: -60px; /* 위로 50px 이동 */
+}
+
+
+/* 닫기 버튼 스타일 */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+/* 모달 내 텍스트 스타일 */
+.modal-content h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-content p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.modal-content span {
+    font-weight: bold;
+    color: #222;
+}
+
+

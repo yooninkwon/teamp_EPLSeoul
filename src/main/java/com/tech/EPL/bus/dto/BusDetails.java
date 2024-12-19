@@ -17,5 +17,9 @@ public class BusDetails {
     private String congetion;
     private double posX;
     private double posY;
-   
+    private String stopFlag ;
+    private String lastStnIdName;
+    private String dataTm ;
+    private String stOrd ;
+        
 }

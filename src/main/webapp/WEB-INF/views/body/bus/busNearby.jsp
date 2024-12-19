@@ -6,18 +6,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/static/css/tiles.css">
-<!-- 외부 CSS 파일 -->
+
+
 <link rel="stylesheet" href="/static/css/bus/busnearby.css">
 <!-- 외부 CSS 파일 -->
 
-<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${tmapBusKey}"></script>
+<script
+	src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${tmapBusKey}"></script>
 <script
 	src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoBus}&libraries=services&autoload=false"></script>
 
 <script async
-	src="https://maps.googleapis.com/maps/api/js?key=${googleBusKey}&loading=async&libraries=places">	
+	src="https://maps.googleapis.com/maps/api/js?key=${googleBusKey}&loading=async&libraries=places">
+	
 </script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <link rel="stylesheet"
@@ -28,18 +33,17 @@
 </head>
 
 <script>
-	
 	var busStations = [];
 	<c:forEach var="station" items="${busStations}">
 	busStations.push({
 		station_name : "${station.station_name}", // 문자열 값을 안전하게 삽입
 		x_coord : parseFloat("${station.x_coord}"), // 숫자 값은 그대로 사용
-		y_coord : parseFloat("${station.y_coord}")
+		y_coord : parseFloat("${station.y_coord}"),
+		stId : "${station.node_id}"
 	// 숫자 값은 그대로 사용
 	});
 	</c:forEach>
 
-	
 	// 경로 탐색 요청 함수 (Tmap API)
 	function requestRoute(currentPosition, secondPosition) {
 		var startX = currentPosition.getLng();
@@ -50,75 +54,77 @@
 		var headers = {};
 		headers["appKey"] = "${tmapBusKey}";
 
-		$.ajax({
-			method: "POST",
-			headers: headers,
-			url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
-			async: false,
-			data: {
-				"startX": startX,
-				"startY": startY,
-				"endX": endX,
-				"endY": endY,
-				"reqCoordType": "WGS84GEO",
-				"resCoordType": "EPSG3857",
-				"startName": "출발지",
-				"endName": "도착지"
-			},
-			success: function(response) {
-				var resultData = response.features;
+		$
+				.ajax({
+					method : "POST",
+					headers : headers,
+					url : "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result",
+					async : false,
+					data : {
+						"startX" : startX,
+						"startY" : startY,
+						"endX" : endX,
+						"endY" : endY,
+						"reqCoordType" : "WGS84GEO",
+						"resCoordType" : "EPSG3857",
+						"startName" : "출발지",
+						"endName" : "도착지"
+					},
+					success : function(response) {
+						var resultData = response.features;
 
-				// 소요 시간 및 거리 계산
-				var totalTime = 0;  // 초 단위
-				var totalDistance = 0;  // m 단위
+						// 소요 시간 및 거리 계산
+						var totalTime = 0; // 초 단위
+						var totalDistance = 0; // m 단위
 
-				var kakaoPath = [];
-				for (var i in resultData) {
-					var properties = resultData[i].properties;
-					if (properties && properties.totalTime) {
-						totalTime = properties.totalTime;  // 소요 시간 (초)
-						totalDistance = properties.totalDistance;  // 거리 (m)
-					}
+						var kakaoPath = [];
+						for ( var i in resultData) {
+							var properties = resultData[i].properties;
+							if (properties && properties.totalTime) {
+								totalTime = properties.totalTime; // 소요 시간 (초)
+								totalDistance = properties.totalDistance; // 거리 (m)
+							}
 
-					var geometry = resultData[i].geometry;
-					if (geometry.type == "LineString") {
-						for (var j in geometry.coordinates) {
-							var latlng = new Tmapv2.Point(
-								geometry.coordinates[j][0],
-								geometry.coordinates[j][1]);
-							var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlng);
-							var convertChange = new Tmapv2.LatLng(
-								convertPoint._lat,
-								convertPoint._lng);
+							var geometry = resultData[i].geometry;
+							if (geometry.type == "LineString") {
+								for ( var j in geometry.coordinates) {
+									var latlng = new Tmapv2.Point(
+											geometry.coordinates[j][0],
+											geometry.coordinates[j][1]);
+									var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+											latlng);
+									var convertChange = new Tmapv2.LatLng(
+											convertPoint._lat,
+											convertPoint._lng);
 
-							kakaoPath.push(new kakao.maps.LatLng(convertChange.lat(), convertChange.lng()));
+									kakaoPath.push(new kakao.maps.LatLng(
+											convertChange.lat(), convertChange
+													.lng()));
+								}
+							}
 						}
+
+						// 경로를 그리는 Polyline
+						var polyline = new kakao.maps.Polyline({
+							path : kakaoPath,
+							strokeWeight : 4,
+							strokeColor : '#FF0000',
+							strokeOpacity : 0.7,
+							strokeStyle : 'solid'
+						});
+						polyline.setMap(map);
+						resultdrawArr.push(polyline);
+
+						// 소요 시간과 거리 표시
+						displayRouteInfo(totalTime, totalDistance);
+					},
+					error : function(request, status, error) {
+						console.log("code:" + request.status + "\n"
+								+ "message:" + request.responseText + "\n"
+								+ "error:" + error);
 					}
-				}
-
-				// 경로를 그리는 Polyline
-				var polyline = new kakao.maps.Polyline({
-					path: kakaoPath,
-					strokeWeight: 4,
-					strokeColor: '#FF0000',
-					strokeOpacity: 0.7,
-					strokeStyle: 'solid'
 				});
-				polyline.setMap(map);
-				resultdrawArr.push(polyline);
-
-				// 소요 시간과 거리 표시
-				displayRouteInfo(totalTime, totalDistance);
-			},
-			error: function(request, status, error) {
-				console.log("code:" + request.status + "\n"
-					+ "message:" + request.responseText + "\n"
-					+ "error:" + error);
-			}
-		});
 	}
-	
-	
 </script>
 
 <body>
@@ -177,30 +183,51 @@
 			<!-- 숙박 아이콘 -->
 			<span>숙박</span>
 		</button>
+		<button class="category-btn" data-category="BS1">
+			<i class="fas fa-bus"></i>
+			<!-- 숙박 아이콘 -->
+			<span>정류장</span>
+		</button>
+
+
 	</div>
 
 
-		<!-- 지도 영역 -->
+	<!-- 지도 영역 -->
 	<div id="map">
-	<p id="result"></p>
+		<p id="result"></p>
 	</div>
-	
-	<div id="searchBar" style="position: relative;">
-	    <input type="text" id="searchInput" placeholder="버스 정류장을 입력하세요.">
-	    <button id="searchButton">검색</button>
-	    <ul id="suggestions"></ul>
-	    <button id="drawLineButton">보행 경로</button>	
+
+	<div id="searchBar" >
+		<input type="text" id="searchInput" placeholder="버스 정류장을 입력하세요.">
+		<button id="searchButton">검색</button>
+		<ul id="suggestions"></ul>
+		<button id="drawLineButton">보행 경로</button>
 	</div>
-	
+
+
 	<div id="categoryInfoList">
-	    <div id="emptyMessage" class="empty-message">정류장과 카테고리를 선택해주세요.</div>
+		<div id="emptyMessage" class="empty-message">정류장과 카테고리를 선택해주세요.</div>
 	</div>
-	
-	<h1>블로그 리뷰</h1>
+
+
 	<ul id="blogPostList">
-	    <!-- 블로그 리스트가 동적으로 여기에 추가됨 -->
+		<!-- 블로그 리스트가 동적으로 여기에 추가됨 -->
 	</ul>
 
+
+	<!-- 모달창 구조 -->
+	<div id="busDetailModal" class="modal">
+		<div class="modal-content">
+			<span class="close-btn" id="closeBtn">&times;</span>
+			<div id="modalBusDetails"></div>
+		</div>
+	</div>
+
+
+	<!-- 제목을 표시할 영역 (초기에는 비어있음) -->
+	<div id="chartTitleContainer"></div>
+	<canvas id="boardingChart" width="800" height="400"></canvas>
 
 	<script src="/static/js/bus/busnearby.js"></script>
 

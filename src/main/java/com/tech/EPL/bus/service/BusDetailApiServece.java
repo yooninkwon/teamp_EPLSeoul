@@ -2,19 +2,25 @@ package com.tech.EPL.bus.service;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.tech.EPL.bus.dto.BusDetails;
+import com.tech.EPL.bus.dto.BusStationDto;
+import com.tech.EPL.bus.mapper.Idao;
 import com.tech.EPL.config.ApiKeyConfig;
 
 @Service
 public class BusDetailApiServece {
     private final ApiKeyConfig apiKeyConfig;
     private RestTemplate restTemplate;
-
+    
+    @Autowired
+    private Idao idao;
+    
     public BusDetailApiServece(ApiKeyConfig apiKeyConfig) {
         this.restTemplate = new RestTemplate();
         this.apiKeyConfig = apiKeyConfig;
@@ -26,7 +32,7 @@ public class BusDetailApiServece {
         String apiUrl = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByVehId?serviceKey=" 
                         + apiKey + "&vehId=" + vehId;
 
-        System.out.println("apiUrl: " + apiUrl); // API 호출 URL 확인
+     
 
         try {
             // URI 객체로 변환
@@ -36,7 +42,7 @@ public class BusDetailApiServece {
             String responseXml = restTemplate.getForObject(uri, String.class);
 
             // API 응답 확인
-            System.out.println("API 응답: " + responseXml);
+            // System.out.println("API 응답: " + responseXml);
 
             // XML 파싱
             XmlMapper xmlMapper = new XmlMapper();
@@ -81,8 +87,20 @@ public class BusDetailApiServece {
         String congetion = itemNode.path("congetion").asText();
         double posX = itemNode.path("posX").asDouble();
         double posY = itemNode.path("posY").asDouble();
-
-        // 파싱된 데이터를 BusDetails 객체로 반환
-        return new BusDetails(plainNo,vehId, busType, congetion, posX, posY);
+    	String stopFlag = itemNode.path("stopFlag").asText();
+    	String lastStnId = itemNode.path("lastStnId").asText();
+    	String dataTm = itemNode.path("dataTm").asText();
+    	String stOrd = itemNode.path("stOrd").asText();
+       
+    	System.out.println("lastStnId:"+lastStnId);
+    	
+    	
+    	BusStationDto busStationDto = idao.busStationName(lastStnId);
+    	System.out.println("busStationDto:"+ busStationDto);
+    	String lastStnIdName = busStationDto != null ? busStationDto.getStation_name() : null;
+    	System.out.println("lastStnIdName:"+ lastStnIdName);
+      
+    	// 파싱된 데이터를 BusDetails 객체로 반환
+        return new BusDetails(plainNo,vehId, busType, congetion, posX, posY, stopFlag, lastStnIdName, dataTm, stOrd);
     }
 }
