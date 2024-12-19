@@ -29,10 +29,9 @@
 <body>
     <div id="sidebar-left">
 	    <ul class="submenu">	        
-	        <li><a href="/epl/mobility">따릉이/킥보드 찾기</a></li>
-	        <li><a href="#"></a></li>
-	        <li><a href="#"></a></li>
-	        <li><a href="#"></a></li>
+	        <li><a href="/epl/mobility/info">역주변 대여소 찾기</a></li>
+	        <li><a href="/epl/mobility/cluster">행정구별 통계 지도</a></li>
+	        <li><a href="/epl/mobility/chart">통계 그래프</a></li>
 	    </ul>
     </div>
 </body>

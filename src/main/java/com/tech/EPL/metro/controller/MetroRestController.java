@@ -38,7 +38,7 @@ public class MetroRestController {
 		
 		
 		model.addAttribute("searchValue",searchValue);
-		model.addAttribute("apiKeyConfig", apiKeyConfig);
+		
 		searchStationNameService.execution(model);
 		List<Map> list = (List<Map>) model.getAttribute("list");
 		
@@ -73,17 +73,6 @@ public class MetroRestController {
 		
 		return (Map<String, Object>) model.getAttribute("data");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	//metro3 분실물 습득물 정보 가져오기 (api url연결)

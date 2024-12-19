@@ -30,21 +30,21 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-	
+
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- tomcat jasper -->
 		<dependency>
 			<!--
@@ -88,15 +88,15 @@
 			<version>1.9.6</version>
 			<!-- <scope>runtime</scope> -->
 		</dependency>
-		
-		<!-- Tiles -->		
+
+		<!-- Tiles -->
 		<dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp -->
-		    <groupId>org.apache.tiles</groupId>
-		    <artifactId>tiles-jsp</artifactId>
-		    <version>3.0.7</version>
+			<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp -->
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>3.0.7</version>
 		</dependency>
-		
+
 		<!-- Webflux (Web Client) -->
 		<dependency>
 			<!--
@@ -111,76 +111,106 @@
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 			<version>3.0.6</version> <!-- Check for the latest version -->
-      	</dependency>
-		
+		</dependency>
+
 		<!-- JAXB API -->
 		<dependency>
 			<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-		    <groupId>javax.xml.bind</groupId>
-		    <artifactId>jaxb-api</artifactId>
-		    <version>2.3.1</version>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
 		</dependency>
 
-		
-		<!-- Glassfish JAXB -->		
+
+		<!-- Glassfish JAXB -->
 		<dependency>
-		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
-		    <groupId>org.glassfish.jaxb</groupId>
-		    <artifactId>jaxb-runtime</artifactId>
-		    <version>4.0.5</version>
+			<!--
+			https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>4.0.5</version>
 		</dependency>
-		
+
 		<!-- Actuator -->
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-actuator</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		
+
 		<!-- Batch -->
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-batch</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-batch</artifactId>
 		</dependency>
-		
+
 		<!-- csv file -->
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-csv</artifactId>
-		    <version>1.12.0</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.12.0</version>
 		</dependency>
-		
+
 		<!-- json file -->
 		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20240303</version>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20240303</version>
 		</dependency>
-		
+
 		<!-- Spring Data JPA -->
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-	    <!-- Jackson JSON 변환 의존성 -->
-	    <dependency>
-	        <groupId>com.fasterxml.jackson.core</groupId>
-	        <artifactId>jackson-databind</artifactId>
-	    </dependency>
+		<!-- Jackson JSON 변환 의존성 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		<version>2.15.2</version> <!-- 필요에 따라 최신 버전으로 변경 -->
+		</dependency>
 
-	    <!-- HttpClient 라이브러리 -->
-	    <dependency>
-	        <groupId>org.apache.httpcomponents</groupId>
-	        <artifactId>httpclient</artifactId>
-	        <version>4.5.13</version>
-	    </dependency>
+		<!-- HttpClient 라이브러리 -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
 
 
 		<dependency>
-		    <groupId>org.jsoup</groupId>
-		    <artifactId>jsoup</artifactId>
-		    <version>1.15.4</version>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.15.4</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.15.2</version> <!-- 원하는 버전으로 설정 -->
+		</dependency>
+
+	    <!-- Spring Boot Cache starter -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-cache</artifactId>
+	    </dependency>
+
+	    <!-- Caffeine 캐시 라이브러리 -->
+	    <dependency>
+	        <groupId>com.github.ben-manes.caffeine</groupId>
+	        <artifactId>caffeine</artifactId>
+	        <version>2.9.0</version>
+	    </dependency>
+
+
+	    <!-- Jackson Core 의존성 추가 -->
+	    <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-core</artifactId>
+	        <version>2.15.2</version> <!-- 필요에 따라 최신 버전으로 변경 -->
+	    </dependency>
+
 
 
 	</dependencies>

@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.tech.EPL.config.ApiKeyConfig;
 import com.tech.EPL.interfaces.ExecutionModel;
 
 import lombok.RequiredArgsConstructor;
@@ -15,27 +14,22 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class SearchStationNameService implements ExecutionModel {
-
-	private final ReturnApiDataService returnApiDataService;
+	private final CacheService cacheService;
+	
 
 	@Override
 	public void execution(Model model) {
-		ApiKeyConfig key = (ApiKeyConfig) model.getAttribute("apiKeyConfig");
-
+		
 		String searchValue = (String) model.getAttribute("searchValue");
 
 		// 결과를 담을 Map 객체 생성
 		List<Map> matchingRows = new ArrayList<>();
 
+		
+		
 		// 지하철역 검색
-		String searchUrl = "http://openapi.seoul.go.kr:8088/" + key.getSeoulMetroKey()
-				+ "/json/subwayStationMaster/1/1000/";
-		Map resultData = returnApiDataService.api(searchUrl).block();
-
-		Map items = (Map) resultData.get("subwayStationMaster");
-
-		List<Map> rows = (List<Map>) items.get("row");
-
+		List<Map> rows = cacheService.getAllStationInfo();
+		
 		for (Map list : rows) {
 			String bldnNm = (String) list.get("BLDN_NM");
 
@@ -48,5 +42,8 @@ public class SearchStationNameService implements ExecutionModel {
 		model.addAttribute("list", matchingRows);
 
 	}
+
+	
+
 
 }

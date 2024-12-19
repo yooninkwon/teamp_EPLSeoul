@@ -28,5 +28,4 @@ public interface DateMapper {
 	List<DateRestaurantDto> searchRestaurantList(String distname, int offset, int size,
 			String st, String searchKeyword);
 	
-	
 }
