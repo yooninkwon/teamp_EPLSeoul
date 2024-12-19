@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<div id="title-radio-div">
+	<div class="title-radio-div">
 		<h1 class="body-title">자치구별 실거래가 통계 (2021 - 2024) </h1>
 		<br />
 		<label for="apt" class="g_box _1 m-bottom">

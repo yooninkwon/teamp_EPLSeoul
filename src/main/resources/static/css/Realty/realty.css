@@ -100,9 +100,14 @@ body {
   height: 400px;
 }
 
-#title-radio-div {
+.title-radio-div {
 	text-align: center;
 	margin-bottom: 25px;
+}
+
+.second-title-radio-div {
+	text-align: center;
+/* 	margin-top: -15px; */
 }
 
 .body-title {

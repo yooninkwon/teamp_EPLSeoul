@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<div id="title-radio-div">
+	<div class="title-radio-div">
 	<h1 class="body-title">연도별 실거래가 통계 </h1>
 	<br />
 	<label for="buying" class="g_box _1">
@@ -38,14 +38,17 @@
 		
 		<!--  -->
 		<div id="rent-container" class="off">
-			<label for="rtfe">
-				<input type="radio" name="avg" id="rtfe" value="rtfe-chart" checked />
-				월세 통계 
-			</label>
-			<label for="grfe">
-				<input type="radio" name="avg" id="grfe" value="grfe-chart" />
-				보증금 통계 
-			</label>
+			<div class="title-radio-div" id="second-title-radio-div">
+			<br />
+				<label for="rtfe" class="g_box _1">
+					<input type="radio" name="avg" id="rtfe" value="rtfe-chart" checked />
+					월세 통계 
+				</label>
+				<label for="grfe" class="g_box _1">
+					<input type="radio" name="avg" id="grfe" value="grfe-chart" />
+					보증금 통계 
+				</label>
+			</div>
 			
 			<div id="rtfe-chart" class="on">
 				<canvas id="chart-rent-rtfe"></canvas>
