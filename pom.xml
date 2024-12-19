@@ -196,12 +196,7 @@
 	        <artifactId>spring-boot-starter-cache</artifactId>
 	    </dependency>
 
-	    <!-- Caffeine 캐시 라이브러리 -->
-	    <dependency>
-	        <groupId>com.github.ben-manes.caffeine</groupId>
-	        <artifactId>caffeine</artifactId>
-	        <version>2.9.0</version>
-	    </dependency>
+
 
 
 	    <!-- Jackson Core 의존성 추가 -->
