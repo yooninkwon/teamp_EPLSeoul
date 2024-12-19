@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<div id="title-radio-div">
+	<div class="title-radio-div">
 		<h1 class="body-title">자치구 연도별 실거래가 등락 추이</h1>
 		<br />
 		 <label for="apt" class="g_box _1">
@@ -77,15 +77,18 @@
 			</div>
 		</div>
 		<div id="rent-container" class="off">
-			 <label for="rent-grfe">
-				  <input type="radio" name="rent-se" id="rent-grfe" value="rent-grfe-container" checked />
-				  월세 보증금 		  
-			 </label>
-			 
-			 <label for="rent-rtfe">
-				  <input type="radio" name="rent-se" id="rent-rtfe" value="rent-rtfe-container" />
-				  월세 월납입금 
-			 </label>
+			<div class="title-radio-div">
+			<br />
+				 <label for="rent-grfe" class="g_box _1">
+					  <input type="radio" name="rent-se" id="rent-grfe" value="rent-grfe-container" checked />
+					  월세 보증금 		  
+				 </label>
+				 
+				 <label for="rent-rtfe" class="g_box _1">
+					  <input type="radio" name="rent-se" id="rent-rtfe" value="rent-rtfe-container" />
+					  월세 월납입금 
+				 </label>
+				</div>
 			<div id="rent-grfe-container" class="on">
 				<div id="rent-grfe-apt-container" class="on">
 					<h3>아파트 월세 보증금 평균</h3>

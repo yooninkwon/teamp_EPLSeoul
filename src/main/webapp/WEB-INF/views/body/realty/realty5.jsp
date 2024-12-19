@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<div id="title-radio-div">
+	<div class="title-radio-div">
 		<h1 class="body-title"> 연도별 서울시 인구수 통계 (2007 - 2023) </h1>
 		<br />
 		 <label for="seoul" class="g_box _1">

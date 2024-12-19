@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<div id="title-radio-div">
+	<div class="title-radio-div">
 		<h1 class="body-title"> 자치구 실거래가 랭킹 (전체 데이터 평균치) </h1>
 		<br />
 		<label for="buying-max" class="g_box _1">
