@@ -2,7 +2,7 @@
 
 ### <기능 수정 및 개선 내용>   
 #### 1. 241216 캐시를 이용한 사용자 경험 개선
-Problem : 특정 시간대 Api호출 시 데이터 수신 지연   
+Problem : 특정 시간대 Open API 호출 시 데이터 수신 지연   
 Solution : 캐시 기능 적용  
 Result : 서버 응답시간 개선 - 약 95% 줄었음    
 상세내용 링크 : https://yooninkwon.tistory.com/5
