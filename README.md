@@ -35,7 +35,10 @@ Result : 서버 응답시간 개선 - 약 95% 감소
 
 [metro4] 지하철 이용자 현황
 + Open API를 활용하여 역명, 일자, 월별 검색 시 지하철 일일 및 월별 이용자 수와 시간별 혼잡도 데이터를 통해 Chart.js로 시각화하여 제공     
-     
+<img src="https://github.com/user-attachments/assets/ff5de119-eed1-41fa-bf56-6144b661258a" width="450" height="270">
+</br>
+</br>
+
 [metro5] 지하철 범죄 및 사고 현황
 + CSV 형식의 지하철 범죄 및 사고 통계 데이터를 Open API를 통해 수집하고, DB에 저장한 후 MyBatis를 이용하여 Chart.js로 시각화   
 
