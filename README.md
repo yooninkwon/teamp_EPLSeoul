@@ -22,8 +22,11 @@ Result : 서버 응답시간 개선 - 약 95% 감소
 + Open API와 카카오맵을 활용하여 지하철역의 기본 정보, 역명 유래, 위치, 비상대피 안내도, 역사 기본정보 및 편의시설 현황을 실시간으로 제공하는 서비스를 구현   
      
 [metro2] 지하철 길찾기
-+ Open API와 SVG 파일을 활용하여 출발지, 경유지, 도착지가 표시된 시각적 노선도와 환승 경로, 소요시간, 실시간 열차 안내를 제공        
-    
++ Open API와 SVG 파일을 활용하여 출발지, 경유지, 도착지가 표시된 시각적 노선도와 환승 경로, 소요시간, 실시간 열차 안내를 제공
+<img src="https://github.com/user-attachments/assets/c5367264-39ac-4e9a-a31f-d430db3a76be" width="450" height="270">
+</br>
+</br>
+
 [metro3] 분실물 찾기
 + Open API를 활용하여 역명과 분실물명을 검색하면 해당 역의 습득물 현황 리스트를 제공
 <img src="https://github.com/user-attachments/assets/a6c04f09-d1c6-4f5e-93dd-228bb13235ab" width="550" height="250">
